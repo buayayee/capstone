@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual environment — not needed inside the container
+venv/
+.venv/
+env/
+
+# Model weights — mount as volume if needed, don't bake into image
+models/distilbert-fraud-classifier/
+
+# Data / documents — mounted as volumes at runtime
+data/genuine/
+data/fraudulent/
+data/labeled/
+submissions/
+output/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore

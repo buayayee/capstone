@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+# Model weights (large files – store externally or use Git LFS)
+models/distilbert-fraud-classifier/
+
+# Data (do not commit real documents)
+data/genuine/
+data/fraudulent/
+data/labeled/
+
+# Keep folder placeholders
+!data/genuine/.gitkeep
+!data/fraudulent/.gitkeep
+!data/labeled/.gitkeep
+!models/.gitkeep
+!directives/.gitkeep
+!submissions/.gitkeep
+!output/.gitkeep
+
+# Do not commit generated results or actual PDFs
+output/*.csv
+output/*.json
+
+# Do not commit the actual PDFs (may contain sensitive data)
+# Word instructions files are fine to commit (no PII)
+directives/*.pdf
+submissions/*.pdf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/

@@ -1,0 +1,46 @@
+services:
+
+  # ── checker ──────────────────────────────────────────────────────────────────
+  # Run the fraud check CLI against your submissions folder.
+  # Usage:
+  #   docker compose run --rm checker
+  #
+  # To check a single file instead of the whole folder, override the command:
+  #   docker compose run --rm checker python check.py \
+  #     --instructions "directives/Instructions (Directive).docx" \
+  #     --document submissions/my_doc.pdf
+  checker:
+    build: .
+    volumes:
+      - ./directives:/app/directives    # your instructions file lives here
+      - ./submissions:/app/submissions  # drop submission PDFs here
+      - ./output:/app/output            # results CSV written here
+    command: >
+      python check.py
+      --instructions "directives/Instructions (Directive).docx"
+      --folder submissions/
+      --output output/results.csv
+
+  # ── api ───────────────────────────────────────────────────────────────────────
+  # Serve the FastAPI inference endpoint (used by the Java backend).
+  # Usage:
+  #   docker compose up api
+  #
+  # Endpoint available at: http://localhost:8000
+  # Interactive docs at:   http://localhost:8000/docs
+  api:
+    build: .
+    volumes:
+      - ./directives:/app/directives
+      - ./models:/app/models
+    ports:
+      - "8000:8000"
+    command: >
+      uvicorn api.main:app
+      --host 0.0.0.0
+      --port 8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

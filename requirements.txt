@@ -1,0 +1,23 @@
+# ── Document Extraction (needed immediately) ──────────────────────────────────
+pdfplumber==0.11.4        # extracts text from digital PDFs
+pdf2image==1.17.0         # converts scanned PDF pages to images for OCR
+pytesseract==0.3.13       # OCR fallback for scanned PDFs
+Pillow==10.4.0            # image handling (used by pdf2image)
+python-docx==1.1.2        # extracts text from Word (.docx) instructions file
+
+# ── API (for later — serving the model) ──────────────────────────────────────
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+
+# ── ML / Training (for later — fine-tuning DistilBERT) ───────────────────────
+torch==2.4.1
+transformers==4.44.2
+datasets==3.0.1
+scikit-learn==1.5.2
+numpy==1.26.4
+pandas==2.2.3
+
+# ── Evaluation / Visualisation (for later) ────────────────────────────────────
+matplotlib==3.9.2
+seaborn==0.13.2
