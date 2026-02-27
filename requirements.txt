@@ -5,6 +5,9 @@ pytesseract==0.3.13       # OCR fallback for scanned PDFs
 Pillow==10.4.0            # image handling (used by pdf2image)
 python-docx==1.1.2        # extracts text from Word (.docx) instructions file
 
+# ── AI / Claude API ───────────────────────────────────────────────────────────
+anthropic>=0.84.0         # Claude API client (for --ai mode in check.py)
+
 # ── API (for later — serving the model) ──────────────────────────────────────
 fastapi==0.115.0
 uvicorn[standard]==0.30.6

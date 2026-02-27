@@ -25,8 +25,9 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-# Allow imports from preprocessing/
+# Allow imports from preprocessing/ and api/
 sys.path.insert(0, str(Path(__file__).parent / "preprocessing"))
+sys.path.insert(0, str(Path(__file__).parent / "api"))
 from extract_text import extract_text
 from rule_parser import FRAUD_SIGNAL_PATTERNS, InstructionRules, parse_instructions
 
@@ -136,6 +137,50 @@ def _check_document_length(text: str) -> list[str]:
     if word_count < 30:
         return [f"Document is too short ({word_count} words) — may be incomplete or blank"]
     return []
+
+
+def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResult:
+    """
+    Use Claude AI to judge the document against the directive text.
+    Falls back to a WARNING result if the API key is missing.
+    """
+    from claude_checker import check_with_claude
+    filename = Path(pdf_path).name
+
+    # Extract text first (same as rule-based path)
+    try:
+        text = extract_text(pdf_path)
+    except RuntimeError as e:
+        return CheckResult(filename=filename, verdict="WARNING",
+                           reasons=[f"Could not process (tool missing): {e}"])
+    except Exception as e:
+        return CheckResult(filename=filename, verdict="WARNING",
+                           reasons=[f"Could not extract text: {e}"])
+
+    preview = text[:300].replace("\n", " ")
+
+    try:
+        verdict, reasons, notes = check_with_claude(
+            document_text=text,
+            directive_text=rules.raw_instructions,
+            filename=filename,
+        )
+    except EnvironmentError as e:
+        # API key not set
+        print(f"\n[AI ERROR] {e}")
+        sys.exit(1)
+    except Exception as e:
+        return CheckResult(filename=filename, verdict="WARNING",
+                           reasons=[f"Claude API error: {e}"],
+                           extracted_text_preview=preview)
+
+    return CheckResult(
+        filename=filename,
+        verdict=verdict,
+        reasons=reasons,
+        warnings=notes,
+        extracted_text_preview=preview,
+    )
 
 
 def check_document(pdf_path: str, rules: InstructionRules) -> CheckResult:
@@ -270,6 +315,11 @@ def main():
         default=None,
         help="(Optional) Save results to this CSV file path"
     )
+    parser.add_argument(
+        "--ai",
+        action="store_true",
+        help="Use Claude AI to judge documents (requires ANTHROPIC_API_KEY env variable)"
+    )
     args = parser.parse_args()
 
     # ── Parse instructions ────────────────────────────────────────────────────
@@ -290,13 +340,18 @@ def main():
         print(f"\nFound {len(pdf_files)} file(s) in {folder}")
 
     # ── Run checks ────────────────────────────────────────────────────────────
+    if args.ai:
+        print("[Mode] AI-powered checks via Claude")
+    else:
+        print("[Mode] Rule-based checks (use --ai to enable Claude AI)")
+
     results = []
     approved = 0
     rejected = 0
     warnings = 0
 
     for pdf in pdf_files:
-        result = check_document(str(pdf), rules)
+        result = check_document_with_ai(str(pdf), rules) if args.ai else check_document(str(pdf), rules)
         print_result(result)
         results.append(result)
         if result.verdict == "APPROVE":
