@@ -29,7 +29,8 @@ def _get_client() -> anthropic.Anthropic:
     global _client
     if _client is None:
         # Check env var first, fall back to hardcoded key
-        api_key = os.environ.get("ANTHROPIC_API_KEY", "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")
+        #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
+        api_key = os.environ.get("ANTHROPIC_API_KEY", "micdrop")
         _client = anthropic.Anthropic(api_key=api_key)
     return _client
 
