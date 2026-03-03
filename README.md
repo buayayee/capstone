@@ -47,3 +47,20 @@ uvicorn api.main:app --reload --port 8000
   pip install pdfplumber python-docx pdf2image pytesseract Pillow
   cd "C:\Users\bruce.yee\OneDrive - Accenture\Documents\GitHub\capstone-project"
 python check.py --instructions "directives/Main_MP-D 401-01-2005A Deferment Disruption and Exemption Policy for NSmen_050620.pdf" --folder submissions/ --output output/results.csv
+
+
+C:\cap_venv\Scripts\activate
+
+# 1. Install deps (if not already)
+pip install -r requirements.txt
+
+# 2. Prepare training data (seeds genuine docs, extracts text, generates synthetic fraud samples)
+python prepare_training_data.py
+
+prepare_training_data.py --skip-seed
+
+# 3. Fine-tune DistilBERT (CPU takes ~10-20 min for 14 docs × 5 multiplier = ~84 samples)
+python training/train.py
+
+# 4. Start the API (model will now load from models/distilbert-fraud-classifier/)
+uvicorn api.main:app --reload --port 8000
