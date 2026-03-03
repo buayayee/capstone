@@ -45,6 +45,13 @@ class CheckResult:
     extracted_text_preview: str = ""  # first 300 chars for reference
 
 
+@dataclass
+class CaseResult:
+    case_name: str
+    overall_verdict: str              # "APPROVE", "REJECT", or "WARNING"
+    doc_results: list["CheckResult"] = field(default_factory=list)
+
+
 # ---------------------------------------------------------------------------
 # Core checking logic
 # ---------------------------------------------------------------------------
@@ -255,41 +262,104 @@ def check_document(pdf_path: str, rules: InstructionRules) -> CheckResult:
 
 
 # ---------------------------------------------------------------------------
+# Case-level helpers
+# ---------------------------------------------------------------------------
+
+SUPPORTED_IMAGE_GLOBS = ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tiff", "*.tif", "*.webp"]
+
+
+def collect_supported_files(folder: Path) -> list[Path]:
+    """Return all supported files (PDF + images) in a folder, sorted by name."""
+    files: list[Path] = sorted(folder.glob("*.pdf"))
+    for pattern in SUPPORTED_IMAGE_GLOBS:
+        files += sorted(folder.glob(pattern))
+    return files
+
+
+def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool) -> CaseResult:
+    """
+    Check all documents inside a single case folder.
+    Overall verdict:
+      REJECT  — if ANY document is rejected
+      WARNING — if no rejects but at least one could not be processed
+      APPROVE — if ALL documents pass
+    """
+    files = collect_supported_files(case_dir)
+    doc_results = []
+    for f in files:
+        result = (
+            check_document_with_ai(str(f), rules)
+            if use_ai
+            else check_document(str(f), rules)
+        )
+        doc_results.append(result)
+
+    if any(r.verdict == "REJECT" for r in doc_results):
+        overall = "REJECT"
+    elif any(r.verdict == "WARNING" for r in doc_results):
+        overall = "WARNING"
+    elif doc_results:
+        overall = "APPROVE"
+    else:
+        overall = "WARNING"  # empty case folder
+
+    return CaseResult(case_name=case_dir.name, overall_verdict=overall, doc_results=doc_results)
+
+
+def print_case_result(case: CaseResult):
+    if case.overall_verdict == "APPROVE":
+        verdict_display = "[APPROVE]"
+    elif case.overall_verdict == "REJECT":
+        verdict_display = "[REJECT] "
+    else:
+        verdict_display = "[WARNING] could not fully process"
+
+    print("\n" + "="*60)
+    print(f"  Case    : {case.case_name}  |  Verdict: {verdict_display}")
+    print(f"  Docs    : {len(case.doc_results)} file(s)")
+    for result in case.doc_results:
+        print_result(result, indent="    ")
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
-def print_result(result: CheckResult):
+def print_result(result: CheckResult, indent: str = ""):
     if result.verdict == "APPROVE":
         verdict_display = "[APPROVE]"
     elif result.verdict == "REJECT":
         verdict_display = "[REJECT] "
     else:
         verdict_display = "[WARNING] could not process"
-    print(f"\n" + "-"*60)
-    print(f"  File    : {result.filename}")
-    print(f"  Verdict : {verdict_display}")
+    print(f"\n{indent}" + "-"*56)
+    print(f"{indent}  File    : {result.filename}")
+    print(f"{indent}  Verdict : {verdict_display}")
     if result.reasons:
-        print(f"  Reasons :")
+        print(f"{indent}  Reasons :")
         for r in result.reasons:
-            print(f"    - {r}")
+            print(f"{indent}    - {r}")
     if result.warnings:
-        print(f"  Notes:")
+        print(f"{indent}  Notes:")
         for w in result.warnings:
-            print(f"    ! {w}")
-    print(f"  Preview : {result.extracted_text_preview[:120]}...")
+            print(f"{indent}    ! {w}")
+    print(f"{indent}  Preview : {result.extracted_text_preview[:120]}...")
 
 
-def save_results_to_csv(results: list[CheckResult], output_path: str):
+def save_results_to_csv(cases: list[CaseResult], output_path: str):
     with open(output_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["filename", "verdict", "reasons", "warnings"])
-        for r in results:
-            writer.writerow([
-                r.filename,
-                r.verdict,
-                " | ".join(r.reasons),
-                " | ".join(r.warnings),
-            ])
+        writer.writerow(["case", "overall_verdict", "filename", "doc_verdict", "reasons", "notes"])
+        for case in cases:
+            for doc in case.doc_results:
+                writer.writerow([
+                    case.case_name,
+                    case.overall_verdict,
+                    doc.filename,
+                    doc.verdict,
+                    " | ".join(doc.reasons),
+                    " | ".join(doc.warnings),
+                ])
     print(f"\nResults saved to: {output_path}")
 
 
@@ -325,53 +395,107 @@ def main():
     # ── Parse instructions ────────────────────────────────────────────────────
     rules = parse_instructions(args.instructions)
 
-    # ── Collect PDFs to check ─────────────────────────────────────────────────
-    if args.document:
-        pdf_files = [args.document]
-    else:
-        folder = Path(args.folder)
-        image_exts = ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tiff", "*.tif", "*.webp"]
-        pdf_files = sorted(folder.glob("*.pdf"))
-        for pattern in image_exts:
-            pdf_files += sorted(folder.glob(pattern))
-        if not pdf_files:
-            print(f"[ERROR] No supported files found in: {folder}")
-            sys.exit(1)
-        print(f"\nFound {len(pdf_files)} file(s) in {folder}")
-
-    # ── Run checks ────────────────────────────────────────────────────────────
+    # ── Mode header ──────────────────────────────────────────────────────────
     if args.ai:
         print("[Mode] AI-powered checks via Claude")
     else:
         print("[Mode] Rule-based checks (use --ai to enable Claude AI)")
 
-    results = []
-    approved = 0
-    rejected = 0
-    warnings = 0
+    # ── Single document ───────────────────────────────────────────────────────
+    if args.document:
+        result = (
+            check_document_with_ai(args.document, rules)
+            if args.ai
+            else check_document(args.document, rules)
+        )
+        # Wrap in a single-doc case so output is consistent
+        case = CaseResult(
+            case_name=Path(args.document).stem,
+            overall_verdict=result.verdict,
+            doc_results=[result],
+        )
+        print_case_result(case)
+        if args.output:
+            save_results_to_csv([case], args.output)
+        return
 
-    for pdf in pdf_files:
-        result = check_document_with_ai(str(pdf), rules) if args.ai else check_document(str(pdf), rules)
-        print_result(result)
-        results.append(result)
-        if result.verdict == "APPROVE":
-            approved += 1
-        elif result.verdict == "REJECT":
-            rejected += 1
-        else:
-            warnings += 1
+    # ── Folder mode ───────────────────────────────────────────────────────────
+    folder = Path(args.folder)
 
-    # -- Summary ---------------------------------------------------------------
-    print("\n" + "="*60)
-    print(f"  SUMMARY: {len(results)} document(s) checked")
-    print(f"  [APPROVE]  : {approved}")
-    print(f"  [REJECT]   : {rejected}")
-    print(f"  [WARNING]  : {warnings}  (install Poppler to process scanned PDFs)")
-    print("="*60)
+    # Detect whether submissions are organised into case subfolders
+    case_dirs = sorted(
+        [d for d in folder.iterdir() if d.is_dir()],
+        key=lambda d: (
+            int(d.name[4:]) if d.name.startswith("case") and d.name[4:].isdigit() else float("inf")
+        )
+    )
 
-    # -- Optional CSV export --------------------------------------------------
-    if args.output:
-        save_results_to_csv(results, args.output)
+    if case_dirs:
+        # ── Case-folder mode: submissions/case1/, case2/, ... ─────────────────
+        print(f"\nFound {len(case_dirs)} case folder(s) in {folder}")
+        cases: list[CaseResult] = []
+        approved = rejected = warnings = 0
+
+        for case_dir in case_dirs:
+            case = check_case(case_dir, rules, use_ai=args.ai)
+            print_case_result(case)
+            cases.append(case)
+            if case.overall_verdict == "APPROVE":
+                approved += 1
+            elif case.overall_verdict == "REJECT":
+                rejected += 1
+            else:
+                warnings += 1
+
+        print("\n" + "="*60)
+        print(f"  SUMMARY: {len(cases)} case(s) checked")
+        print(f"  [APPROVE]  : {approved}")
+        print(f"  [REJECT]   : {rejected}")
+        print(f"  [WARNING]  : {warnings}")
+        print("="*60)
+
+        if args.output:
+            save_results_to_csv(cases, args.output)
+
+    else:
+        # ── Flat mode (backwards compat): submissions/*.pdf ───────────────────
+        files = collect_supported_files(folder)
+        if not files:
+            print(f"[ERROR] No supported files or case folders found in: {folder}")
+            sys.exit(1)
+        print(f"\nFound {len(files)} file(s) in {folder} (flat mode)")
+
+        cases = []
+        approved = rejected = warnings = 0
+        for f in files:
+            result = (
+                check_document_with_ai(str(f), rules)
+                if args.ai
+                else check_document(str(f), rules)
+            )
+            case = CaseResult(
+                case_name=f.stem,
+                overall_verdict=result.verdict,
+                doc_results=[result],
+            )
+            print_case_result(case)
+            cases.append(case)
+            if result.verdict == "APPROVE":
+                approved += 1
+            elif result.verdict == "REJECT":
+                rejected += 1
+            else:
+                warnings += 1
+
+        print("\n" + "="*60)
+        print(f"  SUMMARY: {len(cases)} document(s) checked")
+        print(f"  [APPROVE]  : {approved}")
+        print(f"  [REJECT]   : {rejected}")
+        print(f"  [WARNING]  : {warnings}")
+        print("="*60)
+
+        if args.output:
+            save_results_to_csv(cases, args.output)
 
 
 if __name__ == "__main__":
