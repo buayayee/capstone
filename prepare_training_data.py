@@ -1,22 +1,30 @@
 """
 prepare_training_data.py
 ------------------------
-One-shot data preparation pipeline for DistilBERT training.
+Data preparation pipeline for DistilBERT training.
+
+IMPORTANT — What belongs in each folder:
+  data/genuine/     <- Documents KNOWN to be genuine/legitimate.
+                       These are pre-verified, correctly-issued supporting docs.
+  data/fraudulent/  <- Documents KNOWN to be fraudulent/fake.
+                       These are tampered, forged, or fabricated docs.
+
+  !! submissions/ documents do NOT go here directly. !!
+     Submissions are UNKNOWN until checked. Only move a submission into
+     data/genuine/ or data/fraudulent/ AFTER you have confirmed its true label.
 
 Steps:
-  1. Seed genuine training data - copies all supporting docs from
-     submissions/ case folders into data/genuine/ (with unique names).
-  2. Build dataset CSV - extracts text from data/genuine/ and
-     data/fraudulent/, writes data/labeled/dataset.csv.
-  3. Augment dataset - synthetically generates fraudulent samples
-     from the genuine ones, writes data/labeled/dataset_augmented.csv.
+  1. Extract text from data/genuine/ (label=0) and data/fraudulent/ (label=1).
+  2. Write data/labeled/dataset.csv with (text, label) columns.
+  3. Augment: synthetically generate more fraudulent samples from genuine ones
+     to balance the classes. Writes data/labeled/dataset_augmented.csv.
 
 After this script finishes, run:
     python training/train.py
 
 Usage:
     python prepare_training_data.py
-    python prepare_training_data.py --submissions submissions --multiplier 5 --skip-seed
+    python prepare_training_data.py --multiplier 5
 """
 
 from __future__ import annotations
@@ -25,14 +33,12 @@ import argparse
 import csv
 import random
 import re
-import shutil
 import string
 import sys
 from pathlib import Path
 
 # ── Paths ──────────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent
-SUBMISSIONS_DIR = BASE_DIR / "submissions"
 GENUINE_DIR = BASE_DIR / "data" / "genuine"
 FRAUDULENT_DIR = BASE_DIR / "data" / "fraudulent"
 LABELED_DIR = BASE_DIR / "data" / "labeled"
@@ -46,54 +52,16 @@ from extract_text import extract_text
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Step 1 — Seed genuine data from submissions/
-# ══════════════════════════════════════════════════════════════════════════════
-
-def seed_genuine_data(submissions_dir: Path, genuine_dir: Path) -> int:
-    """
-    Copy all supported document files from submissions/<case>/ folders
-    into data/genuine/ with unique names (case1_ChildBirth.pdf etc.).
-
-    Skips files already present (safe to re-run).
-    Returns the count of newly copied files.
-    """
-    genuine_dir.mkdir(parents=True, exist_ok=True)
-    copied = 0
-    skipped = 0
-
-    case_dirs = sorted(
-        [d for d in submissions_dir.iterdir() if d.is_dir() and d.name != ".gitkeep"]
-    )
-    if not case_dirs:
-        print("  [WARN] No case folders found under submissions/. Nothing to seed.")
-        return 0
-
-    for case_dir in case_dirs:
-        for doc in sorted(case_dir.iterdir()):
-            if doc.suffix.lower() not in SUPPORTED_EXTENSIONS:
-                continue
-            dest_name = f"{case_dir.name}_{doc.name}"
-            dest = genuine_dir / dest_name
-            if dest.exists():
-                skipped += 1
-                continue
-            shutil.copy2(doc, dest)
-            print(f"  Copied: {case_dir.name}/{doc.name} → data/genuine/{dest_name}")
-            copied += 1
-
-    print(f"  Seed complete — copied: {copied}, already present (skipped): {skipped}")
-    return copied
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# Step 2 — Build dataset CSV
+# Step 1 — Build dataset CSV from labeled folders
 # ══════════════════════════════════════════════════════════════════════════════
 
 def collect_documents(folder: Path, label: int) -> list[dict]:
     records = []
-    for file in sorted(folder.iterdir()):
-        if file.name == ".gitkeep" or file.suffix.lower() not in SUPPORTED_EXTENSIONS:
-            continue
+    files = [f for f in sorted(folder.iterdir())
+             if f.name != ".gitkeep" and f.suffix.lower() in SUPPORTED_EXTENSIONS]
+    if not files:
+        return records
+    for file in files:
         print(f"  Extracting text: {file.name} (label={label})")
         try:
             text = extract_text(str(file))
@@ -106,21 +74,21 @@ def collect_documents(folder: Path, label: int) -> list[dict]:
     return records
 
 
-def build_dataset(dataset_csv: Path) -> int:
-    print("[2/3] Collecting genuine documents...")
+def build_dataset(dataset_csv: Path) -> tuple[int, int]:
+    print("[1/2] Collecting labeled documents...")
     genuine_records = collect_documents(GENUINE_DIR, label=0)
-    print(f"      {len(genuine_records)} genuine documents.\n")
-
-    print("      Collecting fraudulent documents (manual, if any)...")
     fraudulent_records = collect_documents(FRAUDULENT_DIR, label=1)
-    print(f"      {len(fraudulent_records)} fraudulent documents.\n")
+    print(f"      Genuine (0): {len(genuine_records)} | Fraudulent (1): {len(fraudulent_records)}")
 
-    all_records = genuine_records + fraudulent_records
-    if not all_records:
+    if not genuine_records and not fraudulent_records:
         raise RuntimeError(
-            "No documents found. Ensure submissions/ has PDFs or place docs in data/genuine/."
+            "\nNo training documents found.\n"
+            "  Place KNOWN genuine docs in:     data/genuine/\n"
+            "  Place KNOWN fraudulent docs in:  data/fraudulent/\n"
+            "  Do NOT put submission/ docs here until you have verified their true label."
         )
 
+    all_records = genuine_records + fraudulent_records
     LABELED_DIR.mkdir(parents=True, exist_ok=True)
     with open(dataset_csv, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["text", "label"])
@@ -128,12 +96,11 @@ def build_dataset(dataset_csv: Path) -> int:
         writer.writerows(all_records)
 
     print(f"  Dataset CSV saved: {dataset_csv}")
-    print(f"  Total: {len(all_records)} | Genuine: {len(genuine_records)} | Fraudulent: {len(fraudulent_records)}")
-    return len(all_records)
+    return len(genuine_records), len(fraudulent_records)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Step 3 — Augment dataset with synthetic fraudulent samples
+# Step 2 — Augment with synthetic fraudulent samples
 # ══════════════════════════════════════════════════════════════════════════════
 
 _FAKE_INSTITUTIONS = [
@@ -223,44 +190,33 @@ def augment_dataset(dataset_csv: Path, augmented_csv: Path, multiplier: int) -> 
 # ══════════════════════════════════════════════════════════════════════════════
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Prepare training data for DistilBERT fine-tuning.")
-    parser.add_argument("--submissions", default="submissions", help="Path to submissions folder")
+    parser = argparse.ArgumentParser(description="Prepare labeled training data for DistilBERT.")
     parser.add_argument("--multiplier", type=int, default=5,
-                        help="Synthetic fraudulent samples per genuine doc (default: 5)")
-    parser.add_argument("--skip-seed", action="store_true",
-                        help="Skip copying from submissions/ (if data/genuine/ is already populated)")
+                        help="Synthetic fraudulent samples per genuine doc (default: 5). "
+                             "Increase if you have few fraudulent examples.")
     args = parser.parse_args()
 
-    submissions_dir = Path(args.submissions)
-
     print("=" * 60)
-    print("  Capstone — Training Data Preparation")
+    print("  Capstone -- Training Data Preparation")
     print("=" * 60)
+    print(f"\n  Genuine docs folder  : {GENUINE_DIR}")
+    print(f"  Fraudulent docs folder: {FRAUDULENT_DIR}")
+    print()
 
-    # ── Step 1 ─────────────────────────────────────────────────────────────
-    if args.skip_seed:
-        print("\n[1/3] Seeding skipped (--skip-seed).")
-    else:
-        print(f"\n[1/3] Seeding genuine data from: {submissions_dir}")
-        seed_genuine_data(submissions_dir, GENUINE_DIR)
+    # Step 1
+    genuine_count, fraudulent_count = build_dataset(DATASET_CSV)
 
-    # ── Step 2 ─────────────────────────────────────────────────────────────
-    print(f"\n[2/3] Building dataset CSV...")
-    total = build_dataset(DATASET_CSV)
-
-    # ── Step 3 ─────────────────────────────────────────────────────────────
-    print(f"\n[3/3] Augmenting dataset (multiplier={args.multiplier})...")
+    # Step 2
+    print(f"\n[2/2] Augmenting dataset (multiplier={args.multiplier})...")
     augment_dataset(DATASET_CSV, AUGMENTED_CSV, multiplier=args.multiplier)
 
-    # ── Done ───────────────────────────────────────────────────────────────
     print("\n" + "=" * 60)
     print("  Data preparation complete!")
-    print(f"  Genuine source docs  : {GENUINE_DIR}")
-    print(f"  Raw dataset CSV      : {DATASET_CSV}")
-    print(f"  Augmented CSV        : {AUGMENTED_CSV}")
+    print(f"  Raw CSV      : {DATASET_CSV}")
+    print(f"  Augmented CSV: {AUGMENTED_CSV}")
     print("=" * 60)
-    print("\n  Next step — train the model:")
-    print("    python training/train.py")
+    print("\n  Next step -- train the model:")
+    print("    C:\\cap_venv\\Scripts\\python.exe training/train.py")
     print("=" * 60)
 
 

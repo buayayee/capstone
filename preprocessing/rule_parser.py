@@ -42,9 +42,11 @@ RECOGNISED_INSTITUTIONS = [
 ]
 
 # -- Universal keywords: every deferment doc MUST contain these ---------------
+# NOTE: 'name' is intentionally excluded — supporting documents are submitted
+# with applicant names redacted for confidentiality, and the directive does not
+# require the applicant's name to appear on the supporting document.
 UNIVERSAL_REQUIRED_KEYWORDS = [
-    "name",    # applicant's name must appear
-    "date",    # a date must be present
+    "date",    # a date must be present (directive relies on timing for most categories)
 ]
 
 # -- Domain keyword groups: document must match AT LEAST ONE ------------------

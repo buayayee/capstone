@@ -13,66 +13,33 @@ Usage:
 """
 
 import argparse
+import logging
 import os
 import platform
 import re
+import warnings
 
 from PIL import Image
+import numpy as np
 import pdfplumber
-import pytesseract
 from docx import Document as DocxDocument
-from pdf2image import convert_from_path
+
+# Suppress noisy RapidOCR INFO logs
+logging.getLogger("RapidOCR").setLevel(logging.WARNING)
+warnings.filterwarnings("ignore")
+
+# Lazy-loaded RapidOCR singleton — loads ONNX models once on first use
+_rapidocr_instance = None
+
+def _get_rapidocr():
+    global _rapidocr_instance
+    if _rapidocr_instance is None:
+        from rapidocr import RapidOCR
+        _rapidocr_instance = RapidOCR()
+    return _rapidocr_instance
 
 
-# ── Platform-aware external tool paths ───────────────────────────────────────
-
-def _configure_tesseract():
-    """
-    Set the Tesseract executable path based on the current OS.
-    Install instructions:
-      macOS  : brew install tesseract
-      Windows: https://github.com/UB-Mannheim/tesseract/wiki
-    """
-    system = platform.system()
-    if system == "Windows":
-        candidate = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-        if os.path.exists(candidate):
-            pytesseract.pytesseract.tesseract_cmd = candidate
-    elif system == "Darwin":  # macOS
-        # Homebrew on Apple Silicon vs Intel
-        for candidate in ["/opt/homebrew/bin/tesseract", "/usr/local/bin/tesseract"]:
-            if os.path.exists(candidate):
-                pytesseract.pytesseract.tesseract_cmd = candidate
-                break
-    # On Linux, tesseract is typically on PATH already — no override needed
-
-
-def _get_poppler_path() -> str | None:
-    """
-    Return the Poppler bin path for pdf2image on Windows.
-    On macOS/Linux, Poppler (installed via brew/apt) is on PATH — return None.
-    Install instructions:
-      macOS  : brew install poppler
-      Windows: https://github.com/oschwartz10612/poppler-windows/releases
-               Extract and add the bin/ folder to your system PATH,
-               OR place it at C:/poppler/Library/bin
-    """
-    if platform.system() == "Windows":
-        candidates = [
-            r"C:\poppler\Library\bin",
-            r"C:\Program Files\poppler\Library\bin",
-            r"C:\tools\poppler\Library\bin",
-        ]
-        for path in candidates:
-            if os.path.isdir(path):
-                return path
-        # If not found in known locations, assume it's on PATH
-        return None
-    return None  # macOS/Linux: rely on PATH
-
-
-# Configure Tesseract at import time
-_configure_tesseract()
+# (Tesseract and Poppler are no longer required — RapidOCR handles all image/scanned OCR)
 
 
 # ── Text helpers ─────────────────────────────────────────────────────────────
@@ -113,31 +80,28 @@ def extract_from_digital_pdf(filepath: str) -> str:
 def extract_from_scanned_pdf(filepath: str) -> str:
     """
     Fallback OCR path for scanned PDFs (no embedded text layer).
-    Converts each page to an image via Poppler, then runs Tesseract OCR.
-    Requires Poppler installed:
-      Windows : https://github.com/oschwartz10612/poppler-windows/releases
-      macOS   : brew install poppler
+    Converts each page to an image using PyMuPDF (fitz), then runs RapidOCR.
+    No external tools required — all handled by pip packages.
     """
-    print(f"  [OCR Fallback] Converting pages to images: {filepath}")
-    poppler_path = _get_poppler_path()
-    kwargs = {"dpi": 300}
-    if poppler_path:
-        kwargs["poppler_path"] = poppler_path
+    print(f"  [OCR Fallback] Converting scanned PDF pages: {filepath}")
     try:
-        pages = convert_from_path(filepath, **kwargs)
-    except Exception:
-        raise RuntimeError(
-            "Poppler is not installed or not on PATH.\n"
-            "  Windows : download from https://github.com/oschwartz10612/poppler-windows/releases\n"
-            "            extract the zip, then add the 'Library\\bin' folder to your system PATH.\n"
-            "  macOS   : brew install poppler\n"
-            "  Note    : Digital (non-scanned) PDFs work fine without Poppler."
-        )
+        import fitz  # PyMuPDF
+    except ImportError:
+        raise RuntimeError("PyMuPDF not installed. Run: pip install pymupdf")
+
+    ocr = _get_rapidocr()
+    doc = fitz.open(filepath)
     text = ""
-    for i, page_img in enumerate(pages):
-        page_text = pytesseract.image_to_string(page_img)
+    for i, page in enumerate(doc):
+        pix = page.get_pixmap(dpi=200)
+        img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
+        if pix.n == 4:  # RGBA -> RGB
+            img = img[:, :, :3]
+        result = ocr(img)
+        page_text = "\n".join(result.txts) if result.txts else ""
         text += page_text + "\n"
-        print(f"  [OCR] Page {i+1}/{len(pages)} done.")
+        print(f"  [OCR] Page {i+1}/{len(doc)} done.")
+    doc.close()
     return clean_text(text)
 
 
@@ -148,14 +112,14 @@ IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".tif", ".webp"}
 
 def extract_from_image(filepath: str) -> str:
     """
-    Run Tesseract OCR directly on an image file (JPG, PNG, BMP, TIFF, etc.).
-    Requires Tesseract installed:
-      Windows : https://github.com/UB-Mannheim/tesseract/wiki
-      macOS   : brew install tesseract
+    Run RapidOCR on an image file (JPG, PNG, BMP, TIFF, etc.).
+    Uses the ONNX-based RapidOCR engine — no external tools required.
     """
     print(f"  [OCR Image] Running OCR on: {filepath}")
-    img = Image.open(filepath)
-    text = pytesseract.image_to_string(img)
+    ocr = _get_rapidocr()
+    img = np.array(Image.open(filepath).convert("RGB"))
+    result = ocr(img)
+    text = "\n".join(result.txts) if result.txts else ""
     return clean_text(text)
 
 

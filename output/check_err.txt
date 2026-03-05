@@ -1,0 +1,3 @@
+usage: check.py [-h] --instructions INSTRUCTIONS (--document DOCUMENT |
+                --folder FOLDER) [--output OUTPUT] [--ai]
+check.py: error: unrecognized arguments: 401-01-2005A Deferment Disruption and Exemption Policy for NSmen_050620.pdf

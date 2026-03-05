@@ -1,13 +1,16 @@
 """
-claude_checker.py
------------------
-Uses the Anthropic Claude API to judge whether a deferment supporting document
+groq_checker.py
+---------------
+Uses the Groq API to judge whether a deferment supporting document
 should be APPROVED or REJECTED, based on the actual directive text.
 
+Groq provides very fast LLM inference (LLaMA, Mixtral, etc.) for free
+on the developer tier — no credit card required.
+
 Requires:
-  - pip install anthropic
-  - Environment variable ANTHROPIC_API_KEY set to your API key
-    (get one at https://console.anthropic.com/)
+  - pip install groq
+  - Environment variable GROQ_API_KEY set to your API key
+    (get one at https://console.groq.com/)
 
 Usage (from check.py with --ai flag):
   check.py --instructions directives/... --folder submissions/ --ai
@@ -15,37 +18,43 @@ Usage (from check.py with --ai flag):
 
 import os
 import re
+#In this scenerio we will be using groq as it is a free api AI key.
+from groq import Groq
 
-import anthropic
+# Model to use — llama-3.3-70b-versatile is accurate and fast on Groq.
+# Other good options: "llama3-8b-8192" (faster/cheaper), "mixtral-8x7b-32768"
+#Change model here
+MODEL = "llama-3.3-70b-versatile"
 
-# Model to use — claude-3-5-haiku is fast and cheap; swap to claude-opus-4 for
-# higher accuracy on complex documents.
-CLAUDE_MODEL = "claude-3-5-haiku-20241022"
-
-_client: anthropic.Anthropic | None = None
+_client: Groq | None = None
 
 
-def _get_client() -> anthropic.Anthropic:
+def _get_client() -> Groq:
     global _client
     if _client is None:
-        # Check env var first, fall back to hardcoded key
-        #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
-        api_key = os.environ.get("ANTHROPIC_API_KEY", "micdrop")
-        _client = anthropic.Anthropic(api_key=api_key)
+        api_key = os.environ.get("GROQ_API_KEY", "")
+        if not api_key:
+            raise EnvironmentError(
+                "GROQ_API_KEY environment variable is not set.\n"
+                "Get a free key at https://console.groq.com/ and run:\n"
+                "  $env:GROQ_API_KEY = 'your-key-here'   (PowerShell)\n"
+                "  export GROQ_API_KEY='your-key-here'   (bash/zsh)"
+            )
+        _client = Groq(api_key=api_key)
     return _client
 
 
-def check_with_claude(
+def check(
     document_text: str,
     directive_text: str,
     filename: str = "",
 ) -> tuple[str, list[str], list[str]]:
     """
-    Ask Claude to judge the document against the directive.
+    Ask a Groq-hosted LLM to judge the document against the directive.
 
     Returns:
         (verdict, reject_reasons, notes)
-        verdict is "APPROVE", "REJECT", or "WARNING"
+        verdict is "APPROVE", "REJECT", or "DISQUALIFIED"
     """
     client = _get_client()
 
@@ -69,18 +78,17 @@ Based on the directive above, decide if this supporting document is sufficient p
 
 Rules for APPROVAL:
 - The document must be relevant to a valid deferment reason (full-time study, overseas employment, medical, marriage, childbirth, etc.)
-- It must clearly identify the applicant (name or NRIC or some personal identifier)
 - It must have a date issued
 - It must appear genuine (issued by a recognisable institution or authority)
+- NOTE: Applicant names are intentionally redacted for privacy — do NOT reject a document solely because no name appears
 
 Rules for REJECTION:
 - Document is clearly irrelevant to NS deferment
-- Missing the applicant's identity
-- Missing a date
+- Missing a date entirely
 - Obvious signs of tampering or forgery
-- Too vague or incomplete to be useful
+- Too vague or incomplete to be useful (e.g. blank page)
 
-Respond in EXACTLY this format — no extra text:
+Respond in EXACTLY this format — no extra text before or after:
 VERDICT: APPROVE
 REASONS: <leave blank if approving>
 NOTES: <brief explanation of what the document is and why approved, or why rejected>
@@ -91,19 +99,20 @@ REASONS: <comma-separated list of specific reasons>
 NOTES: <brief explanation>
 """
 
-    message = client.messages.create(
-        model=CLAUDE_MODEL,
-        max_tokens=512,
+    response = client.chat.completions.create(
+        model=MODEL,
         messages=[{"role": "user", "content": prompt}],
+        max_tokens=512,
+        temperature=0.0,   # deterministic — same doc should give same verdict
     )
 
-    response_text = message.content[0].text.strip()
-    return _parse_claude_response(response_text)
+    response_text = response.choices[0].message.content.strip()
+    return _parse_response(response_text)
 
 
-def _parse_claude_response(response: str) -> tuple[str, list[str], list[str]]:
-    """Parse Claude's structured response into (verdict, reasons, notes)."""
-    verdict = "WARNING"
+def _parse_response(response: str) -> tuple[str, list[str], list[str]]:
+    """Parse the LLM's structured response into (verdict, reasons, notes)."""
+    verdict = "DISQUALIFIED"
     reasons = []
     notes = []
 
@@ -124,8 +133,8 @@ def _parse_claude_response(response: str) -> tuple[str, list[str], list[str]]:
             if raw:
                 notes = [raw]
 
-    if verdict == "WARNING":
-        # Claude didn't follow format — fall back gracefully
-        notes = [f"Claude response could not be parsed: {response[:200]}"]
+    if verdict == "DISQUALIFIED":
+        # LLM didn't follow format — fall back gracefully
+        notes = [f"Groq response could not be parsed: {response[:200]}"]
 
     return verdict, reasons, notes

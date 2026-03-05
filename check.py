@@ -59,21 +59,14 @@ class CaseResult:
 def _check_required_keywords(text: str, rules: InstructionRules) -> list[str]:
     """
     Universal checks every deferment document must pass.
-    - 'name'  : looks for the word 'name' OR a person-name pattern (Mr/Ms/Dr + word)
     - 'date'  : looks for the word 'date' OR an actual date format (e.g. 5 Dec 2024)
+    NOTE: Applicant name is intentionally NOT checked here — supporting documents
+    are submitted with names redacted for confidentiality, and the directive itself
+    never mandates that the applicant's name appear on the supporting document.
     Returns list of failed checks.
     """
     text_lower = text.lower()
     missing = []
-
-    # Check for 'name' (literal) OR salutation pattern suggesting a person is mentioned
-    name_present = (
-        "name" in text_lower
-        or bool(re.search(r"\b(mr|ms|mrs|dr|mdm|miss)\.?\s+[a-z]+", text_lower))
-        or bool(re.search(r"\b(i/c|nric|s\d{7}[a-z])\b", text_lower, re.IGNORECASE))
-    )
-    if not name_present:
-        missing.append("applicant name or identity")
 
     # Check for 'date' (literal) OR a recognisable date pattern
     date_present = (
@@ -138,23 +131,92 @@ def _check_fraud_signals(text: str) -> list[str]:
     return signals
 
 
-def _check_document_length(text: str) -> list[str]:
-    """Flag documents that are suspiciously short (likely incomplete or blank)."""
+
+def check_text(text: str, label: str, rules: InstructionRules) -> CheckResult:
+    """
+    Run all rule-based checks on already-extracted text.
+
+    ``label`` is used as the CheckResult filename (e.g. a filename or case name).
+    This is shared by both check_document() (single file) and check_case()
+    (all files in a case folder concatenated into one blob).
+    """
+    reject_reasons: list[str] = []
+    warnings: list[str] = []
+
+    preview = text[:300].replace("\n", " ")
+
+    # -- Step 1: Enough text to evaluate? -------------------------------------
     word_count = len(text.split())
     if word_count < 30:
-        return [f"Document is too short ({word_count} words) — may be incomplete or blank"]
-    return []
+        return CheckResult(
+            filename=label,
+            verdict="WARNING",
+            reasons=[],
+            warnings=[f"Too few words ({word_count}) to evaluate — blank page, scan artifact, or OCR failed"],
+            extracted_text_preview=preview,
+        )
+
+    # -- Step 2: Universal required fields present? ---------------------------
+    missing_keywords = _check_required_keywords(text, rules)
+    if missing_keywords:
+        reject_reasons.append(
+            f"Missing required fields: {', '.join(missing_keywords)}"
+        )
+
+    # -- Step 3: Matches at least one deferment category? -------------------
+    matched_category, category_warnings = _check_domain_category(text, rules)
+    if matched_category:
+        warnings.append(f"Category matched: {matched_category}")
+    else:
+        warnings.extend(category_warnings)
+
+    # -- Step 4: Recognised institution? ------------------------------------
+    if not _check_institution(text, rules):
+        warnings.append("No recognised institution name found — verify manually")
+
+    # -- Step 5: Date validity (warn only, don't reject for old dates) -------
+    date_flags = _check_dates(text, rules)
+    if date_flags:
+        warnings.extend([f"NOTE: {f}" for f in date_flags])
+
+    # -- Step 6: Fraud signals -----------------------------------------------
+    fraud_signals = _check_fraud_signals(text)
+    reject_reasons.extend(fraud_signals)
+
+    verdict = "REJECT" if reject_reasons else "APPROVE"
+    return CheckResult(
+        filename=label,
+        verdict=verdict,
+        reasons=reject_reasons,
+        warnings=warnings,
+        extracted_text_preview=preview,
+    )
+
+
+def check_document(pdf_path: str, rules: InstructionRules) -> CheckResult:
+    """
+    Extract text from a single file and run rule-based checks on it.
+    Used by single-file (--document) mode.
+    """
+    filename = Path(pdf_path).name
+    try:
+        text = extract_text(pdf_path)
+    except RuntimeError as e:
+        return CheckResult(filename=filename, verdict="WARNING",
+                           reasons=[f"Could not process (tool missing): {e}"])
+    except Exception as e:
+        return CheckResult(filename=filename, verdict="WARNING",
+                           reasons=[f"Could not extract text from document: {e}"])
+    return check_text(text, filename, rules)
 
 
 def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResult:
     """
-    Use Claude AI to judge the document against the directive text.
-    Falls back to a WARNING result if the API key is missing.
+    Extract text from a single file and let the Groq LLM judge it.
+    Used by single-file (--document --ai) mode.
     """
-    from claude_checker import check_with_claude
+    from groq_checker import check_with_groq
     filename = Path(pdf_path).name
-
-    # Extract text first (same as rule-based path)
     try:
         text = extract_text(pdf_path)
     except RuntimeError as e:
@@ -165,100 +227,23 @@ def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResul
                            reasons=[f"Could not extract text: {e}"])
 
     preview = text[:300].replace("\n", " ")
-
     try:
-        verdict, reasons, notes = check_with_claude(
+        verdict, reasons, notes = check_with_groq(
             document_text=text,
             directive_text=rules.raw_instructions,
             filename=filename,
         )
     except EnvironmentError as e:
-        # API key not set
         print(f"\n[AI ERROR] {e}")
         sys.exit(1)
     except Exception as e:
         return CheckResult(filename=filename, verdict="WARNING",
-                           reasons=[f"Claude API error: {e}"],
+                           reasons=[f"Groq API error: {e}"],
                            extracted_text_preview=preview)
 
-    return CheckResult(
-        filename=filename,
-        verdict=verdict,
-        reasons=reasons,
-        warnings=notes,
-        extracted_text_preview=preview,
-    )
-
-
-def check_document(pdf_path: str, rules: InstructionRules) -> CheckResult:
-    """
-    Run all checks on a single PDF and return a CheckResult.
-    """
-    filename = Path(pdf_path).name
-    reject_reasons = []
-    warnings = []
-
-    # ── Step 1: Extract text ──────────────────────────────────────────────────
-    try:
-        text = extract_text(pdf_path)
-    except RuntimeError as e:
-        # RuntimeError means a tool (Poppler/Tesseract) is missing — not a doc problem
-        return CheckResult(
-            filename=filename,
-            verdict="WARNING",
-            reasons=[f"Could not process (tool missing): {e}"],
-        )
-    except Exception as e:
-        return CheckResult(
-            filename=filename,
-            verdict="WARNING",
-            reasons=[f"Could not extract text from document: {e}"],
-        )
-
-    preview = text[:300].replace("\n", " ")
-
-    # -- Step 2: Document too short? ------------------------------------------
-    reject_reasons.extend(_check_document_length(text))
-
-    # -- Step 3: Universal required fields present? ---------------------------
-    missing_keywords = _check_required_keywords(text, rules)
-    if missing_keywords:
-        reject_reasons.append(
-            f"Missing required fields: {', '.join(missing_keywords)}"
-        )
-
-    # -- Step 4: Matches at least one deferment category? --------------------
-    matched_category, category_warnings = _check_domain_category(text, rules)
-    if matched_category:
-        warnings.append(f"Category matched: {matched_category}")
-    else:
-        warnings.extend(category_warnings)
-
-    # -- Step 5: Recognised institution? --------------------------------------
-    if not _check_institution(text, rules):
-        warnings.append(
-            "No recognised institution name found -- verify manually"
-        )
-
-    # -- Step 6: Date validity (warn only, don't reject for old dates) --------
-    date_flags = _check_dates(text, rules)
-    if date_flags:
-        warnings.extend([f"NOTE: {f}" for f in date_flags])
-
-    # -- Step 7: Fraud signals ------------------------------------------------
-    fraud_signals = _check_fraud_signals(text)
-    reject_reasons.extend(fraud_signals)
-
-    # ── Verdict ───────────────────────────────────────────────────────────────
-    verdict = "REJECT" if reject_reasons else "APPROVE"
-
-    return CheckResult(
-        filename=filename,
-        verdict=verdict,
-        reasons=reject_reasons,
-        warnings=warnings,
-        extracted_text_preview=preview,
-    )
+    return CheckResult(filename=filename, verdict=verdict,
+                       reasons=reasons, warnings=notes,
+                       extracted_text_preview=preview)
 
 
 # ---------------------------------------------------------------------------
@@ -278,32 +263,83 @@ def collect_supported_files(folder: Path) -> list[Path]:
 
 def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool) -> CaseResult:
     """
-    Check all documents inside a single case folder.
-    Overall verdict:
-      REJECT  — if ANY document is rejected
-      WARNING — if no rejects but at least one could not be processed
-      APPROVE — if ALL documents pass
+    Check an entire case folder by treating ALL supporting documents as one
+    combined body of evidence.
+
+    All files are read, their text is concatenated, and a *single* verdict is
+    produced for the whole case.  This is the correct approach because:
+      - A date on page 1 is evidence for the whole submission.
+      - A short/blank trailing page does not dilute a multi-page letter.
+      - Individual images are fragments of one document, not separate documents.
+
+    The returned CaseResult contains one CheckResult entry whose filename is the
+    case folder name (e.g. "case42").  Individual per-file extraction errors are
+    surfaced as warnings, but if at least one file produced usable text the case
+    is still evaluated.
     """
     files = collect_supported_files(case_dir)
-    doc_results = []
-    for f in files:
-        result = (
-            check_document_with_ai(str(f), rules)
-            if use_ai
-            else check_document(str(f), rules)
+    if not files:
+        return CaseResult(
+            case_name=case_dir.name,
+            overall_verdict="WARNING",
+            doc_results=[CheckResult(
+                filename=case_dir.name,
+                verdict="WARNING",
+                reasons=[],
+                warnings=["Case folder is empty — no supported files found"],
+            )],
         )
-        doc_results.append(result)
 
-    if any(r.verdict == "REJECT" for r in doc_results):
-        overall = "REJECT"
-    elif any(r.verdict == "WARNING" for r in doc_results):
-        overall = "WARNING"
-    elif doc_results:
-        overall = "APPROVE"
+    # ── Extract + concatenate all pages ──────────────────────────────────────
+    parts: list[str] = []
+    extraction_warnings: list[str] = []
+
+    for f in files:
+        try:
+            t = extract_text(str(f))
+            if t.strip():
+                parts.append(t)
+        except RuntimeError as e:
+            extraction_warnings.append(f"{f.name}: tool missing — {e}")
+        except Exception as e:
+            extraction_warnings.append(f"{f.name}: extraction failed — {e}")
+
+    combined_text = "\n\n".join(parts)
+
+    # ── Evaluate the combined text ────────────────────────────────────────────
+    if use_ai:
+        from groq_checker import check_with_groq
+        preview = combined_text[:300].replace("\n", " ")
+        try:
+            verdict, reasons, notes = check_with_groq(
+                document_text=combined_text,
+                directive_text=rules.raw_instructions,
+                filename=case_dir.name,
+            )
+        except EnvironmentError as e:
+            print(f"\n[AI ERROR] {e}")
+            sys.exit(1)
+        except Exception as e:
+            verdict, reasons, notes = "WARNING", [f"Groq API error: {e}"], []
+        case_result = CheckResult(
+            filename=case_dir.name,
+            verdict=verdict,
+            reasons=reasons,
+            warnings=notes + extraction_warnings,
+            extracted_text_preview=preview,
+        )
     else:
-        overall = "WARNING"  # empty case folder
+        case_result = check_text(combined_text, case_dir.name, rules)
+        case_result.warnings.extend(extraction_warnings)
 
-    return CaseResult(case_name=case_dir.name, overall_verdict=overall, doc_results=doc_results)
+    # Show actual document filenames instead of the folder name
+    case_result.filename = ", ".join(f.name for f in files)
+
+    return CaseResult(
+        case_name=case_dir.name,
+        overall_verdict=case_result.verdict,
+        doc_results=[case_result],
+    )
 
 
 def print_case_result(case: CaseResult):
@@ -316,7 +352,7 @@ def print_case_result(case: CaseResult):
 
     print("\n" + "="*60)
     print(f"  Case    : {case.case_name}  |  Verdict: {verdict_display}")
-    print(f"  Docs    : {len(case.doc_results)} file(s)")
+    # One combined result per case
     for result in case.doc_results:
         print_result(result, indent="    ")
 
@@ -388,7 +424,7 @@ def main():
     parser.add_argument(
         "--ai",
         action="store_true",
-        help="Use Claude AI to judge documents (requires ANTHROPIC_API_KEY env variable)"
+        help="Use Groq LLM to judge documents (requires GROQ_API_KEY env variable)"
     )
     args = parser.parse_args()
 
@@ -397,9 +433,9 @@ def main():
 
     # ── Mode header ──────────────────────────────────────────────────────────
     if args.ai:
-        print("[Mode] AI-powered checks via Claude")
+        print("[Mode] AI-powered checks via Groq (llama-3.3-70b-versatile)")
     else:
-        print("[Mode] Rule-based checks (use --ai to enable Claude AI)")
+        print("[Mode] Rule-based checks (use --ai to enable Groq AI)")
 
     # ── Single document ───────────────────────────────────────────────────────
     if args.document:
