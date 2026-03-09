@@ -215,7 +215,7 @@ def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResul
     Extract text from a single file and let the Groq LLM judge it.
     Used by single-file (--document --ai) mode.
     """
-    from groq_checker import check_with_groq
+    from ai_checker import check_with_groq
     filename = Path(pdf_path).name
     try:
         text = extract_text(pdf_path)
@@ -232,6 +232,7 @@ def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResul
             document_text=text,
             directive_text=rules.raw_instructions,
             filename=filename,
+            valid_categories=list(rules.domain_groups.keys()),
         )
     except EnvironmentError as e:
         print(f"\n[AI ERROR] {e}")
@@ -246,8 +247,6 @@ def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResul
                        extracted_text_preview=preview)
 
 
-# ---------------------------------------------------------------------------
-# Case-level helpers
 # ---------------------------------------------------------------------------
 
 SUPPORTED_IMAGE_GLOBS = ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tiff", "*.tif", "*.webp"]
@@ -308,13 +307,14 @@ def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool) -> CaseRes
 
     # ── Evaluate the combined text ────────────────────────────────────────────
     if use_ai:
-        from groq_checker import check_with_groq
+        from ai_checker import check_with_groq
         preview = combined_text[:300].replace("\n", " ")
         try:
             verdict, reasons, notes = check_with_groq(
                 document_text=combined_text,
                 directive_text=rules.raw_instructions,
                 filename=case_dir.name,
+                valid_categories=list(rules.domain_groups.keys()),
             )
         except EnvironmentError as e:
             print(f"\n[AI ERROR] {e}")
