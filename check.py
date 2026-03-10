@@ -210,7 +210,9 @@ def check_document(pdf_path: str, rules: InstructionRules) -> CheckResult:
     return check_text(text, filename, rules)
 
 
-def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResult:
+def check_document_with_ai(pdf_path: str, rules: InstructionRules,
+                           ict_start: str | None = None,
+                           ict_end: str | None = None) -> CheckResult:
     """
     Extract text from a single file and let the Groq LLM judge it.
     Used by single-file (--document --ai) mode.
@@ -233,6 +235,8 @@ def check_document_with_ai(pdf_path: str, rules: InstructionRules) -> CheckResul
             directive_text=rules.raw_instructions,
             filename=filename,
             valid_categories=list(rules.domain_groups.keys()),
+            ict_start=ict_start,
+            ict_end=ict_end,
         )
     except EnvironmentError as e:
         print(f"\n[AI ERROR] {e}")
@@ -260,7 +264,9 @@ def collect_supported_files(folder: Path) -> list[Path]:
     return files
 
 
-def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool) -> CaseResult:
+def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool,
+               ict_start: str | None = None,
+               ict_end: str | None = None) -> CaseResult:
     """
     Check an entire case folder by treating ALL supporting documents as one
     combined body of evidence.
@@ -315,6 +321,8 @@ def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool) -> CaseRes
                 directive_text=rules.raw_instructions,
                 filename=case_dir.name,
                 valid_categories=list(rules.domain_groups.keys()),
+                ict_start=ict_start,
+                ict_end=ict_end,
             )
         except EnvironmentError as e:
             print(f"\n[AI ERROR] {e}")
@@ -426,6 +434,18 @@ def main():
         action="store_true",
         help="Use Groq LLM to judge documents (requires GROQ_API_KEY env variable)"
     )
+    parser.add_argument(
+        "--ict-start",
+        default=None,
+        metavar="DATE",
+        help="ICT/training start date (e.g. '01 Jan 2023'). Used by AI mode for temporal checks."
+    )
+    parser.add_argument(
+        "--ict-end",
+        default=None,
+        metavar="DATE",
+        help="ICT/training end date (e.g. '13 Jan 2023'). Used by AI mode for temporal checks."
+    )
     args = parser.parse_args()
 
     # ── Parse instructions ────────────────────────────────────────────────────
@@ -440,7 +460,8 @@ def main():
     # ── Single document ───────────────────────────────────────────────────────
     if args.document:
         result = (
-            check_document_with_ai(args.document, rules)
+            check_document_with_ai(args.document, rules,
+                                   ict_start=args.ict_start, ict_end=args.ict_end)
             if args.ai
             else check_document(args.document, rules)
         )
@@ -473,7 +494,8 @@ def main():
         approved = rejected = warnings = 0
 
         for case_dir in case_dirs:
-            case = check_case(case_dir, rules, use_ai=args.ai)
+            case = check_case(case_dir, rules, use_ai=args.ai,
+                             ict_start=args.ict_start, ict_end=args.ict_end)
             print_case_result(case)
             cases.append(case)
             if case.overall_verdict == "APPROVE":
@@ -505,7 +527,9 @@ def main():
         approved = rejected = warnings = 0
         for f in files:
             result = (
-                check_document_with_ai(str(f), rules)
+                check_document_with_ai(str(f), rules,
+                                       ict_start=args.ict_start,
+                                       ict_end=args.ict_end)
                 if args.ai
                 else check_document(str(f), rules)
             )

@@ -64,3 +64,6 @@ python training/train.py
 
 # 4. Start the API (model will now load from models/distilbert-fraud-classifier/)
 uvicorn api.main:app --reload --port 8000
+
+API KEY 
+$env:OPENAI_API_KEY = "sk-..."

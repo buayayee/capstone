@@ -54,19 +54,68 @@ UNIVERSAL_REQUIRED_KEYWORDS = [
 # A document is accepted if it clearly belongs to any one category.
 # It is NOT penalised for missing categories that don't apply to it.
 DOMAIN_KEYWORD_GROUPS = {
-    "study (local/overseas)": ["study", "enrol", "student", "course", "university",
-                                "polytechnic", "college", "school", "degree"],
-    "employment/work":        ["employ", "work", "company", "organisation", "overseas",
-                                "posting", "secondment", "retrench", "redundan",
-                                "job seeker", "termination", "laid off"],
-    "medical internship":     ["housemanship", "medical", "doctor", "hospital",
-                                "clinical", "mbbs", "intern"],
-    "legal pupillage":        ["pupillage", "lawyer", "advocate", "bar", "legal"],
-    "professional exam":      ["accounting", "examination", "professional",
-                                "registration", "corporate", "attainment"],
-    "marriage":               ["marriage", "matrimon", "civil", "spouse", "wed"],
-    "childbirth":             ["birth", "child", "newborn", "infant",
-                                "maternity", "paternity", "baby"],
+    # ── Work-Related Reasons (Rules 7–12) ─────────────────────────────────
+    # Rule 10 (simultaneous call-up) and Rule 13 (uniformed services) are
+    # determined by unit records, not by a supporting document — excluded.
+    "Rule 7 — new employment":               ["appointment letter", "offer of employment", "offer letter",
+                                               "commencement of employment", "start work", "new position",
+                                               "joining date", "newly employed", "employer"],
+    "Rule 8 — new business":                 ["acra", "business registration", "registered business",
+                                               "sole proprietor", "partnership", "incorporated",
+                                               "uen", "bizfile", "newly registered"],
+    "Rule 9 — retrenchment/job seeker":      ["retrench", "redundan", "job seeker",
+                                               "termination of employment", "notice of redundancy",
+                                               "laid off"],
+    "Rule 11 — school bus driver":           ["school bus", "bus driver"],
+    "Rule 12 — overseas employment":         ["overseas employment", "overseas posting", "posted overseas",
+                                               "seafarer", "residing outside singapore",
+                                               "living outside singapore"],
+    # ── Family-Related Reasons (Rules 22–25) placed early so specific keywords
+    # like "death", "deceased", "marriage" win over generic study/work matches ─
+    "Rule 22 — serious illness/bereavement": ["death", "deceased", "demise", "passed away",
+                                               "next-of-kin", "next of kin", "seriously ill",
+                                               "critical condition", "cancer", "bereave", "funeral",
+                                               "certificate of death", "death certificate"],
+    "Rule 23 — marriage":                    ["marriage", "matrimon", "wed", "solemniz",
+                                               "honeymoon", "civil marriage", "customary marriage"],
+    "Rule 24 — childbirth":                  ["birth", "child", "delivery", "newborn", "infant",
+                                               "maternity", "paternity", "baby", "pregnant", "pregnancy",
+                                               "expected date of delivery", "edd", "caesarean"],
+    "Rule 25 — spouse overseas":             ["accompanying spouse", "spouse overseas",
+                                               "spouse on overseas studies", "spouse on overseas employment",
+                                               "accompany his spouse"],
+    # ── Medical Reasons (Rule 21) ─────────────────────────────────────────
+    "Rule 21 — medical leave":               ["medical certificate", "medical leave", "hospitalisation",
+                                               "hospitaliz", "inpatient", "sick leave", "ward",
+                                               "medical condition", "treatment", "diagnosis"],
+    # ── Study / Training Reasons (Rules 14–19) ────────────────────────────
+    # Rule 15 (overseas full-time studies) matches via Rule 14 keywords.
+    # Rule 16 (part-time studies) is NOT a valid deferment reason — excluded.
+    "Rule 14 — full-time studies":           ["enrol", "full-time student", "university", "polytechnic",
+                                               "college", "degree", "diploma", "academic term",
+                                               "nus", "ntu", "smu", "sit", "sutd", "nie", "ite",
+                                               "sim", "council for private education", "cpe"],
+    "Rule 17 — examinations":                ["examination", "exam schedule", "exam timetable",
+                                               "professional exam", "assessment", "test date"],
+    "Rule 18 — professional courses":        ["housemanship", "pupillage", "bar examination",
+                                               "clinical attachment", "house officer", "pgy1", "pgy2",
+                                               "professional course", "medical officer"],
+    "Rule 19 — employer-sponsored training": ["employer-sponsored training", "employer sponsored",
+                                               "sponsored training", "training programme",
+                                               "work attachment", "secondment", "full-time training"],
+    # ── Religious Reasons (Rule 20) ───────────────────────────────────────
+    "Rule 20 — religious studies/ministry":  ["religious studies", "religious ministry",
+                                               "full-time religious", "pastor", "priest",
+                                               "monk", "nun", "seminary", "religious minister",
+                                               "mosque", "temple"],
+    # ── Others (Rules 26, 28) ─────────────────────────────────────────────
+    # Rule 27 (permanent residency) and Rule 29 (criminal) are administrative
+    # disruption actions with no supporting document to check — excluded.
+    "Rule 26 — national representation":     ["represent singapore", "national team", "sea games",
+                                               "olympic", "international games", "regional games",
+                                               "athlete", "national selection", "national representative"],
+    "Rule 28 — rehabilitation":              ["rehabilitation", "residential care", "rehab centre",
+                                               "rehab center", "welfare home"],
 }
 
 # -- Patterns that raise suspicion --------------------------------------------
