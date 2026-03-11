@@ -19,12 +19,19 @@ import time
 from datetime import datetime
 from groq import Groq, RateLimitError
 from dateutil.relativedelta import relativedelta
+from acra_checker import check_acra
 
 MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
 
 # ---------------------------------------------------------------------------
 # Python-side temporal check — bypasses LLM date arithmetic entirely
 # ---------------------------------------------------------------------------
+
+# Keywords that indicate a date is a DATE OF BIRTH — must be excluded from rule window checks
+_DOB_KEYWORDS: list[str] = [
+    "date of birth", "dob", "d.o.b.", "born on", "birth date",
+    "birthdate", "place of birth", "nationality", "nric",
+]
 
 # Keywords that anchor a date to a specific deferment rule
 _RULE_DATE_KEYWORDS: dict[str, list[str]] = {
@@ -41,10 +48,18 @@ _RULE_DATE_KEYWORDS: dict[str, list[str]] = {
     "Rule 23": ["solemnization", "solemnisation", "marriage", "wedding"],
     "Rule 24": ["expected date of delivery", "edd", "due date",
                 "confinement", "estimated delivery"],
+    # Rule 14: STUDENT letters from EDUCATIONAL INSTITUTIONS — NOT employer letters
     "Rule 14": ["programme", "program", "semester", "academic", "pursuing",
-               "started", "enrol", "matriculat", "complete", "course",
-               "study", "studies", "full-time", "full time", "diploma",
-               "degree", "university", "college", "institution"],
+               "enrol", "matriculat", "full-time student", "full time student",
+               "diploma", "degree", "university", "college"],
+    # Rule 18: Professional vocational training (housemanship, pupillage, chambering)
+    "Rule 18": ["housemanship", "house officer", "houseman", "pgy1", "pgy2",
+               "pupillage", "pupil", "chambering", "posting", "rotation",
+               "clinical posting", "professional course", "vocational"],
+    # Rule 19: Employer writing on behalf of employee for structured workplace training
+    "Rule 19": ["sponsored training", "employer-sponsored", "training period",
+               "staff training", "on behalf of our employee", "secondment",
+               "training programme", "mandatory training"],
     "Rule 26": ["competition", "tournament", "games", "national representation"],
 }
 
@@ -111,18 +126,32 @@ def _python_temporal_check(
     document_text: str,
     windows: dict,   # {rule_label: (description, start_dt|None, end_dt|None)}
     ict_start_dt: datetime | None = None,
+    identified_category: str | None = None,
 ) -> tuple[str, list[str], list[str]]:
     """
     Compare dates extracted from the document against their required windows.
     Violation → ('REJECT', violations, notes).
     All pass / no match → ('PASS', [], notes).
     This runs entirely in Python to avoid LLM date arithmetic errors.
+
+    identified_category: the rule/category the LLM assigned to this document
+    (e.g. "Rule 14 - Full-Time Studies"). When provided, only the matching rule
+    is checked so that keyword overlap between categories does not cause false
+    violations (e.g. study letters triggering Rule 7 employment checks).
     """
     date_hits = _extract_dates(document_text)
     if not date_hits:
         return "PASS", [], [
             "[Python temporal check] No dates found in document — LLM verdict kept."
         ]
+
+    # Derive the single active rule from the LLM-identified category, if any.
+    # Only run date-window checks for that rule to avoid cross-category false flags.
+    _active_rule: str | None = None
+    if identified_category:
+        m = re.search(r'Rule\s*(\d+)', identified_category, re.IGNORECASE)
+        if m:
+            _active_rule = f"Rule {m.group(1)}"
 
     violations: list[str] = []
     passes: list[str] = []
@@ -132,14 +161,23 @@ def _python_temporal_check(
         for rule_label, (desc, win_start, win_end) in windows.items():
             if win_start is None or win_end is None:
                 continue  # Rule 14: window defined by academic period, not a range
+            # Skip rules that don't match the identified category
+            if _active_rule and rule_label != _active_rule:
+                continue
             keywords = _RULE_DATE_KEYWORDS.get(rule_label, [])
             if not any(kw in ctx_lower for kw in keywords):
                 continue  # date not contextually related to this rule
+            # --- skip dates that look like DOBs (context contains birth-related keywords) ---
+            if any(dob_kw in ctx_lower for dob_kw in _DOB_KEYWORDS):
+                continue
+            # --- for Rule 22: skip dates that are clearly DOBs (>18 years before ICT start) ---
+            if rule_label == "Rule 22" and ict_start_dt and (ict_start_dt - dt).days > 365 * 18:
+                continue
             # --- do the comparison in Python, not the LLM ---
             if win_start <= dt <= win_end:
                 passes.append(
-                    f"[Python] {rule_label}: {raw} ✓ "
-                    f"({win_start:%d %b %Y} – {win_end:%d %b %Y})"
+                    f"[Python] {rule_label}: {raw} [OK] "
+                    f"({win_start:%d %b %Y} - {win_end:%d %b %Y})"
                 )
             else:
                 badge = "AFTER the window end" if dt > win_end else "BEFORE the window start"
@@ -149,7 +187,8 @@ def _python_temporal_check(
                 )
 
     # --- Special Rule 14 check: ICT start must fall within the academic period ---
-    if ict_start_dt and "Rule 14" in windows:
+    # Only run if LLM actually classified this document as Rule 14
+    if ict_start_dt and "Rule 14" in windows and (_active_rule is None or _active_rule == "Rule 14"):
         r14_kws = _RULE_DATE_KEYWORDS.get("Rule 14", [])
         r14_dates: list[tuple[datetime, str]] = [
             (dt, raw) for dt, ctx, raw in date_hits
@@ -172,8 +211,8 @@ def _python_temporal_check(
                 )
             else:
                 passes.append(
-                    f"[Python] Rule 14: ICT start {ict_start_dt:%d %b %Y} ✓ "
-                    f"within programme period ({earliest_dt:%d %b %Y} – {latest_dt:%d %b %Y})"
+                    f"[Python] Rule 14: ICT start {ict_start_dt:%d %b %Y} [OK] "
+                    f"within programme period ({earliest_dt:%d %b %Y} - {latest_dt:%d %b %Y})"
                 )
 
     if violations:
@@ -228,6 +267,21 @@ def check_with_groq(
           "WARNING"  — flagged suspicious but not conclusively fraudulent
     """
     client = _get_client()
+
+    # =========================================================================
+    # LEVEL 1 — ACRA COMPANY REGISTRY CHECK (runs before everything else)
+    # If the issuing entity is deregistered, the SD cannot be authentic.
+    # We short-circuit immediately and skip the LLM to save time & quota.
+    # =========================================================================
+    _acra_early = check_acra(document_text, rule_category=None)
+    if _acra_early["verdict"] == "FRAUD":
+        fraud_note = _acra_early["notes"][0]
+        return (
+            "REJECT",
+            [fraud_note],
+            ["[ACRA] Document rejected at first-level registry check — LLM analysis skipped."]
+            + _acra_early["notes"],
+        )
 
     directive_snippet = directive_text[:6000]
     doc_snippet = document_text[:4000]
@@ -310,17 +364,47 @@ def check_with_groq(
             )
     else:
         temporal_note = (
-            "TEMPORAL NOTE: No ICT dates were provided. You cannot verify temporal overlap.\n"
-            "Do NOT reject solely due to timing. Note key dates found in the SD in NOTES\n"
-            "so a clerk can cross-check against MINDEF's records. Assume timing is valid."
+            "== ICT / TRAINING DATES ==\n"
+            "  ICT Start : NOT PROVIDED\n"
+            "  ICT End   : NOT PROVIDED\n\n"
+            "== TEMPORAL ASSUMPTION RULES (NO ICT DATES GIVEN) ==\n"
+            "  TIMING IS ASSUMED VALID. Your ONLY task is to verify DOCUMENT CONTENT:\n"
+            "  - Does the document have the required letterhead / issuing authority?\n"
+            "  - Does it contain the required dates / statements for its category?\n"
+            "  - Are the required fields present and legible?\n\n"
+            "  DO NOT REJECT for any of the following when ICT dates are unknown:\n"
+            "  * Date outside an eligibility window (window cannot be computed)\n"
+            "  * ICT not overlapping with a training / academic / marriage period\n"
+            "  * Employment commencement too far from ICT start\n"
+            "  * Exam date not within ICT window\n\n"
+            "  ASSUMPTION TABLE (assume ICT falls within validity window):\n"
+            "  Rule 7  (New Employment)      — assume ICT is within 3 months of commencement\n"
+            "  Rule 8  (New Business)        — assume ICT is within 6 months of registration\n"
+            "  Rule 9  (Retrenchment)        — assume ICT is within 6 months of last employment\n"
+            "  Rule 14 (Studies)             — assume ICT falls within the academic period\n"
+            "  Rule 17 (Examinations)        — assume ICT overlaps with exam dates\n"
+            "  Rule 18 (Professional Course) — assume ICT overlaps with training period\n"
+            "  Rule 19 (Sponsored Training)  — assume ICT overlaps with training period\n"
+            "  Rule 22 (Illness/Bereavement) — assume ICT is within 30 days of event\n"
+            "  Rule 23 (Marriage)            — assume ICT is within 1 week of solemnisation\n"
+            "  Rule 24 (Childbirth)          — assume ICT is near the expected delivery date\n"
+            "  Rule 26 (National Rep.)       — assume ICT overlaps with competition dates\n"
         )
 
     # Per-category SD requirements derived from the GenAI deferment prompt directive.
     # These define exactly what a valid SD must contain for each category,
     # and the eligibility window conditions (if ICT dates are provided).
-    SD_REQUIREMENTS = """
+    _ict_known = bool(ict_start and ict_end)
+    _timing_note = (
+        "  NOTE: ICT dates ARE known — check both content AND eligibility windows below."
+        if _ict_known else
+        "  NOTE: ICT dates are NOT known — check CONTENT ONLY. IGNORE all ELIGIBILITY WINDOW "
+        "and INVALID-if-date-outside-window criteria. Assume timing is valid per the table above."
+    )
+    SD_REQUIREMENTS = f"""
 == SUPPORTING DOCUMENT (SD) REQUIREMENTS PER CATEGORY ==
-For each category, check: (A) SD document content, and (B) eligibility window if ICT dates given.
+For each category, check: (A) SD document content, and (B) eligibility window ONLY if ICT dates given.
+{_timing_note}
 
 Rule 7 — New Employment:
   REQUIRED: Official company letterhead, commencement date of employment specified,
@@ -339,21 +423,42 @@ Rule 8 — Newly Established Business:
   INVALID if: No ACRA document, or registration date is NOT within the required window before ICT.
 
 Rule 9 — Retrenchment / Job Seeker:
-  REQUIRED: Employer letterhead, explicit statement of retrenchment/redundancy,
-            last date of employment specified.
+  REQUIRED: (1) Document from employer confirming retrenchment or redundancy,
+            (2) Last date of employment clearly stated.
   ELIGIBILITY WINDOW: Last date of employment must be within 6 months before ICT start date.
-  INVALID if: No letterhead, no retrenchment confirmation, no last employment date,
+  INVALID if: No employer document, no last employment date,
               or last employment date is more than 6 months before ICT start.
+  CRITICAL — DO NOT reject for any of the following — they are NOT required by policy:
+    * Explicit written reason for retrenchment
+    * Employer signature or company stamp
+    * Specific retrenchment clause reference
+    * HR department letterhead (any employer document suffices)
+  A redundancy/retrenchment notice that states the last day of employment is SUFFICIENT.
+
+--- CRITICAL DISAMBIGUATION: Rule 14 vs Rule 18 vs Rule 19 ---
+The single most important signal is WHO WROTE THE LETTER:
+  * Letter from an EDUCATIONAL INSTITUTION (university, polytechnic, ITE, school)
+    confirming the person is a currently ENROLLED STUDENT → Rule 14
+  * Letter from a PROFESSIONAL BODY or the training institution for post-graduate
+    vocational training (housemanship, pupillage, chambering, articled clerkship) → Rule 18
+  * Letter from the person's EMPLOYER (a company or government agency) requesting
+    deferment because the EMPLOYEE must attend structured training → Rule 19
+
+Do NOT classify as Rule 14 if:
+  - The letterhead is from an employer / company / hospital group / government agency
+  - The person is referred to as "Dr", "employee", "staff", "house officer" (not "student")
+  - The letter requests deferment on behalf of an employee
 
 Rule 14 — Full-Time Studies (Local or Overseas):
-  REQUIRED: Letterhead from an education institution, programme/course specified,
-            academic period specified, ideally states full-time programme.
+  REQUIRED: Letterhead from an EDUCATIONAL INSTITUTION, programme/course specified,
+            academic period specified, confirms person is an enrolled full-time STUDENT.
   ELIGIBILITY WINDOW: ICT start date must fall within the academic period stated in the SD.
-  INVALID if: No letterhead, no course details, no academic period, or ICT dates outside period.
+  INVALID if: No educational-institution letterhead, no course details, no academic period,
+              ICT dates outside period, or letter is from an employer (use Rule 18 or 19 instead).
 
 Rule 14 (Internship) — Compulsory Internship as part of degree:
-  REQUIRED: Letterhead from an education institution, internship dates specified,
-            letter explicitly states the internship is mandatory/compulsory.
+  REQUIRED: Letterhead from an EDUCATIONAL INSTITUTION, internship dates specified,
+            letter explicitly states the internship is mandatory/compulsory as part of the degree.
   ELIGIBILITY WINDOW: ICT start date must overlap with the internship period.
   INVALID if: Internship not stated as mandatory, no dates, or ICT outside internship period.
 
@@ -364,16 +469,29 @@ Rule 17 — Examinations (Part-Time Study / Exam):
                       (or within 2 weeks after ICT end).
   INVALID if: No exam dates, or no exam dates fall within/near the ICT window.
 
-Rule 18 — Professional Courses (Housemanship, Pupillage, etc.):
-  REQUIRED: Letterhead from a recognised institution, nature of professional course stated,
-            dates or period specified.
-  ELIGIBILITY WINDOW: ICT start date must overlap with the course/training period.
-  INVALID if: No letterhead, no course details, no dates, or ICT outside course period.
+Rule 18 — Professional Courses (Housemanship, Pupillage, Articled Clerkship, etc.):
+  APPLIES TO: Post-graduate vocational training where attendance is mandatory and
+              missing it causes serious career consequences (e.g. must repeat entire posting).
+  EXAMPLES: Medical housemanship (PGY1/PGY2 House Officer hospital rotations),
+            legal pupillage/chambering, pharmacy internship required for registration.
+  REQUIRED: Letter from the employer or professional body stating the nature of the
+            mandatory training, the training period/posting dates, and career impact of absence.
+  ELIGIBILITY WINDOW: ICT start date must overlap with the posted training period.
+  APPROVE if: Letter from employer/hospital group (e.g. MOHH, SingHealth, NHG) states
+              the person is a House Officer undergoing mandatory PGY rotations and cannot
+              be absent for more than a specified number of days — this is SUFFICIENT.
+  INVALID if: No letter, no training period dates, or ICT outside training period.
 
 Rule 19 — Employer-Sponsored Training:
-  REQUIRED: Business/government letterhead, training dates specified, full-time training confirmed.
+  APPLIES TO: An EMPLOYER writing on behalf of an EMPLOYEE who must attend structured
+              full-time training (e.g. mandatory company training, secondment, overseas course).
+  REQUIRED: Employer letterhead, training programme named, training dates specified,
+            confirms training is full-time and attendance is mandatory.
   ELIGIBILITY WINDOW: ICT start date must overlap with the training period.
-  INVALID if: No letterhead, no training dates, on-the-job training only, or ICT outside period.
+  APPROVE if: Employer letter states employee must attend full-time structured training
+              during the ICT window and absence would have serious consequences.
+  INVALID if: No letterhead, no training dates, purely on-the-job informal training,
+              or ICT does not overlap with the stated training period.
 
 Rule 20 — Full-Time Religious Studies / Ministry:
   REQUIRED: Letter from a recognised religious institution confirming full-time role/studies.
@@ -447,6 +565,30 @@ Look for signs the document is fake or tampered:
 IMPORTANT: OCR garbling (jumbled letters, reversed text) is a SCAN issue, NOT fraud.
 NOTE: Applicant names are intentionally REDACTED — a missing name is NOT a fraud signal.
 
+=== CRITICAL DATE & CLASSIFICATION RULES (apply to ALL documents) ===
+1. IGNORE any ICT, NS, IPPT, BMT, ORD, or reservist reporting dates mentioned INSIDE the
+   SD itself. Use ONLY the ICT start/end dates provided in the TEMPORAL / DATE CHECK section.
+2. LETTER ISSUE DATE is NOT a deferment event date. Many official letters contain a date at
+   the top indicating when the letter was WRITTEN or ISSUED (e.g. "5 December 2024", "Dear Sir,"
+   followed by a date, letterhead date, or "Date: ..."). This date is ONLY the document's
+   creation date and must NEVER be used as the key event date (commencement date, exam date,
+   wedding date, illness date, etc.). Always look past the issue date to find the actual
+   event date described in the body of the letter.
+3. Rule 7 (New Employment): The KEY DATE is the employment COMMENCEMENT date — the date
+   the employee STARTED WORK. The letter issue/written date is NOT the commencement date.
+   Look for phrases like "commencement date", "start date", "employed since", "joining date".
+4. Rule 23 (Marriage): The KEY DATE is the actual SOLEMNISATION / WEDDING date — the date
+   the couple was legally married. An ONLINE APPLICATION submission date or booking
+   confirmation date is NOT the solemnisation date. Reject only if the actual wedding
+   date falls outside the eligibility window.
+5. Rule 22 (Bereavement/Illness): A date of birth (DOB) printed in a death certificate or
+   medical document is NOT a programme or event start date. Focus only on the DATE OF DEATH
+   or DATE OF DIAGNOSIS as the key event date.
+6. Rule 14 (Full-Time Studies): The NSman must be ENROLLED AS A STUDENT. If the NSman is
+   a TEACHER, LECTURER, TUTOR, INSTRUCTOR, or STAFF MEMBER at the institution, this does
+   NOT qualify under Rule 14. REJECT with reason: "Applicant is not enrolled as a student;
+   Rule 14 requires the NSman to be the enrolled student, not teaching/administrative staff."
+
 === TASK 2: SD CONTENT VALIDATION ==={categories_list}
 {SD_REQUIREMENTS}
 Step 1 — Identify which category this SD belongs to (use the categories list above).
@@ -499,14 +641,19 @@ Use APPROVE if the SD is genuine and contains all required elements for its cate
         raise RuntimeError("Rate limit exceeded after 4 retries")
 
     response_text = response.choices[0].message.content.strip()
-    verdict, reasons, notes = _parse_response(response_text)
+    verdict, reasons, notes, _llm_category = _parse_response(response_text)
 
     # --- Python-side temporal override -------------------------------------------
     # The LLM cannot reliably do date arithmetic. After parsing its verdict we run
     # a pure-Python date comparison against the pre-computed eligibility windows.
     # If Python finds a violation, we override the LLM verdict unconditionally.
+    # We pass the LLM-identified category so the check only fires for the matching rule.
     if _py_windows:
-        py_v, py_reasons, py_notes = _python_temporal_check(document_text, _py_windows, ict_start_dt=_ict_s_dt)
+        py_v, py_reasons, py_notes = _python_temporal_check(
+            document_text, _py_windows,
+            ict_start_dt=_ict_s_dt,
+            identified_category=_llm_category,
+        )
         if py_v == "REJECT":
             verdict = "REJECT"
             # Keep category note at the front, then Python failure notes, then LLM reasons
@@ -519,10 +666,32 @@ Use APPROVE if the SD is genuine and contains all required elements for its cate
             notes += py_notes
     # ------------------------------------------------------------------------------
 
+    # --- ACRA result notes (company verified at Level 1 before LLM) ---------------
+    # Append the ACRA registry result to notes for the reviewing officer.
+    # FRAUD was already caught above; here we only propagate PASS/WARN/SKIP notes.
+    notes += _acra_early["notes"]
+
+    # Rule 8 entity-type window supplement: re-use the early result's entity_type
+    # to determine whether the 9-month overseas SP window applies.
+    if _llm_category and "8" in _llm_category and _acra_early.get("entity_type"):
+        entity_type = _acra_early["entity_type"]
+        is_foreign = "Foreign" in entity_type
+        is_sp      = "Sole Proprietorship" in entity_type
+        if is_foreign and is_sp:
+            notes.append(
+                "[ACRA] Rule 8: entity is an overseas sole proprietorship — "
+                "applicable registration window is 9 months (not the default 6)."
+            )
+        else:
+            notes.append(
+                f"[ACRA] Rule 8: applicable registration window is 6 months ({entity_type})."
+            )
+    # ------------------------------------------------------------------------------
+
     return verdict, reasons, notes
 
 
-def _parse_response(response: str) -> tuple[str, list[str], list[str]]:
+def _parse_response(response: str) -> tuple[str, list[str], list[str], str]:
     """Parse the LLM's structured response into (verdict, reasons, notes)."""
     verdict = "WARNING"
     found_verdict = False
@@ -578,4 +747,4 @@ def _parse_response(response: str) -> tuple[str, list[str], list[str]]:
     if not found_verdict:
         notes.append(f"AI response could not be parsed: {response[:200]}")
 
-    return verdict, reasons, notes
+    return verdict, reasons, notes, category

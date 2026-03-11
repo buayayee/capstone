@@ -407,6 +407,91 @@ def save_results_to_csv(cases: list[CaseResult], output_path: str):
     print(f"\nResults saved to: {output_path}")
 
 
+def save_results_to_excel(cases: list[CaseResult], output_path: str):
+    """Save results to a formatted Excel workbook (.xlsx)."""
+    try:
+        import openpyxl
+        from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
+    except ImportError:
+        print("[WARNING] openpyxl not installed. Run: pip install openpyxl")
+        return
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Results"
+
+    GREEN  = PatternFill("solid", fgColor="C6EFCE")
+    RED    = PatternFill("solid", fgColor="FFC7CE")
+    YELLOW = PatternFill("solid", fgColor="FFEB9C")
+    GREY   = PatternFill("solid", fgColor="D9D9D9")
+    NAVY   = PatternFill("solid", fgColor="1F4E79")
+    thin   = Side(style="thin", color="BFBFBF")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+
+    headers = ["Case", "Overall Verdict", "Filename", "Doc Verdict", "Reject Reasons", "Notes"]
+    ws.append(headers)
+    for col in range(1, 7):
+        cell = ws.cell(row=1, column=col)
+        cell.fill = NAVY
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+        cell.border = border
+
+    row_idx = 2
+    for case in cases:
+        overall = case.overall_verdict
+        n_docs  = len(case.doc_results)
+        first   = row_idx
+        for doc in case.doc_results:
+            ws.cell(row=row_idx, column=1).value = case.case_name
+            ws.cell(row=row_idx, column=2).value = overall
+            ws.cell(row=row_idx, column=3).value = doc.filename
+            ws.cell(row=row_idx, column=4).value = doc.verdict
+            ws.cell(row=row_idx, column=5).value = "\n".join(doc.reasons)
+            ws.cell(row=row_idx, column=6).value = "\n".join(doc.warnings)
+            v_fill = GREEN if overall == "APPROVE" else (RED if overall == "REJECT" else YELLOW)
+            d_fill = GREEN if doc.verdict == "APPROVE" else (RED if doc.verdict == "REJECT" else YELLOW)
+            wrap   = Alignment(wrap_text=True, vertical="top")
+            for col in range(1, 7):
+                ws.cell(row=row_idx, column=col).border = border
+                ws.cell(row=row_idx, column=col).alignment = wrap
+            ws.cell(row=row_idx, column=2).fill = v_fill
+            ws.cell(row=row_idx, column=2).alignment = Alignment(horizontal="center", vertical="center")
+            ws.cell(row=row_idx, column=4).fill = d_fill
+            ws.cell(row=row_idx, column=4).alignment = Alignment(horizontal="center", vertical="center")
+            row_idx += 1
+        if n_docs > 1:
+            ws.merge_cells(start_row=first, start_column=1, end_row=row_idx-1, end_column=1)
+            ws.merge_cells(start_row=first, start_column=2, end_row=row_idx-1, end_column=2)
+            ws.cell(row=first, column=1).alignment = Alignment(horizontal="center", vertical="center")
+            ws.cell(row=first, column=2).alignment = Alignment(horizontal="center", vertical="center")
+
+    for col, width in zip("ABCDEF", [14, 16, 38, 14, 55, 55]):
+        ws.column_dimensions[col].width = width
+    ws.freeze_panes = "A2"
+
+    # Summary sheet
+    ws2 = wb.create_sheet("Summary")
+    approve = sum(1 for c in cases if c.overall_verdict == "APPROVE")
+    reject  = sum(1 for c in cases if c.overall_verdict == "REJECT")
+    warn    = sum(1 for c in cases if c.overall_verdict == "WARNING")
+    for r, (label, val, fill) in enumerate([
+        ("Metric", "Count", GREY), ("Total Cases", len(cases), GREY),
+        ("APPROVE", approve, GREEN), ("REJECT", reject, RED), ("WARNING", warn, YELLOW),
+    ], 1):
+        ws2.cell(r, 1, label); ws2.cell(r, 2, val)
+        for col in range(1, 3):
+            ws2.cell(r, col).fill   = fill
+            ws2.cell(r, col).border = border
+            ws2.cell(r, col).alignment = Alignment(horizontal="center")
+    ws2.cell(1,1).font = Font(bold=True); ws2.cell(1,2).font = Font(bold=True)
+    ws2.column_dimensions["A"].width = 18
+    ws2.column_dimensions["B"].width = 10
+
+    wb.save(output_path)
+    print(f"\nExcel results saved to: {output_path}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Check deferment supporting PDFs against the instructions directive."
