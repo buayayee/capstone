@@ -1,4 +1,4 @@
-"""
+﻿"""
 extract_text.py
 ---------------
 Extracts raw text from either a PDF or a Word (.docx) document.
@@ -114,10 +114,25 @@ def extract_from_image(filepath: str) -> str:
     """
     Run RapidOCR on an image file (JPG, PNG, BMP, TIFF, etc.).
     Uses the ONNX-based RapidOCR engine — no external tools required.
+    Large images (>25 MP) are downsampled to ~25 MP before OCR to avoid
+    PIL decompression-bomb limits while preserving OCR quality.
     """
     print(f"  [OCR Image] Running OCR on: {filepath}")
     ocr = _get_rapidocr()
-    img = np.array(Image.open(filepath).convert("RGB"))
+
+    # Disable PIL decompression-bomb guard (we trust our own submission files)
+    # and resize if the image is unreasonably large (>25 MP) to keep OCR fast.
+    Image.MAX_IMAGE_PIXELS = None
+    img_pil = Image.open(filepath).convert("RGB")
+    w, h = img_pil.size
+    _MAX_PIXELS = 25_000_000
+    if w * h > _MAX_PIXELS:
+        scale = (_MAX_PIXELS / (w * h)) ** 0.5
+        new_w, new_h = max(1, int(w * scale)), max(1, int(h * scale))
+        print(f"  [OCR Image] Resizing {w}x{h} -> {new_w}x{new_h} before OCR")
+        img_pil = img_pil.resize((new_w, new_h), Image.LANCZOS)
+
+    img = np.array(img_pil)
     result = ocr(img)
     text = "\n".join(result.txts) if result.txts else ""
     return clean_text(text)

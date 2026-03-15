@@ -67,3 +67,8 @@ uvicorn api.main:app --reload --port 8000
 
 API KEY 
 $env:OPENAI_API_KEY = "sk-..."
+
+
+$env:AWS_ACCESS_KEY_ID="AKIA..."
+$env:AWS_SECRET_ACCESS_KEY="your-secret-key-here"
+$env:AWS_DEFAULT_REGION="ap-southeast-1"

@@ -30,6 +30,7 @@ import json
 import requests
 import urllib3
 from typing import Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # difflib for company name fuzzy matching
 from difflib import SequenceMatcher
@@ -40,8 +41,14 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # ---------------------------------------------------------------------------
 # Dataset configuration
 # ---------------------------------------------------------------------------
-_DATASET_ID = "d_3f960c10fed6145404ca7b821f263b87"
-_ACRA_URL   = f"https://data.gov.sg/api/action/datastore_search?resource_id={_DATASET_ID}"
+# "Entities Registered with ACRA" — private companies, LLPs, sole proprietorships, etc.
+_DATASET_ID  = "d_3f960c10fed6145404ca7b821f263b87"
+_ACRA_URL    = f"https://data.gov.sg/api/action/datastore_search?resource_id={_DATASET_ID}"
+
+# "Entities Registered with Other" — statutory boards, societies, trade unions,
+# government bodies (e.g. CAAS, MAS, HDB, CPF Board, Registry of Societies, etc.)
+_OTHER_DATASET_ID = "d_b1d2b840ab9e993570c037b706b39bb8"
+_OTHER_ACRA_URL   = f"https://data.gov.sg/api/action/datastore_search?resource_id={_OTHER_DATASET_ID}"
 
 # Rules that involve a company / employer — ACRA check is triggered for these only
 ACRA_APPLICABLE_RULES = {"Rule 7", "Rule 8", "Rule 9", "Rule 11", "Rule 12", "Rule 19"}
@@ -62,7 +69,10 @@ _GOVT_TOKENS: frozenset[str] = frozenset([
     # Full-form ministry / govt body names (NOT short acronyms like MOH/MOE/MOM
     # which can appear in genuine ACRA-registered company names, e.g. "MOH Holdings Pte Ltd")
     "MINISTRY OF HEALTH", "MINISTRY OF EDUCATION", "MINISTRY OF MANPOWER",
-    "MINISTRY OF DEFENCE", "MINISTRY OF HOME AFFAIRS",
+    "MINISTRY OF DEFENCE", "MINISTRY OF HOME AFFAIRS", "MINISTRY OF FOREIGN AFFAIRS",
+    "MINISTRY OF LAW", "MINISTRY OF FINANCE", "MINISTRY OF CULTURE",
+    "MINISTRY OF SUSTAINABILITY", "MINISTRY OF SOCIAL", "MINISTRY OF DIGITAL",
+    "MINISTRY OF TRANSPORT", "MINISTRY OF NATIONAL DEVELOPMENT",
     "MINDEF", "REPUBLIC OF SINGAPORE", "NATIONAL SERVICE",
     "GOVERNMENT OF SINGAPORE",
     # Note: "HOSPITAL" removed — many hospitals ARE ACRA-registered private companies
@@ -152,11 +162,11 @@ def _headers() -> dict:
     return {"x-api-key": key} if key else {}
 
 
-def _query(params: dict) -> list[dict]:
-    """Call the ACRA datastore_search endpoint and return records list."""
+def _query(params: dict, url: str | None = None) -> list[dict]:
+    """Call a ACRA datastore_search endpoint and return records list."""
     try:
         resp = requests.get(
-            _ACRA_URL, params=params,
+            url or _ACRA_URL, params=params,
             headers=_headers(), timeout=10, verify=False,
         )
         resp.raise_for_status()
@@ -256,9 +266,10 @@ def extract_postal_code(text: str) -> Optional[str]:
 _NAME_MATCH_THRESHOLD = 0.70
 
 
-def _search_by_name(name: str, postal_code: Optional[str] = None) -> Optional[dict]:
+def _search_by_name(name: str, postal_code: Optional[str] = None,
+                    url: str | None = None) -> Optional[dict]:
     """
-    Query ACRA by company name using full-text search (`q=`).
+    Query an ACRA datastore_search endpoint by company name using full-text search (`q=`).
     Strategy:
       1. Search with full normalized core name (e.g. 'TECH DATA DISTRIBUTION').
       2. Pick the best candidate by name score above _NAME_MATCH_THRESHOLD.
@@ -270,14 +281,58 @@ def _search_by_name(name: str, postal_code: Optional[str] = None) -> Optional[di
             best name score — handles foreign company branches whose registered
             address in ACRA may differ from their letterhead address.
     """
-    core = _normalize_name(name)
-    rows = _query({"q": core, "limit": 20})
+    _url = url or _ACRA_URL
+    core      = _normalize_name(name)    # suffix-stripped — e.g. "CIVIL AVIATION AUTHORITY OF"
+    full_name = _light_normalize(name)   # full name preserved — e.g. "CIVIL AVIATION AUTHORITY OF SINGAPORE"
+
+    # Pass -1 (exact): try entity_name exact filter using the uppercased full name.
+    # This is the most reliable path for statutory boards, ministries and govt bodies
+    # whose names don't respond well to CKAN full-text ranking.
+    exact_rows = _query({"filters": json.dumps({"entity_name": full_name}), "limit": 1}, url=_url)
+    if exact_rows:
+        candidate = exact_rows[0]
+        # Require the candidate's name to START WITH the query to avoid false
+        # positives like "Singapore Polytechnic Cru" matching "Singapore Polytechnic"
+        _cand_upper = candidate.get("entity_name", "").upper()
+        if _cand_upper == full_name or _cand_upper.startswith(full_name + " "):
+            if _name_score(name, candidate.get("entity_name", "")) >= _NAME_MATCH_THRESHOLD:
+                return candidate
+
+    # Pass 0: search using the full (non-stripped) name first.
+    # This is critical for statutory boards / govt bodies whose canonical name includes
+    # "Singapore", "Authority", "Council" etc. (which _normalize_name would strip).
+    rows_full = _query({"q": full_name, "limit": 20}, url=_url) if full_name != core else []
+    for row in rows_full:
+        if _name_score(name, row.get("entity_name", "")) >= _NAME_MATCH_THRESHOLD:
+            return row
+
+    # Pass 0b: try with just the first 2 significant words of the original name.
+    # The CKAN full-text search ranks short distinctive queries better than long ones —
+    # e.g. "civil aviation" reliably surfaces CAAS whereas "civil aviation authority" does not.
+    _STOP = frozenset(["OF", "THE", "AND", "FOR", "IN", "ON", "BY", "TO", "OR", "A", "AN",
+                       "AT", "WITH", "FROM"])
+    sig_words = [w for w in full_name.split() if w not in _STOP]
+    if len(sig_words) >= 2:
+        short_query = " ".join(sig_words[:2])
+        if short_query not in {core, full_name}:
+            rows_short = _query({"q": short_query, "limit": 20}, url=_url)
+            for row in rows_short:
+                if _name_score(name, row.get("entity_name", "")) >= _NAME_MATCH_THRESHOLD:
+                    return row
+
+    rows = _query({"q": core, "limit": 20}, url=_url)
 
     # Pass 1: score-based match on full core name
     best_record: Optional[dict] = None
     best_score  = 0.0
     for row in rows:
         score = _name_score(name, row.get("entity_name", ""))
+        # Guard: reject if candidate is clearly a sub-entity of the query name
+        # (e.g. "Singapore Polytechnic Cru" should not match "Singapore Polytechnic")
+        _cand = row.get("entity_name", "").upper()
+        _qry  = full_name
+        if len(_cand) > len(_qry) + 4 and _cand.startswith(_qry):
+            continue
         if score > best_score:
             best_score  = score
             best_record = row
@@ -289,13 +344,13 @@ def _search_by_name(name: str, postal_code: Optional[str] = None) -> Optional[di
         core_words = core.split()
         if len(core_words) >= 2:
             short_query = " ".join(core_words[:2])
-            broad_rows = _query({"q": short_query, "limit": 50})
+            broad_rows = _query({"q": short_query, "limit": 50}, url=_url)
             for row in broad_rows:
                 if row.get("reg_postal_code", "").strip() == postal_code.strip():
                     return row   # postal code is definitive
 
         # Pass 2b: direct postal code filter — returns all entities at this address
-        postal_rows = _query({"filters": json.dumps({"reg_postal_code": postal_code}), "limit": 10})
+        postal_rows = _query({"filters": json.dumps({"reg_postal_code": postal_code}), "limit": 10}, url=_url)
         if postal_rows:
             # Only accept if name similarity is reasonable — same address confirms same entity,
             # but we need at least partial name overlap to avoid false matches in shared buildings
@@ -309,7 +364,8 @@ def _search_by_name(name: str, postal_code: Optional[str] = None) -> Optional[di
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
-def check_acra(document_text: str, rule_category: str | None = None) -> dict:
+def check_acra(document_text: str, rule_category: str | None = None,
+               llm_company_hint: str | None = None) -> dict:
     """
     Extract UEN / company name from OCR text, query ACRA, and return:
 
@@ -337,6 +393,16 @@ def check_acra(document_text: str, rule_category: str | None = None) -> dict:
     name   = extract_company_name(document_text)
     postal = extract_postal_code(document_text)
 
+    # --- LLM-hint fallback: if regex extraction found nothing, use the LLM-identified name ---
+    _using_hint = False
+    if not uen and not name and llm_company_hint:
+        # Strip trailing parenthetical acronyms/short-forms e.g. "(CAAS)", "(ROM)", "(S)"
+        # before querying ACRA — the registry stores full names only
+        name = re.sub(r'\s*\([^)]{1,10}\)\s*$', '', llm_company_hint).strip()
+        # Also strip trailing country qualifiers like ", SINGAPORE" or "(SINGAPORE)"
+        name = re.sub(r',?\s*SINGAPORE\s*$', '', name, flags=re.IGNORECASE).strip()
+        _using_hint = True
+
     if not uen and not name:
         result["notes"].append(
             "[ACRA] No UEN or company name detected in document — ACRA check skipped."
@@ -346,19 +412,43 @@ def check_acra(document_text: str, rule_category: str | None = None) -> dict:
     result["uen"] = uen
 
     # --- Try lookup by UEN (exact match, most reliable) ---
+    # Search both the main ACRA dataset and the "Entities Registered with Other" dataset
+    # (which covers statutory boards, societies, trade unions, government bodies, etc.)
     record: Optional[dict] = None
-    matched_by = None
+    matched_by   = None
+    _other_record = False   # True when match came from the "Other" dataset
+
+    # UEN and name lookups query both datasets in parallel to halve HTTP round-trip time.
+    _params_uen = {"filters": json.dumps({"uen": uen}), "limit": 1} if uen else None
+
     if uen:
-        rows = _query({"filters": json.dumps({"uen": uen}), "limit": 1})
+        with ThreadPoolExecutor(max_workers=2) as _pool:
+            _f_main  = _pool.submit(_query, _params_uen)
+            _f_other = _pool.submit(_query, _params_uen, _OTHER_ACRA_URL)
+            rows, other_rows = _f_main.result(), _f_other.result()
         if rows:
-            record = rows[0]
+            record    = rows[0]
             matched_by = "UEN"
+        elif other_rows:
+            record        = other_rows[0]
+            matched_by    = "UEN"
+            _other_record = True
 
     # --- Fallback: name-based fuzzy search (with postal code tiebreaker) ---
+    # Run both dataset searches in parallel.
     if record is None and name:
-        record = _search_by_name(name, postal_code=postal)
-        if record:
+        with ThreadPoolExecutor(max_workers=2) as _pool:
+            _f_main  = _pool.submit(_search_by_name, name, postal)
+            _f_other = _pool.submit(_search_by_name, name, postal, _OTHER_ACRA_URL)
+            _r_main, _r_other = _f_main.result(), _f_other.result()
+        # Prefer main ACRA over Other Registry (private companies checked first)
+        if _r_main:
+            record     = _r_main
             matched_by = "name" if _name_score(name, record.get("entity_name", "")) >= _NAME_MATCH_THRESHOLD else "postal code"
+        elif _r_other:
+            record        = _r_other
+            matched_by    = "name" if _name_score(name, record.get("entity_name", "")) >= _NAME_MATCH_THRESHOLD else "postal code"
+            _other_record = True
 
     # --- No match in ACRA database ---
     if record is None:
@@ -373,17 +463,17 @@ def check_acra(document_text: str, rule_category: str | None = None) -> dict:
         elif name:
             result["verdict"] = "WARN"
             postal_hint = f" (Postal: {postal})" if postal else ""
+            hint_label = " [AI-identified]" if _using_hint else ""
             result["notes"].append(
-                f"[ACRA] Company '{name}'{postal_hint} not found in ACRA database. "
-                "May be a trading name, former name, or foreign branch — manual verification required. "
-                "Check data.gov.sg/datasets/d_b1d2b840ab9e993570c037b706b39bb8/view for foreign entities."
+                f"[ACRA] Company '{name}'{hint_label}{postal_hint} not found in ACRA or Other Registry (statutory boards / govt bodies). "
+                "May be a foreign entity, trading name, or former name — manual verification required."
             )
         else:
             result["notes"].append(
                 "[ACRA] No UEN or company name detected in document — ACRA check skipped."
             )
         # For Rule 8 entities not in ACRA, flag for manual window determination
-        if rule_category and "8" in rule_category:
+        if rule_category and re.search(r'\bRule\s*8\b', rule_category, re.IGNORECASE):
             result["notes"].append(
                 "[ACRA] Rule 8: entity not confirmed in ACRA — possibly overseas. "
                 "Window is 6 months (local/partnership) or 9 months (overseas sole proprietorship). "
@@ -399,28 +489,31 @@ def check_acra(document_text: str, rule_category: str | None = None) -> dict:
     result["uen_status"]  = status
     result["entity_type"] = entity_type
 
+    _ai_tag = " [AI-identified]" if _using_hint else ""
+    _db_tag = " [Other Registry]" if _other_record else ""
     match_label = (
         f"UEN {result['uen']}" if matched_by == "UEN"
-        else f"postal code {postal} match (SD name: '{name}')" if matched_by == "postal code"
-        else f"name match ('{name}')"
+        else f"postal code {postal} match (SD name: '{name}'{_ai_tag})" if matched_by == "postal code"
+        else f"name match ('{name}'{_ai_tag})"
     )
 
     if "Deregistered" in status:
         result["verdict"] = "FRAUD"
         result["notes"].append(
-            f"[ACRA] DEREGISTERED: '{result['entity_name']}' ({match_label}) "
+            f"[ACRA{_db_tag}] DEREGISTERED: '{result['entity_name']}' ({match_label}) "
             f"is no longer a registered entity ({entity_type}). "
             "The SD issuer cannot be verified — flag as potentially fraudulent."
         )
     else:
         result["verdict"] = "PASS"
+        _registry_label = "Other Registry (Statutory/Govt Body)" if _other_record else "ACRA"
         result["notes"].append(
-            f"[ACRA] Verified: '{result['entity_name']}' ({match_label}) "
+            f"[{_registry_label}] Verified: '{result['entity_name']}' ({match_label}) "
             f"— Status: {status} | Type: {entity_type}."
         )
 
     # --- Rule 8: determine applicable registration window ---
-    if rule_category and "8" in rule_category:
+    if rule_category and re.search(r'\bRule\s*8\b', rule_category, re.IGNORECASE):
         is_foreign = "Foreign" in entity_type
         is_sp      = "Sole Proprietorship" in entity_type
 

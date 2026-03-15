@@ -1,13 +1,16 @@
 """
 ai_checker.py
 -------------
-Uses the Groq API to:
+Uses Amazon Bedrock (Claude 3 Haiku) to:
   1. Detect whether a supporting document is fraudulent or tampered.
   2. Check whether it satisfies the NS deferment directive.
 
 Requires:
-  - pip install groq
-  - Environment variable GROQ_API_KEY (https://console.groq.com/)
+  - pip install boto3
+  - AWS credentials via ~/.aws/credentials  (run: aws configure)
+  - Model access MUST be enabled in AWS Console:
+      https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess
+      → Modify model access → check "Claude 3 Haiku" → Submit
 
 Usage (from check.py with --ai flag):
   check.py --instructions directives/... --folder submissions/ --ai
@@ -15,13 +18,28 @@ Usage (from check.py with --ai flag):
 
 import os
 import re
+import json
 import time
 from datetime import datetime
-from groq import Groq, RateLimitError
+import boto3
+from botocore.config import Config as BotocoreConfig
+from botocore.exceptions import ClientError
 from dateutil.relativedelta import relativedelta
 from acra_checker import check_acra
 
-MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
+# Amazon Bedrock — Claude 3 Haiku via cross-region inference
+# Uses the "us.*" inference profile so calls are routed across US regions,
+# matching the quota: "Cross-region model inference tokens per minute for
+# Anthropic Claude 3 Haiku".
+MODEL = "us.anthropic.claude-3-haiku-20240307-v1:0"
+_BEDROCK_REGION = os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
+
+# ---------------------------------------------------------------------------
+# Bedrock has no per-minute token cap on paid accounts, so no pacing needed.
+# We keep a tiny gap (2s) purely to avoid thundering-herd in batch mode.
+# ---------------------------------------------------------------------------
+_LLM_MIN_GAP   = 2.0
+_last_llm_call = time.monotonic() - _LLM_MIN_GAP
 
 # ---------------------------------------------------------------------------
 # Python-side temporal check — bypasses LLM date arithmetic entirely
@@ -60,7 +78,14 @@ _RULE_DATE_KEYWORDS: dict[str, list[str]] = {
     "Rule 19": ["sponsored training", "employer-sponsored", "training period",
                "staff training", "on behalf of our employee", "secondment",
                "training programme", "mandatory training"],
-    "Rule 26": ["competition", "tournament", "games", "national representation"],
+    # Rule 12: Overseas employment / civil service posting
+    "Rule 12": ["posted overseas", "overseas posting", "posting to", "assigned to",
+               "embassy", "high commission", "consulate", "foreign mission",
+               "overseas employment", "overseas work", "overseas contract"],
+    # Rule 11: School bus driver
+    "Rule 11": ["school bus", "bus driver", "sole driver"],
+    "Rule 26": ["competition", "tournament", "games", "national representation",
+               "selected to represent", "sports association"],
 }
 
 _MONTHS_LONG  = (r'January|February|March|April|May|June|July|August|'
@@ -223,21 +248,33 @@ def _python_temporal_check(
         "[Python temporal check] No rule-relevant dates matched — LLM verdict kept."
     ]
 
-_client: Groq | None = None
+_client: boto3.client = None
+
+# Disable botocore's own ThrottlingException retry so only our explicit loop
+# fires — prevents 4× quota drain per invocation attempt.
+_BOTO_CFG = BotocoreConfig(retries={"max_attempts": 1, "mode": "standard"})
 
 
-def _get_client() -> Groq:
+def _get_client():
     global _client
     if _client is None:
-        api_key = os.environ.get("GROQ_API_KEY", "")
-        if not api_key:
-            raise EnvironmentError(
-                "GROQ_API_KEY environment variable is not set.\n"
-                "Get a free key at https://console.groq.com/ and run:\n"
-                "  $env:GROQ_API_KEY = 'your-key-here'   (PowerShell)\n"
-                "  export GROQ_API_KEY='your-key-here'   (bash/zsh)"
+        key_id = os.environ.get("AWS_ACCESS_KEY_ID", "")
+        secret  = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+        region  = os.environ.get("AWS_DEFAULT_REGION") or os.environ.get("AWS_REGION")
+        # If env vars are set, use them explicitly; otherwise let boto3 use
+        # ~/.aws/credentials + ~/.aws/config (set via aws configure) automatically.
+        if key_id and secret:
+            _client = boto3.client(
+                "bedrock-runtime",
+                region_name=region or _BEDROCK_REGION,
+                aws_access_key_id=key_id,
+                aws_secret_access_key=secret,
+                config=_BOTO_CFG,
             )
-        _client = Groq(api_key=api_key)
+        else:
+            # Fall back to boto3 default credential chain + config region
+            # region_name=None lets boto3 read region from ~/.aws/config
+            _client = boto3.client("bedrock-runtime", region_name=region, config=_BOTO_CFG)
     return _client
 
 
@@ -381,6 +418,8 @@ def check_with_groq(
             "  Rule 7  (New Employment)      — assume ICT is within 3 months of commencement\n"
             "  Rule 8  (New Business)        — assume ICT is within 6 months of registration\n"
             "  Rule 9  (Retrenchment)        — assume ICT is within 6 months of last employment\n"
+            "  Rule 11 (School Bus Driver)   — assume ICT falls within the bus contract period\n"
+            "  Rule 12 (Overseas Employment) — assume ICT falls within the overseas posting period\n"
             "  Rule 14 (Studies)             — assume ICT falls within the academic period\n"
             "  Rule 17 (Examinations)        — assume ICT overlaps with exam dates\n"
             "  Rule 18 (Professional Course) — assume ICT overlaps with training period\n"
@@ -434,6 +473,32 @@ Rule 9 — Retrenchment / Job Seeker:
     * Specific retrenchment clause reference
     * HR department letterhead (any employer document suffices)
   A redundancy/retrenchment notice that states the last day of employment is SUFFICIENT.
+
+Rule 11 — School Bus Driver:
+  REQUIRED: Employer letterhead confirming role as school bus driver, school bus contract
+            period stated, and that the individual is the sole/only driver on that route.
+  INVALID if: No letterhead, no contract period, or another driver can cover the route.
+
+Rule 12 — Overseas Employment:
+  REQUIRED: Official letter from employer or government agency confirming that the person
+            is CURRENTLY EMPLOYED / POSTED OVERSEAS (including civil service overseas postings,
+            embassy/high commission assignments, or private sector overseas work contracts).
+            Overseas location and period must be stated.
+  APPLIES TO: Singapore civil servants posted abroad (MFA embassy staff, SAF/Home Team overseas
+              attachments), private sector employees working overseas.
+  ELIGIBILITY WINDOW: ICT start date must fall within the overseas posting/contract period.
+  APPROVE if: Official letter states the person is posted/employed overseas during the ICT window.
+  INVALID if: No official letter, no overseas location, or posting period does not cover ICT dates.
+
+--- CRITICAL DISAMBIGUATION: Rule 12 vs Rule 26 ---
+  * Rule 12 = The person is WORKING or LIVING OVERSEAS (employment, civil service posting,
+    embassy assignment). Document is from an EMPLOYER or GOVERNMENT AGENCY confirming posting.
+    Key phrases: "posting to", "assigned to", "is employed at", "contract period", embassy, mission.
+  * Rule 26 = The person is REPRESENTING SINGAPORE in a SPORTS COMPETITION or GAMES event.
+    Document is from a SPORTS BODY or NATIONAL SPORTS ASSOCIATION. Key phrases: "selected to
+    represent", "Games", "championship", "tournament", "competition".
+  DO NOT confuse an overseas work/civil service posting (Rule 12) with national representation
+  in a sporting event (Rule 26). Ministry of Foreign Affairs letters = Rule 12 always.
 
 --- CRITICAL DISAMBIGUATION: Rule 14 vs Rule 18 vs Rule 19 ---
 The single most important signal is WHO WROTE THE LETTER:
@@ -610,6 +675,7 @@ Respond in EXACTLY this format (no extra text before or after):
 
 FRAUD_ASSESSMENT: GENUINE or SUSPICIOUS
 FRAUD_REASONS: <specific fraud signals, or "None">
+ISSUER: <full name of the company, institution, or government authority that issued this document — exactly as it appears on the letterhead>
 CATEGORY: <which deferment rule/category this SD belongs to>
 VERDICT: APPROVE or REJECT or FRAUD
 REASONS: <missing required SD elements if REJECT, fraud details if FRAUD, else "None">
@@ -620,28 +686,64 @@ Use REJECT if the SD is genuine but is missing one or more required elements for
 Use APPROVE if the SD is genuine and contains all required elements for its category.
 """
 
-    # Proactive pacing: Groq free tier is ~30K TPM; each call uses ~5K tokens,
-    # so wait 12s between calls to stay safely under the per-minute limit.
-    time.sleep(12)
+    # Adaptive pacing: only sleep whatever gap remains since the last LLM call.
+    # Single-case runs spend 15-25s on OCR + ACRA before reaching here, so the
+    # sleep is typically 0. Batch runs still get the full 12s inter-call gap.
+    global _last_llm_call
+    _gap = _LLM_MIN_GAP - (time.monotonic() - _last_llm_call)
+    if _gap > 0.05:
+        print(f"  [Rate-limit pacing] sleeping {_gap:.1f}s ...")
+        time.sleep(_gap)
 
     for attempt in range(4):
         try:
-            response = client.chat.completions.create(
-                model=MODEL,
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=1000,
-                temperature=0.0,
+            body = json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 1000,
+                "temperature": 0.0,
+                "messages": [{"role": "user", "content": prompt}],
+            })
+            response = client.invoke_model(
+                modelId=MODEL,
+                body=body,
+                contentType="application/json",
+                accept="application/json",
             )
             break
-        except RateLimitError:
-            wait = 20 * (attempt + 1)  # 20s, 40s, 60s, 80s
-            print(f"  [Rate limit] waiting {wait}s before retry {attempt + 1}/4...")
-            time.sleep(wait)
+        except ClientError as e:
+            code = e.response["Error"]["Code"]
+            if code == "ThrottlingException":
+                wait = 20 * (attempt + 1)
+                print(f"  [Bedrock throttle] waiting {wait}s before retry {attempt + 1}/4...")
+                time.sleep(wait)
+            else:
+                raise
     else:
-        raise RuntimeError("Rate limit exceeded after 4 retries")
+        raise RuntimeError("Bedrock ThrottlingException after 4 retries")
 
-    response_text = response.choices[0].message.content.strip()
-    verdict, reasons, notes, _llm_category = _parse_response(response_text)
+    _last_llm_call = time.monotonic()
+    resp_body = json.loads(response["body"].read())
+    response_text = resp_body["content"][0]["text"].strip()
+    verdict, reasons, notes, _llm_category, _llm_issuer = _parse_response(response_text)
+
+    # --- Level 2 ACRA check: use LLM-extracted issuer if regex missed it -----------
+    # If the initial regex-based extraction found nothing (SKIP), the LLM may have
+    # identified the issuing company name. Run a second ACRA pass with that hint.
+    if _acra_early["verdict"] == "SKIP" and _llm_issuer:
+        _acra_late = check_acra(document_text, rule_category=None, llm_company_hint=_llm_issuer)
+        # Always promote Level 2 result if it produced useful notes (even if still SKIP —
+        # e.g. a ministry-skip note is more informative than "no name detected")
+        if _acra_late["notes"]:
+            _acra_early = _acra_late
+        # FRAUD escalation: override verdict immediately
+        if _acra_late["verdict"] == "FRAUD":
+            fraud_note = _acra_late["notes"][0]
+            return (
+                "REJECT",
+                [fraud_note],
+                ["[ACRA] Document rejected at registry check (LLM-identified issuer)."] + _acra_late["notes"],
+            )
+    # -------------------------------------------------------------------------------
 
     # --- Python-side temporal override -------------------------------------------
     # The LLM cannot reliably do date arithmetic. After parsing its verdict we run
@@ -673,7 +775,7 @@ Use APPROVE if the SD is genuine and contains all required elements for its cate
 
     # Rule 8 entity-type window supplement: re-use the early result's entity_type
     # to determine whether the 9-month overseas SP window applies.
-    if _llm_category and "8" in _llm_category and _acra_early.get("entity_type"):
+    if _llm_category and re.search(r'\bRule\s*8\b', _llm_category, re.IGNORECASE) and _acra_early.get("entity_type"):
         entity_type = _acra_early["entity_type"]
         is_foreign = "Foreign" in entity_type
         is_sp      = "Sole Proprietorship" in entity_type
@@ -700,6 +802,7 @@ def _parse_response(response: str) -> tuple[str, list[str], list[str], str]:
     fraud_reasons: list[str] = []
     fraud_assessment = ""
     category = ""
+    issuer = ""
 
     for line in response.splitlines():
         line = line.strip()
@@ -709,6 +812,8 @@ def _parse_response(response: str) -> tuple[str, list[str], list[str], str]:
             raw = line.split(":", 1)[1].strip()
             if raw and raw.lower() != "none":
                 fraud_reasons = [r.strip() for r in raw.split(",") if r.strip()]
+        elif line.startswith("ISSUER:"):
+            issuer = line.split(":", 1)[1].strip()
         elif line.startswith("CATEGORY:"):
             category = line.split(":", 1)[1].strip()
         elif line.startswith("VERDICT:"):
@@ -747,4 +852,4 @@ def _parse_response(response: str) -> tuple[str, list[str], list[str], str]:
     if not found_verdict:
         notes.append(f"AI response could not be parsed: {response[:200]}")
 
-    return verdict, reasons, notes, category
+    return verdict, reasons, notes, category, issuer

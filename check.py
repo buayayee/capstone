@@ -243,7 +243,7 @@ def check_document_with_ai(pdf_path: str, rules: InstructionRules,
         sys.exit(1)
     except Exception as e:
         return CheckResult(filename=filename, verdict="WARNING",
-                           reasons=[f"Groq API error: {e}"],
+                           reasons=[f"AI API error: {e}"],
                            extracted_text_preview=preview)
 
     return CheckResult(filename=filename, verdict=verdict,
@@ -313,7 +313,7 @@ def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool,
 
     # ── Evaluate the combined text ────────────────────────────────────────────
     if use_ai:
-        from ai_checker import check_with_groq
+        from ai_checker import check_with_groq  # noqa: F401 — Bedrock-backed
         preview = combined_text[:300].replace("\n", " ")
         try:
             verdict, reasons, notes = check_with_groq(
@@ -328,7 +328,7 @@ def check_case(case_dir: Path, rules: InstructionRules, use_ai: bool,
             print(f"\n[AI ERROR] {e}")
             sys.exit(1)
         except Exception as e:
-            verdict, reasons, notes = "WARNING", [f"Groq API error: {e}"], []
+            verdict, reasons, notes = "WARNING", [f"AI API error: {e}"], []
         case_result = CheckResult(
             filename=case_dir.name,
             verdict=verdict,
@@ -538,7 +538,7 @@ def main():
 
     # ── Mode header ──────────────────────────────────────────────────────────
     if args.ai:
-        print("[Mode] AI-powered checks via Groq (llama-3.3-70b-versatile)")
+        print("[Mode] AI-powered checks via Amazon Bedrock (Claude 3 Haiku)")
     else:
         print("[Mode] Rule-based checks (use --ai to enable Groq AI)")
 
