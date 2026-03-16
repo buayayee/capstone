@@ -20,6 +20,7 @@ Usage:
 
 import argparse
 import csv
+import os
 import re
 import sys
 from dataclasses import dataclass, field
@@ -517,7 +518,7 @@ def main():
     parser.add_argument(
         "--ai",
         action="store_true",
-        help="Use Groq LLM to judge documents (requires GROQ_API_KEY env variable)"
+        help="Use AI judgment (prefers GROQ_API_KEY; otherwise falls back to AWS Bedrock credentials)"
     )
     parser.add_argument(
         "--ict-start",
@@ -538,9 +539,12 @@ def main():
 
     # ── Mode header ──────────────────────────────────────────────────────────
     if args.ai:
-        print("[Mode] AI-powered checks via Amazon Bedrock (Claude 3 Haiku)")
+        if os.environ.get("GROQ_API_KEY"):
+            print("[Mode] AI-powered checks via Groq")
+        else:
+            print("[Mode] AI-powered checks via Amazon Bedrock (Claude 3 Haiku)")
     else:
-        print("[Mode] Rule-based checks (use --ai to enable Groq AI)")
+        print("[Mode] Rule-based checks (use --ai to enable AI)")
 
     # ── Single document ───────────────────────────────────────────────────────
     if args.document:

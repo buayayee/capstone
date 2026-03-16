@@ -1,74 +1,99 @@
-# Windows
-cd "C:\Users\bruce.yee\...\capstone-project"
-python setup.py
-venv\Scripts\activate
+# Capstone — Deferment Fraud Checker (Docker-first)
 
-# macOS
-cd /path/to/capstone-project
-python3 setup.py
-source venv/bin/activate
+This project can run fully in Docker (no local Python/venv required).
 
-After running setup.py
-# Windows — note the quotes around the filename with spaces
-python check.py --instructions "directives/Instructions (Directive).docx" --folder submissions/
+## Prerequisites
 
-# macOS
-python check.py --instructions 'directives/Instructions (Directive).docx' --folder submissions/
+- Docker Desktop running
+- Files present in:
+  - `directives/` (instruction `.docx` / `.pdf`)
+  - `submissions/` (supporting docs to check)
 
-new: 
+## 1) Build the image
+
+```bash
 docker compose build
+```
+
+## 2) Run checker on all submissions
+
+Writes results to `output/results.csv`.
+
+```bash
 docker compose run --rm checker
+```
+
+## 3) Run checker on one document
+
+```bash
 docker compose run --rm checker python check.py \
   --instructions "directives/Instructions (Directive).docx" \
   --document submissions/my_doc.pdf
+```
 
-# Backend-only supporting document extraction (no frontend)
-# Reads supporting docs from a folder and writes text + markdown + layout JSON
-python preprocessing/extract_supporting_docs.py \
-  --input-folder submissions \
-  --output-folder output/supporting_docs \
-  --recursive
+## 4) Start API service
 
-# ── DistilBERT Training (no API key needed) ──────────────────────────────────
-# Step 1+2+3: Seed genuine docs from submissions/, extract text, generate synthetic fraudulent samples
-python prepare_training_data.py
-# Optional flags:
-#   --multiplier 5        how many synthetic fraudulent docs per genuine doc (default: 5)
-#   --skip-seed           skip copying from submissions/ if data/genuine/ is already populated
+```bash
+docker compose up api
+```
 
-# Step 4: Fine-tune DistilBERT (reads data/labeled/dataset_augmented.csv)
-python training/train.py
-# Model saved to: models/distilbert-fraud-classifier/
+- API: `http://localhost:8000`
+- Docs: `http://localhost:8000/docs`
+- Health: `http://localhost:8000/health`
 
-# Step 5: Start the inference API
-uvicorn api.main:app --reload --port 8000
+Detached mode:
 
-  # Local Development 
-  pip install pdfplumber python-docx pdf2image pytesseract Pillow
-  cd "C:\Users\bruce.yee\OneDrive - Accenture\Documents\GitHub\capstone-project"
-python check.py --instructions "directives/Main_MP-D 401-01-2005A Deferment Disruption and Exemption Policy for NSmen_050620.pdf" --folder submissions/ --output output/results.csv
+```bash
+docker compose up -d api
+```
 
+## One-time API key setup
 
-C:\cap_venv\Scripts\activate
+Put your keys in the project-root `.env` file once. Docker Compose auto-loads it, so you do not need to `export` them every time.
 
-# 1. Install deps (if not already)
-pip install -r requirements.txt
+Starter files included:
 
-# 2. Prepare training data (seeds genuine docs, extracts text, generates synthetic fraud samples)
-python prepare_training_data.py
+- `.env` for your local machine
+- `.env.example` as a shareable template
 
-prepare_training_data.py --skip-seed
+Edit `.env` and fill in the values:
 
-# 3. Fine-tune DistilBERT (CPU takes ~10-20 min for 14 docs × 5 multiplier = ~84 samples)
-python training/train.py
+```bash
+nano .env
+```
 
-# 4. Start the API (model will now load from models/distilbert-fraud-classifier/)
-uvicorn api.main:app --reload --port 8000
+Expected keys:
 
-API KEY 
-$env:OPENAI_API_KEY = "sk-..."
+```bash
+GROQ_API_KEY="your-key"
+GROQ_MODEL="meta-llama/llama-4-scout-17b-16e-instruct"
+AWS_ACCESS_KEY_ID="..."
+AWS_SECRET_ACCESS_KEY="..."
+AWS_DEFAULT_REGION="us-east-1"
+DATAGOV_API_KEY="..."
+```
 
+Then just run Docker normally.
 
-$env:AWS_ACCESS_KEY_ID="AKIA..."
-$env:AWS_SECRET_ACCESS_KEY="your-secret-key-here"
-$env:AWS_DEFAULT_REGION="ap-southeast-1"
+## Verify OCR dependency inside Docker
+
+`onnxruntime` is required for the OCR backend. Quick check:
+
+```bash
+docker compose run --rm checker python -c "import onnxruntime; print(onnxruntime.__version__)"
+```
+
+## Troubleshooting
+
+- If you changed `requirements.txt`, rebuild:
+
+```bash
+docker compose build --no-cache
+```
+
+- If output looks stale, remove and rerun checker:
+
+```bash
+rm -f output/results.csv
+docker compose run --rm checker
+```

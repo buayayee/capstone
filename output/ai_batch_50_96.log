@@ -1,0 +1,2180 @@
+===== CASE 50 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case50 (flat mode)
+  [OCR Image] Running OCR on: submissions/case50/New Employment (2)_Redacted_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : New Employment (2)_Redacted_Page_1_Image_0001  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : New Employment (2)_Redacted_Page_1_Image_0001.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 7 — New Employment
+        ! The document contains the required company letterhead, commencement date of employment (20 January 2025), and employer signature is implied as it is an official employment contract. The SD appears to be a genuine employment contract with all necessary details for a new employment claim.
+        ! [ACRA] Verified: 'BRITOIL OFFSHORE SERVICES PTE LTD' (UEN 198500876G) — Status: Registered | Type: Local Company.
+      Preview : BRITOILOFFSHORESERVICESPTELTD 100GPasirPanjangRoad05/02IntlocalCentengapore18523Te560190 RRIAVINTA Website:www.britoil.c...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case50.csv
+===== CASE 51 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case51 (flat mode)
+  [OCR Image] Running OCR on: submissions/case51/New Employment (3)_Redacted.jpg
+
+============================================================
+  Case    : New Employment (3)_Redacted  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : New Employment (3)_Redacted.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 7 — New Employment
+        ! The document contains the required letterhead, commencement date of employment (20th January, 2025), and employer signature. The company has also acknowledged and committed to fulfilling the individual's National Service obligations after the completion of the probation period. Key dates found in the SD include the commencement date of employment (20th January, 2025) and the end of the probation period (19th April, 2025).
+        ! [ACRA] Company 'SK hynix SKhynixAsiaPte Ltd' [AI-identified] (Postal: 656723) not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : SK hynix SKhynixAsiaPte Ltd 9StraitsView#12-07/12MarinaOneWestTowerSingapore018937 tel+656723-9330 Co.Reg.No:199103118KG...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case51.csv
+===== CASE 52 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case52 (flat mode)
+  [OCR Image] Running OCR on: submissions/case52/New Employment Local 3.jpg
+
+============================================================
+  Case    : New Employment Local 3  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : New Employment Local 3.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 7 — New Employment
+        ! The document states the employment commencement date as 11 November 2024, and the employee holds the position of Engagement Consultant in the SS&C Eze Division. The letter is signed by Monica Png, Senior HR Manager, and includes contact information. All required elements for a new employment category are present.
+        ! [ACRA] Company 'SS&CTechnologies (S)Pte Ltd' (Postal: 109680) not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : SS&C 12 December 2024 The Officer in Charge Deferment Requests Central Manpower Base DepartmentofDefence 3 Depot Road, S...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case52.csv
+===== CASE 53 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case53 (flat mode)
+  [OCR Image] Running OCR on: submissions/case53/New employment Local 4.jpg
+
+============================================================
+  Case    : New employment Local 4  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : New employment Local 4.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 7 — New Employment
+        ! Employment commencement date is 16 September 2024, and the letter is dated 19 November 2024. The letterhead includes the company's registered address, office address, and contact information, which appears to be legitimate. The letter is signed by a Senior HR Specialist, and the content matches the requirements for a certification of employment under Rule 7.
+        ! [ACRA] Company 'For Tech Data Distribution (Singapore) Pte Ltd' (Postal: 554911) not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : TechData A TD SYNNEX Company Private&Confidential 19November2024 To-Whom-It-May-Concern Dear Sir/Madam, CERTIFICATIONOFE...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case53.csv
+===== CASE 54 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case54 (flat mode)
+  [OCR Image] Running OCR on: submissions/case54/New Employment Local 6.jpg
+
+============================================================
+  Case    : New Employment Local 6  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : New Employment Local 6.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 7 — New Employment
+        ! The document contains the required letterhead, commencement date of employment (20th January, 2025), and employer signature. The company acknowledges and supports the applicant's commitment to fulfilling his National Service obligations after the completion of the probation period. Key dates found in the SD include the commencement date of employment (20th January, 2025) and the expected conclusion of the probation period (19th April, 2025).
+        ! [ACRA] Verified: 'SK HYNIX ASIA PTE. LTD.' (UEN 199103118K) — Status: Registered | Type: Local Company.
+      Preview : SK hynix SK hynix Asia Pte Ltd 9StraitsView#12-07/12MarinaOneWestTowerSingapore018937 tel+656723-9330 Co.Reg.No:19910311...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case54.csv
+===== CASE 55 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case55 (flat mode)
+  [OCR Image] Running OCR on: submissions/case55/New Employment Local 7_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : New Employment Local 7_Page_1_Image_0001  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : New Employment Local 7_Page_1_Image_0001.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 7 — New Employment
+        ! The document contains the required letterhead, commencement date of employment (20 January 2025), and employer signature is implied as it is an official employment contract. The company registration number and other contact details are also provided, which adds to the authenticity of the document.
+        ! [ACRA] Verified: 'BRITOIL OFFSHORE SERVICES PTE LTD' (UEN 198500876G) — Status: Registered | Type: Local Company.
+      Preview : BRITOILOFFSHORESERVICESPTELTD 100GPasirPanjangRoad#05-01/02InterlocalCentre,Singapore118523.Tel:+6560192160 Website:www....
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case55.csv
+===== CASE 56 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case56 (flat mode)
+  [OCR Image] Running OCR on: submissions/case56/New Employment_Redacted.jpg
+
+============================================================
+  Case    : New Employment_Redacted  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : New Employment_Redacted.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - [ACRA] DEREGISTERED: 'SEZ SINGAPORE PTE. LTD.' (postal code 554911 match (SD name: 'Tech Data Distribution (Singapore) Pte Ltd' [AI-identified])) is no longer a registered entity (Local Company). The SD issuer cannot be verified — flag as potentially fraudulent.
+      Notes:
+        ! [ACRA] Document rejected at registry check (LLM-identified issuer).
+        ! [ACRA] DEREGISTERED: 'SEZ SINGAPORE PTE. LTD.' (postal code 554911 match (SD name: 'Tech Data Distribution (Singapore) Pte Ltd' [AI-identified])) is no longer a registered entity (Local Company). The SD issuer cannot be verified — flag as potentially fraudulent.
+      Preview : TechData A TDSYNNEXCompany Private&Confidential 19November2024 To-Whom-It-May-Concern DearSir/Madam, CERTIFICATIONOFEMPL...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 1
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case56.csv
+===== CASE 57 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case57 (flat mode)
+  [OCR Image] Running OCR on: submissions/case57/Overseas Work Commitment (2)_Redacted.jpg
+
+============================================================
+  Case    : Overseas Work Commitment (2)_Redacted  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : Overseas Work Commitment (2)_Redacted.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - The document is missing required elements for its category
+        - specifically the competition dates and the official selection letter from a sports body.
+      Notes:
+        ! SD Category: Rule 26 — Representing Singapore in Games
+        ! The key date found in the SD is 18th January 2024, which is the scheduled game date. The SD mentions that the team is scheduled to travel from 17th - 19th January 2024. However, it does not provide the required information for Rule 26. The SD appears to be a genuine document from the Singapore Rugby Union, but it lacks the necessary details to support the deferment claim under Rule 26.
+        ! [Other Registry (Statutory/Govt Body)] Verified: 'Singapore Rugby Union' (name match ('Singapore Rugby Union' [AI-identified])) — Status: Registered | Type: Societies.
+      Preview : RUGBY 11thDecember2024 To Whom It May Concern, (ICT) I hope this message findsyou well. Iam writing to formally communic...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 1
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case57.csv
+===== CASE 58 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case58 (flat mode)
+  [OCR Image] Running OCR on: submissions/case58/Overseas Work Commitment 1_Redacted.jpg
+
+============================================================
+  Case    : Overseas Work Commitment 1_Redacted  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : Overseas Work Commitment 1_Redacted.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 12 — Overseas Employment
+        ! The key dates found in the SD are: 08th January 2025 to 11th January 2025 (overseas trip to China), 9th January 2025 to 23rd January 2025 (scheduled NS activity). The SD appears to be genuine and contains all required elements for its category, including official company letterhead, overseas location, and period of employment/posting.
+        ! [ACRA] Verified: 'IEG ASIA PTE. LTD.' (UEN 202237498E) — Status: Registered | Type: Local Company.
+      Preview : IEGASIAPte.Ltd.-CO.REGN.NO.202237498E IEG ASIA 1MaritimeSquare #09-57 Harbourfront Centre-Singapore 099253 Tel:(65) 6278...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case58.csv
+===== CASE 59 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case59 (flat mode)
+  [OCR Image] Running OCR on: submissions/case59/Overseas Work Commitment_Redacted.jpg
+
+============================================================
+  Case    : Overseas Work Commitment_Redacted  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : Overseas Work Commitment_Redacted.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 12 — Overseas Employment
+        ! The SD contains the required letterhead, and the key dates found are: posting commencement date (16 Dec 24) and the period of posting (three years). The document certifies that the individual is an officer in the Ministry of Foreign Affairs and is posted to the Embassy of The Republic of Singapore in Myanmar.
+        ! [Other Registry (Statutory/Govt Body)] Verified: 'MINISTRY OF FOREIGN AFFAIRS' (name match ('MINISTRY OF FOREIGN AFFAIRS' [AI-identified])) — Status: Registered | Type: Organs of State, Ministries and Departments.
+      Preview : MINISTRYOFFOREIGNAFFAIRS SINGAPORE 27 September 2024 To whom it may concern Dear Sir/Madam BCNo.:SXXXX514F This is to ce...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case59.csv
+===== CASE 60 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case60 (flat mode)
+  [OCR Image] Running OCR on: submissions/case60/Termination_Redacted.jpg
+
+============================================================
+  Case    : Termination_Redacted  |  Verdict: [APPROVE]
+
+    --------------------------------------------------------
+      File    : Termination_Redacted.jpg
+      Verdict : [APPROVE]
+      Notes:
+        ! SD Category: Rule 9 — Retrenchment / Job Seeker
+        ! Last day of employment: 31 August 2024, Notification Date: 28 August 2024, The document appears to be a genuine notice of redundancy from the employer, confirming the applicant's last day of employment and providing sufficient information for the retrenchment category.
+        ! [ACRA] Company 'MyRepublic Broadband Pte. Ltd' not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : MyRepublic Strictly Private &Confidential 28 August 2024 BusinessDevelopmentManager S9234032E Dear NOTICEOFREDUNDANCY I ...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 1
+  [REJECT]   : 0
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case60.csv
+===== CASE 61 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case61 (flat mode)
+  [OCR Image] Running OCR on: submissions/case61/Work Commitment 3_Redacted.jpg
+
+============================================================
+  Case    : Work Commitment 3_Redacted  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : Work Commitment 3_Redacted.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - The SD is missing required elements for its category
+        - specifically: (1) the letter does not confirm the individual is the sole/only driver on that route
+        - and (2) the school bus contract period is not stated.
+      Notes:
+        ! SD Category: Rule 11 (School Bus Driver)
+        ! The SD mentions the reservist call-up period (13th January 2025 to 20th January 2025) and states that the individual's absence would jeopardize operations due to their driving license and role in assisting with operations. However, it lacks key details required for the School Bus Driver category.
+        ! [ACRA] Verified: 'KSM ENTERPRISE PTE. LTD.' (name match ('KSM ENTERPRISE PTE LTD' [AI-identified])) — Status: Registered | Type: Local Company.
+      Preview : KSMENTERPRISEPTELTD 7 Gambas Crescent #02-27Ark@gambas s(757087) Waterwayserv@gmail.com 90701385 KSM ENTERPRISE 12thDece...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 1
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case61.csv
+===== CASE 62 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 4 file(s) in submissions/case62 (flat mode)
+  [OCR Image] Running OCR on: submissions/case62/Part Time Studies 4_Page_1.jpg
+
+============================================================
+  Case    : Part Time Studies 4_Page_1  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : Part Time Studies 4_Page_1.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - Missing required elements: no letterhead from an education institution
+        - no explicit statement of examination dates
+      Notes:
+        ! SD Category: Rule 17 — Examinations (Part-Time Study / Exam)
+        ! Key dates found in the SD include 10 August 2024 and 09 September 2024, which appear to be related to a course schedule. The document lacks a clear letterhead and explicit statement of examination dates, which are required for Rule 17.
+        ! [ACRA] Company 'Not explicitly stated, but appears to be a university or educational institution' [AI-identified] not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : JUL2024COURSESCHEDULE CourseCode&Title:BME499/EAS499/ENG499/FMT499/ICT499/MTD499/MTH499CapstonePr0ject StudyWeek BRIEFIN...
+  [OCR Image] Running OCR on: submissions/case62/Part Time Studies 4_Page_2.jpg
+
+============================================================
+  Case    : Part Time Studies 4_Page_2  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : Part Time Studies 4_Page_2.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - Missing required elements: no letterhead from an education institution
+        - no programme/course specified
+        - no examination dates explicitly stated
+      Notes:
+        ! SD Category: Rule 17 — Examinations (Part-Time Study / Exam)
+        ! The document appears to be a study schedule with deadlines and tasks, but it lacks the required elements for a valid SD, such as a letterhead, programme/course details, and examination dates.
+        ! [ACRA] Company 'Not explicitly stated' [AI-identified] not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : StudyWeek BRIEFINGWORKSHOPANDDISCUSSION DEADLINES RECOMMENDEDTASKS Session(Lecture/Tutorial/Seminar/Lab/ Others)&Topics ...
+  [OCR Image] Running OCR on: submissions/case62/Part Time Studies 4_Page_3.jpg
+
+============================================================
+  Case    : Part Time Studies 4_Page_3  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : Part Time Studies 4_Page_3.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - Missing required elements: no letterhead from an education institution
+        - no explicit examination dates
+        - no confirmation of the applicant's enrollment or participation in the study program.
+      Notes:
+        ! SD Category: Rule 17 — Examinations (Part-Time Study / Exam)
+        ! The document appears to be a study schedule or briefing for a project, with various deadlines and tasks listed. However, it lacks the necessary letterhead, examination dates, and confirmation of enrollment, making it insufficient for deferment purposes under Rule 17.
+        ! [ACRA] Company 'Not explicitly stated, appears to be an academic institution' [AI-identified] not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : Study Week BRIEFINGWORKSHOPANDDISCUSSION DEADLINES RECOMMENDEDTASKS Session(Lecture/Tutorial/Seminar/Lab/ Others)& Topic...
+  [OCR Image] Running OCR on: submissions/case62/Part Time Studies 4_Page_4.jpg
+
+============================================================
+  Case    : Part Time Studies 4_Page_4  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : Part Time Studies 4_Page_4.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - Missing required elements: No official letterhead from an education institution
+        - no explicit statement of examination dates
+        - no clear confirmation of the applicant's enrollment or participation in the exams.
+      Notes:
+        ! SD Category: Rule 17 — Examinations (Part-Time Study / Exam)
+        ! Key dates mentioned include Week 29 to Week 38, with specific tasks and deadlines, but no clear examination dates are provided. The document appears to be a study schedule or briefing rather than an official letter from an educational institution.
+        ! [ACRA] Company 'Not explicitly stated, appears to be an educational institution' [AI-identified] not found in ACRA or Other Registry (statutory boards / govt bodies). May be a foreign entity, trading name, or former name — manual verification required.
+      Preview : StudyWeek BRIEFING.WORKSHOPANDDISCUSSION DEADLINES RECOMMENDEDTASKS Session(Lecture/Tutorial/Seminar/Lab/ Others)&Topics...
+
+============================================================
+  SUMMARY: 4 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 4
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case62.csv
+===== CASE 63 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case63 (flat mode)
+  [OCR Image] Running OCR on: submissions/case63/Part Time Studies 3.jpg
+
+============================================================
+  Case    : Part Time Studies 3  |  Verdict: [REJECT] 
+
+    --------------------------------------------------------
+      File    : Part Time Studies 3.jpg
+      Verdict : [REJECT] 
+      Reasons :
+        - The SD is missing required elements for its category
+        - specifically examination dates.
+      Notes:
+        ! SD Category: Rule 17 — Examinations (Part-Time Study / Exam)
+        ! The SD mentions that the student commenced studies in January 2021 and is required to complete a total of 170 credit units to graduate, but it does not provide specific examination dates. The letter is from the Student Records Department, Academic Services, and has the university's contact information.
+        ! [ACRA] Verified: 'SINGAPORE UNIVERSITY OF SOCIAL SCIENCES' (name match ('Singapore University of Social Sciences' [AI-identified])) — Status: Registered | Type: Local Company.
+      Preview : SUSS SINGAPOREUNIVERSITY OF SOCIALSCIENCES 11December2024 ToWhomItMayConcern Mr iscurrentlypursuingtheBSc InformationTec...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 1
+  [WARNING]  : 0
+============================================================
+
+Results saved to: output/result_case63.csv
+===== CASE 64 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 4 file(s) in submissions/case64 (flat mode)
+  [OCR Image] Running OCR on: submissions/case64/Studies Schedule_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Studies Schedule_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Studies Schedule_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99445, Requested 5289. Please try again in 1h8m10.176s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : today 24-Mar-25-30-Mar-25 Day Week Month Mon..24-Mar-25..Tue..25-Mar-25...Wed.26-Mar-25 ..Thu.27-Mar-25 Fri.28-Mar-25 Sa...
+  [OCR Image] Running OCR on: submissions/case64/Studies Schedule_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Studies Schedule_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Studies Schedule_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99444, Requested 5288. Please try again in 1h8m8.448s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Class Timetable today 31-Mar-25-6-Apr-25 Day Week Month Mon..31-Mar-25..Tue..1-Apr-25 Wed.2-Apr-25 Thu.3-Apr-25 Fri.4-Ap...
+  [OCR Image] Running OCR on: submissions/case64/Studies Schedule_Page_3_Image_0001.jpg
+
+============================================================
+  Case    : Studies Schedule_Page_3_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Studies Schedule_Page_3_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99443, Requested 5206. Please try again in 1h6m56.736s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : oday 21-Apr-25 - 27-Apr-25 Day Week Month Mon..21-Apr-25....Tue..22-Apr-25 ..Wed.23-Apr-25 .Thu..24-Apr-25 Fri.25-Apr-25...
+  [OCR Image] Running OCR on: submissions/case64/Studies Schedule_Page_4_Image_0001.jpg
+
+============================================================
+  Case    : Studies Schedule_Page_4_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Studies Schedule_Page_4_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99442, Requested 5279. Please try again in 1h7m58.944s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : today 28-Apr-25 - 4-May-25 Day Week Month Mon..28-Apr-25...Tue..29-Apr-25 Wed.30-Apr-25 ..Thu.1-Mav-25 Fri..2-Mav-25 Sat...
+
+============================================================
+  SUMMARY: 4 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 4
+============================================================
+
+Results saved to: output/result_case64.csv
+===== CASE 65 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case65 (flat mode)
+  [OCR Image] Running OCR on: submissions/case65/Studies Schedule 2.jpg
+
+============================================================
+  Case    : Studies Schedule 2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Studies Schedule 2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99438, Requested 5898. Please try again in 1h16m50.304s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : SINGAPOREMANAGEMENTUNIVERSITY AcademicCalendarAY2024-25forUG/JDProgrammes Term Week Dates(Mon-Sun) ICT 1 19-Aug-24 25-Au...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case65.csv
+===== CASE 66 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case66 (flat mode)
+  [OCR Image] Running OCR on: submissions/case66/Part Time Studies 2.jpg
+
+============================================================
+  Case    : Part Time Studies 2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Part Time Studies 2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99436, Requested 5594. Please try again in 1h12m25.92s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : psb Coventry Universit ACADEMY Date: 16January2024 Coursereference:SGE24-00402/E23/BAC180/01 DearMr LETTEROFOFFER Course...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case66.csv
+===== CASE 67 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case67 (flat mode)
+  [OCR Image] Running OCR on: submissions/case67/Part Time Studies 1.jpg
+
+============================================================
+  Case    : Part Time Studies 1  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Part Time Studies 1.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99433, Requested 5635. Please try again in 1h12m58.752s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Coventry psb University ACADEMY OVERALLSCHEDULE ProgrammeTitle BachelorofSciencewithHonoursinCyberSecurity Mode FullTime...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case67.csv
+===== CASE 68 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case68 (flat mode)
+  [OCR Image] Running OCR on: submissions/case68/Others-Reject NS promotion.jpg
+
+============================================================
+  Case    : Others-Reject NS promotion  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Reject NS promotion.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99432, Requested 5315. Please try again in 1h8m21.407999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 3:28 4G57% +65  lastseen todayat3:15PM May17.2023 Messages and calls are end-to-end encrypted.No one outsideof thischatn...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case68.csv
+===== CASE 69 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case69 (flat mode)
+  [OCR Image] Running OCR on: submissions/case69/Others-MR cert.jpg
+
+============================================================
+  Case    : Others-MR cert  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-MR cert.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99430, Requested 5177. Please try again in 1h6m20.448s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : CERTIFICATE OF APPRECIATION PRESENTED TO In Recognition of Your Contribution towards National Defence through the faithf...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case69.csv
+===== CASE 70 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 2 file(s) in submissions/case70 (flat mode)
+  [OCR Image] Running OCR on: submissions/case70/Others-Flight doc 8_Redacted_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 8_Redacted_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 8_Redacted_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99429, Requested 5274. Please try again in 1h7m43.392s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : firfAtio Move Bookingdate:11Oct2024 Booking Confirmed Booking no. TYGZ8G Pre-book extra baggage now to avoid paying full...
+  [OCR Image] Running OCR on: submissions/case70/Others-Flight doc 8_Redacted_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 8_Redacted_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 8_Redacted_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99428, Requested 5258. Please try again in 1h7m28.703999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Add-ons JohorBahrutoKualaLumpur 7kg Carry-onbaggage CAST ENJOYFASTLANEIMMIGRATION CHECKSATSELECTEDAIRPORTS AirAtsia PASS...
+
+============================================================
+  SUMMARY: 2 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 2
+============================================================
+
+Results saved to: output/result_case70.csv
+===== CASE 71 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 2 file(s) in submissions/case71 (flat mode)
+  [OCR Image] Running OCR on: submissions/case71/Others-Flight doc 7_Redacted_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 7_Redacted_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 7_Redacted_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99426, Requested 5298. Please try again in 1h8m1.535999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : firtin Move Bookingdate:15Dec2024 BookingConfirmed Booking no. N8H2YP Please make sure that you have all the required tr...
+  [OCR Image] Running OCR on: submissions/case71/Others-Flight doc 7_Redacted_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 7_Redacted_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 7_Redacted_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99425, Requested 5275. Please try again in 1h7m40.8s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 22:05 Penang 07Jan Penang International Airport Add-ons Singapore toPenang 7kgCarry-onbaggage 7kgCarry-onbaggage EAST EN...
+
+============================================================
+  SUMMARY: 2 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 2
+============================================================
+
+Results saved to: output/result_case71.csv
+===== CASE 72 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 2 file(s) in submissions/case72 (flat mode)
+  [OCR Image] Running OCR on: submissions/case72/Others-Flight doc 6_Redacted_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 6_Redacted_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 6_Redacted_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99423, Requested 5286. Please try again in 1h7m48.576s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : firfAtio Move Bookingdate:15Dec2024 Booking Confirmed Booking no. 19UFQJ Pre-book extra baggage now to avoid paying full...
+  [OCR Image] Running OCR on: submissions/case72/Others-Flight doc 6_Redacted_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 6_Redacted_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 6_Redacted_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99422, Requested 5262. Please try again in 1h7m26.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Add-ons Penang toKuala Lumpur 7kg Carry-onbaggage 7kgCarry-onbaggage CAST ENJOYFASTLANEIMMIGRATION CHECKSATSELECTEDAIRPO...
+
+============================================================
+  SUMMARY: 2 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 2
+============================================================
+
+Results saved to: output/result_case72.csv
+===== CASE 73 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 8 file(s) in submissions/case73 (flat mode)
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99421, Requested 5142. Please try again in 1h5m42.432s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : traveloka...
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_1_Image_0002.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_1_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_1_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99421, Requested 5143. Please try again in 1h5m43.296s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : scoot...
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99421, Requested 5142. Please try again in 1h5m42.432s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : traveloka...
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_2_Image_0002.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_2_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_2_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99420, Requested 5143. Please try again in 1h5m42.432s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : scoot...
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_2_Image_0003.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_2_Image_0003  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_2_Image_0003.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99420, Requested 5139. Please try again in 1h5m38.975999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ...
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_3_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_3_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_3_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99420, Requested 5142. Please try again in 1h5m41.568s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : traveloka...
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_3_Image_0002.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_3_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_3_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99419, Requested 5150. Please try again in 1h5m47.616s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Downloadonthe AppStore GETITON GooglePlay...
+  [OCR Image] Running OCR on: submissions/case73/Others-Flight doc 5_Page_3_Image_0003.jpg
+
+============================================================
+  Case    : Others-Flight doc 5_Page_3_Image_0003  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 5_Page_3_Image_0003.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99419, Requested 5139. Please try again in 1h5m38.112s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ...
+
+============================================================
+  SUMMARY: 8 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 8
+============================================================
+
+Results saved to: output/result_case73.csv
+===== CASE 74 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 8 file(s) in submissions/case74 (flat mode)
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99418, Requested 5142. Please try again in 1h5m39.84s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : traveloka...
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_1_Image_0002.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_1_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_1_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99417, Requested 5143. Please try again in 1h5m39.84s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : scoot...
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99417, Requested 5142. Please try again in 1h5m38.975999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : traveloka...
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_2_Image_0002.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_2_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_2_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99417, Requested 5143. Please try again in 1h5m39.84s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : scoot...
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_2_Image_0003.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_2_Image_0003  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_2_Image_0003.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99416, Requested 5139. Please try again in 1h5m35.52s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ...
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_3_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_3_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_3_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99416, Requested 5142. Please try again in 1h5m38.112s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : traveloka...
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_3_Image_0002.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_3_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_3_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99416, Requested 5150. Please try again in 1h5m45.024s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Downloadonthe AppStore GETITON GooglePlay...
+  [OCR Image] Running OCR on: submissions/case74/Others-Flight doc 4_Page_3_Image_0003.jpg
+
+============================================================
+  Case    : Others-Flight doc 4_Page_3_Image_0003  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 4_Page_3_Image_0003.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99415, Requested 5139. Please try again in 1h5m34.656s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ...
+
+============================================================
+  SUMMARY: 8 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 8
+============================================================
+
+Results saved to: output/result_case74.csv
+===== CASE 75 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 3 file(s) in submissions/case75 (flat mode)
+  [OCR Image] Running OCR on: submissions/case75/Others-Flight doc 3_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 3_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 3_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99414, Requested 5148. Please try again in 1h5m41.568s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ANA ASTARALLIANCEMEMBER...
+  [OCR Image] Running OCR on: submissions/case75/Others-Flight doc 3_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 3_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 3_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99413, Requested 5148. Please try again in 1h5m40.703999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ANA ASTARALLIANCEMEMBER...
+  [OCR Image] Running OCR on: submissions/case75/Others-Flight doc 3_Page_3_Image_0001.jpg
+
+============================================================
+  Case    : Others-Flight doc 3_Page_3_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 3_Page_3_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99413, Requested 5148. Please try again in 1h5m40.703999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ANA ASTARALLIANCEMEMBER...
+
+============================================================
+  SUMMARY: 3 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 3
+============================================================
+
+Results saved to: output/result_case75.csv
+===== CASE 76 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case76 (flat mode)
+  [OCR Image] Running OCR on: submissions/case76/Others-Flight doc 2.jpg
+
+============================================================
+  Case    : Others-Flight doc 2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99410, Requested 5929. Please try again in 1h16m52.896s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Confirmation MANCHESTERUNITED DearAzhar, LeadSupporter:7564537 TransactionID:33514526 OldTrafford TourandMuseum Thankyou...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case76.csv
+===== CASE 77 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case77 (flat mode)
+  [OCR Image] Running OCR on: submissions/case77/Others-Flight doc 1.jpg
+
+============================================================
+  Case    : Others-Flight doc 1  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Others-Flight doc 1.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99408, Requested 5387. Please try again in 1h9m2.88s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Check-in voucher Confirmationno.51130SE048903,51130SE048904,51130SE048905 PIN:4251 Booking No.:36590097501 Citadines Tro...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case77.csv
+===== CASE 78 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case78 (flat mode)
+  [OCR Image] Running OCR on: submissions/case78/Medical_Redacted.jpg
+
+============================================================
+  Case    : Medical_Redacted  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical_Redacted.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99406, Requested 5413. Please try again in 1h9m23.616s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : SynergyOrthopaedicGroup 820ThomsonRoad#07-53,MtAlverniaMedicalCentreD,Singapore574623 Tel:+6562512822Fax:+6566942767 Pat...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case78.csv
+===== CASE 79 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case79 (flat mode)
+  [OCR Image] Running OCR on: submissions/case79/Medical Reasons 7.jpg
+
+============================================================
+  Case    : Medical Reasons 7  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 7.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99398, Requested 5256. Please try again in 1h7m1.056s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Patient Reg.No.:53029036K Hosnital Discharge Summary Gleneagles Hospital SINGAPORE Medical Certificate Reg.No.:530 Patie...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case79.csv
+===== CASE 80 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case80 (flat mode)
+  [OCR Image] Running OCR on: submissions/case80/Medical Reasons 6.jpg
+
+============================================================
+  Case    : Medical Reasons 6  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 6.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99375, Requested 5362. Please try again in 1h8m12.768s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Synergy Orthopaedic Group 820 Thomson Road #07-53,MtAlvernia Medical CentreD,Singapore574623 Tel:+6562512822Fax:+6566942...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case80.csv
+===== CASE 81 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case81 (flat mode)
+  [OCR Image] Running OCR on: submissions/case81/Medical Reasons 5.jpg
+
+============================================================
+  Case    : Medical Reasons 5  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 5.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99350, Requested 5325. Please try again in 1h7m19.2s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : INSTITUTE OMENTAL HEALTH National Healthcare Group Dear SAF CampMOIC, wasseenatIMHEmergencyRoomon29/11/24. Hepresentedwi...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case81.csv
+===== CASE 82 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case82 (flat mode)
+  [OCR Image] Running OCR on: submissions/case82/Medical Reasons 4.jpg
+
+============================================================
+  Case    : Medical Reasons 4  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 4.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99348, Requested 5270. Please try again in 1h6m29.952s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : MEDICXLINCONFTDENCE Pasir LabaMedical Centre ReferenceNo: Date:1/1/000T c/oMedical AffairsOfficeHQ MilitaryMedicineInsti...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case82.csv
+===== CASE 83 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case83 (flat mode)
+  [OCR Image] Running OCR on: submissions/case83/Medical Reasons 3.jpg
+
+============================================================
+  Case    : Medical Reasons 3  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 3.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99345, Requested 5357. Please try again in 1h7m42.528s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : OXFORDORTHOPAEDICSPTELTD XFORD 3MOUNTELIZABETH#10-08 MOUNTELIZABETHMEDICALCENTRESINGAPORE228510 RTHOPAEDICS GST and CoRe...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case83.csv
+===== CASE 84 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case84 (flat mode)
+  [OCR Image] Running OCR on: submissions/case84/Medical Reasons 2.jpg
+
+============================================================
+  Case    : Medical Reasons 2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99343, Requested 5293. Please try again in 1h6m45.504s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : National University Polyclinics Confidential 29/11/24 To:SAF RE: Theabovepatientwasfirstseenforbilateral achillestendini...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case84.csv
+===== CASE 85 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 4 file(s) in submissions/case85 (flat mode)
+  [OCR Image] Running OCR on: submissions/case85/Medical Reasons 1_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Medical Reasons 1_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 1_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99340, Requested 5878. Please try again in 1h15m8.352s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : RafflesDiagnostica CompanyRegNo:199202734G Date:02/12/2024 ClinicVisit No: Accession No: AItID: ReferringDoctor LINKUOHU...
+  [OCR Image] Running OCR on: submissions/case85/Medical Reasons 1_Page_1_Image_0002.jpg
+
+============================================================
+  Case    : Medical Reasons 1_Page_1_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 1_Page_1_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99339, Requested 5144. Please try again in 1h4m33.312s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Scanned with CS CamScanner...
+  [OCR Image] Running OCR on: submissions/case85/Medical Reasons 1_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Medical Reasons 1_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 1_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99338, Requested 5615. Please try again in 1h11m19.392s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : RafflesDiagnostica CompanyRegNo:199202734G Date:02/12/2024 ClinicVisit No: Accession No: ReferringDoctor LINKUOHUNGBERNA...
+  [OCR Image] Running OCR on: submissions/case85/Medical Reasons 1_Page_2_Image_0002.jpg
+
+============================================================
+  Case    : Medical Reasons 1_Page_2_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Reasons 1_Page_2_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99337, Requested 5144. Please try again in 1h4m31.584s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Scanned with CS CamScanner...
+
+============================================================
+  SUMMARY: 4 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 4
+============================================================
+
+Results saved to: output/result_case85.csv
+===== CASE 86 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 28 file(s) in submissions/case86 (flat mode)
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_01_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_01_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_01_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99336, Requested 5151. Please try again in 1h4m36.768s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : SK'hy COnFIDENTIAL 1840 on20th yourself)...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_01_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_01_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_01_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99333, Requested 5594. Please try again in 1h10m56.928s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : SK hynixAsia Pte Ltd 9StraitsView#I2-07/12MarinaOneWestTowerSingapore018937 tel+656723-9330 Co.Reg.No:199103118K GST Reg...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_02_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_02_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_02_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99333, Requested 5143. Please try again in 1h4m27.264s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : pate ou insu 583...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_02_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_02_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_02_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99329, Requested 5699. Please try again in 1h12m24.192s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : increased based on your completed year of service in accordance with the Company's HR Policies Manual ("HR Manual") whic...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_03_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_03_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_03_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99328, Requested 5164. Please try again in 1h4m41.088s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Companyshall be entitled torequirethattheE continuetoworkthroughthenoticeperiodwi payingtheEmployeea sumfor leaveforegon...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_03_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_03_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_03_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99323, Requested 5575. Please try again in 1h10m31.872s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : bonus shall not be deemed or considered as a guarantee of further incentive bonuses in otheryears. 6. Probation and Term...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_04_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_04_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_04_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99323, Requested 5161. Please try again in 1h4m34.176s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Companywithin the prescribed boundariesof You shall,during the continuance ofyour em wholetime and attentionto thebusine...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_04_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_04_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_04_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99319, Requested 5621. Please try again in 1h11m8.16s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 6.4.5 integrity or capabilities; 6.4.6 ifyou become of unsound mind; or 6.4.7 (if applicable) ceases for any reason to h...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_05_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_05_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_05_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99319, Requested 5150. Please try again in 1h4m21.216s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Confidential Information ive, prepare, to.the ffliate, the...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_05_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_05_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_05_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99315, Requested 5605. Please try again in 1h10m50.88s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 9.2 notbe entitled to receive or obtaindirectly orindirectly any discount,rebate or commission in respect of any busines...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_06_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_06_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_06_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99315, Requested 5175. Please try again in 1h4m39.36s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : pany's oyee has not breached ll notbreachanyagreementto propri information,knowledg ta acquired by you prior or subs men...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_06_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_06_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_06_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99312, Requested 5662. Please try again in 1h11m37.536s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : corporation.You shall notuse Confidential Information except during the course of the 10.1.4 You shall not remove any it...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_07_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_07_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_07_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99311, Requested 5179. Please try again in 1h4m39.36s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : notes,sketches,drawingsflowcharts,lecto and records in any other format)of all lnven remain thesolepropertyof theCompany...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_07_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_07_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_07_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99308, Requested 5630. Please try again in 1h11m6.432s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : trade secrets (including, without limitation, any computer programs, algorithms, designs, formulae, new use, technique, ...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_08_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_08_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_08_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99307, Requested 5160. Please try again in 1h4m19.488s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Restricted activiti Youmust not with written consent Company,d withina periodof mthe Terminati e, do any of...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_08_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_08_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_08_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99305, Requested 5559. Please try again in 1h10m2.496s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : done by you. You undertake to ratify and confirm all acts done by the Company as such attorney. 10.2.8 You waive and irr...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_09_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_09_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_09_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99305, Requested 5160. Please try again in 1h4m17.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : clause11 are separate,distinct and several,so that the does not affect the enforceability of the other restraints....
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_09_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_09_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_09_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99303, Requested 5576. Please try again in 1h10m15.456s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : C directly or indirectly solicit or induce away in competition with the Company or any Affiliate the customer of any per...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_10_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_10_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_10_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99302, Requested 5142. Please try again in 1h3m59.616s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ication made ny request, de...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_10_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_10_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_10_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99300, Requested 5527. Please try again in 1h9m30.528s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 11.5.2 The Company shall be entitled to full injunctive relief and any other legal or equitable remedies availableforbre...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_11_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_11_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_11_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99300, Requested 5144. Please try again in 1h3m59.616s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : this Contract presentatives. 84359...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_11_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_11_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_11_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99298, Requested 5547. Please try again in 1h9m46.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : (i) if by email, upon dispatch; and (p for any consequences of thatreliance if the addresseebelieves it tobe genuine,cor...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_12_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_12_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_12_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99298, Requested 5167. Please try again in 1h4m17.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Interpretation In thisContract,headingsarefor convenience this Contractand,unlessthecontextotherwis sub-clause14.2.6...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_12_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_12_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_12_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99296, Requested 5519. Please try again in 1h9m20.16s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 14 Definitions and interpretation 14.1 Definitions In this Contract: (a) is directly or indirectly controlled by the Com...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_13_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_13_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_13_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99295, Requested 5147. Please try again in 1h3m57.888s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : nle 22608A02-2F55...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_13_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_13_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_13_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99271, Requested 5243. Please try again in 1h5m0.096s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 15 OtherTerms&Conditions All other terms and conditions of service not mentioned in this Contract shall be in accordance...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_14_Image_0001.jpg
+
+============================================================
+  Case    : Medical Cert_Page_14_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_14_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99270, Requested 5145. Please try again in 1h3m34.56s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 2 26C6/A022F55...
+  [OCR Image] Running OCR on: submissions/case86/Medical Cert_Page_14_Image_0002.jpg
+
+============================================================
+  Case    : Medical Cert_Page_14_Image_0002  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert_Page_14_Image_0002.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99269, Requested 5220. Please try again in 1h4m38.496s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Attention:HumanResources SK hynixAsia Pte Ltd FORM OF ACCEPTANCE OFFEROFEMPLOYMENT Identification No. . have read and fu...
+
+============================================================
+  SUMMARY: 28 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 28
+============================================================
+
+Results saved to: output/result_case86.csv
+===== CASE 87 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case87 (flat mode)
+  [OCR Image] Running OCR on: submissions/case87/Medical Cert (2).jpg
+
+============================================================
+  Case    : Medical Cert (2)  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Medical Cert (2).jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99267, Requested 5260. Please try again in 1h5m11.328s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Patient Reg.No.:53029036K Hosnital Discharge Summary Gleneagles Hospital SINGAPORE Medical Certificate Reg.No.:530 Patie...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case87.csv
+===== CASE 88 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 3 file(s) in submissions/case88 (flat mode)
+  [OCR Image] Running OCR on: submissions/case88/Marriage ROM_Redacted_Page_1.jpg
+
+============================================================
+  Case    : Marriage ROM_Redacted_Page_1  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Marriage ROM_Redacted_Page_1.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99264, Requested 5405. Please try again in 1h7m14.016s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 12/3/24,10:24 AM OMJ|Civil marriage application Summary of marriage application Application information Application numb...
+  [OCR Image] Running OCR on: submissions/case88/Marriage ROM_Redacted_Page_2.jpg
+
+============================================================
+  Case    : Marriage ROM_Redacted_Page_2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Marriage ROM_Redacted_Page_2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99261, Requested 5469. Please try again in 1h8m6.72s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 12/3/24, 10:24 AM OMJ | Civil marriage application  Summaryofyourmarriageapplication  For the bride and groom: Origina (...
+  [OCR Image] Running OCR on: submissions/case88/Marriage ROM_Redacted_Page_3.jpg
+
+============================================================
+  Case    : Marriage ROM_Redacted_Page_3  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Marriage ROM_Redacted_Page_3.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99260, Requested 5193. Please try again in 1h4m7.392s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 12/3/24,10:24AM OMJICivilmarriageapplication ROM,and thesolemniser,whichwould include theattire that thepartieschoose to...
+
+============================================================
+  SUMMARY: 3 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 3
+============================================================
+
+Results saved to: output/result_case88.csv
+===== CASE 89 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 3 file(s) in submissions/case89 (flat mode)
+  [OCR Image] Running OCR on: submissions/case89/Marriage Honeymoon 1_Page_1.jpg
+
+============================================================
+  Case    : Marriage Honeymoon 1_Page_1  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Marriage Honeymoon 1_Page_1.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99257, Requested 5374. Please try again in 1h6m41.183999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 12/3/24,10:24 AM OMJ| Civil marriage application Summary of marriage application Application information Application dat...
+  [OCR Image] Running OCR on: submissions/case89/Marriage Honeymoon 1_Page_2.jpg
+
+============================================================
+  Case    : Marriage Honeymoon 1_Page_2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Marriage Honeymoon 1_Page_2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99253, Requested 5493. Please try again in 1h8m20.544s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 12/3/24, 10:24 AM OMJ | Civil marriage application  Summaryofyourmarriageapplication Forthebride and groom: Original S(f...
+  [OCR Image] Running OCR on: submissions/case89/Marriage Honeymoon 1_Page_3.jpg
+
+============================================================
+  Case    : Marriage Honeymoon 1_Page_3  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Marriage Honeymoon 1_Page_3.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99252, Requested 5195. Please try again in 1h4m2.208s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : 12/3/24,10:24AM OMJICivilmarriageapplication ROM,and thesolemniser,whichwould include theattire that thepartieschoose to...
+
+============================================================
+  SUMMARY: 3 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 3
+============================================================
+
+Results saved to: output/result_case89.csv
+===== CASE 90 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case90 (flat mode)
+  [OCR Image] Running OCR on: submissions/case90/Flight Details.jpg
+
+============================================================
+  Case    : Flight Details  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Flight Details.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99236, Requested 5364. Please try again in 1h6m14.4s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : SINGAPORE AIRLINES time, youfindyour iinerary andconditionsforyoufaretyeattached to thisemail BOOKINGREFERENCE:6SBS8H yo...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case90.csv
+===== CASE 91 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 3 file(s) in submissions/case91 (flat mode)
+  [OCR Image] Running OCR on: submissions/case91/Flight Details 3_Page_1.jpg
+
+============================================================
+  Case    : Flight Details 3_Page_1  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Flight Details 3_Page_1.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99232, Requested 5418. Please try again in 1h6m57.6s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Travelitinerary&receipt SINGAPORE AIRLINES A STAR ALLIANCE MEMBER KrisFlyer 8870700395 Bookingreference: 6FFUJM Ticket n...
+  [OCR Image] Running OCR on: submissions/case91/Flight Details 3_Page_2.jpg
+
+============================================================
+  Case    : Flight Details 3_Page_2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Flight Details 3_Page_2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99231, Requested 5278. Please try again in 1h4m55.776s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Travel itinerary&receipt SINGAPORE AIRLINES A STAR ALLIANCE MEMBER Payment details Mode of payment Costbreakdown SGD Tic...
+  [OCR Image] Running OCR on: submissions/case91/Flight Details 3_Page_3.jpg
+
+============================================================
+  Case    : Flight Details 3_Page_3  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Flight Details 3_Page_3.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99229, Requested 5430. Please try again in 1h7m5.375999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Travel itinerary&receipt SINGAPORE AIRLINES A STAR ALLIANCEMEMBER Summaryoffareconditions SIN-CAN CAN-SIN Fare condition...
+
+============================================================
+  SUMMARY: 3 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 3
+============================================================
+
+Results saved to: output/result_case91.csv
+===== CASE 92 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case92 (flat mode)
+  [OCR Image] Running OCR on: submissions/case92/Flight Details 2.jpg
+
+============================================================
+  Case    : Flight Details 2  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Flight Details 2.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99227, Requested 5397. Please try again in 1h6m35.136s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : SINGAPORE AIRLINES Mr KrisFlyer 8159974424 Dea We're thrild tobewelcoming youon boardSingapore Airines soonIn themean ti...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case92.csv
+===== CASE 93 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case93 (flat mode)
+  [OCR Image] Running OCR on: submissions/case93/Child Birth 1.jpg
+  [OCR Image] Resizing 5006x6914 -> 4254x5876 before OCR
+
+============================================================
+  Case    : Child Birth 1  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Child Birth 1.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99225, Requested 5302. Please try again in 1h5m11.328s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : KKWomen's and Reg No198904227G Children's Hospital SingHealth Female/30y (03Apr1994) Whom It May Concern 04-Dec-202416:0...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case93.csv
+===== CASE 94 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 1 file(s) in submissions/case94 (flat mode)
+  [OCR Image] Running OCR on: submissions/case94/Expected Date of Delivery_Redacted.jpg
+
+============================================================
+  Case    : Expected Date of Delivery_Redacted  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Expected Date of Delivery_Redacted.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99192, Requested 5311. Please try again in 1h4m50.592s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : KK Women's and RegNo198904227G Children's Hospital SingHealth Female/30y (03Apr1994) Whom It May Concern 04-Dec-202416:0...
+
+============================================================
+  SUMMARY: 1 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 1
+============================================================
+
+Results saved to: output/result_case94.csv
+===== CASE 95 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 2 file(s) in submissions/case95 (flat mode)
+  [OCR Image] Running OCR on: submissions/case95/Deed Poll_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Deed Poll_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Deed Poll_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99162, Requested 5229. Please try again in 1h3m13.823999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : DATED THIS 29TH DAY OF DECEMBER 2016. DEED POLL Of NOAHADAM ************************* LLL/OET/2016/DeedPoll LOH EBEN ONG...
+  [OCR Image] Running OCR on: submissions/case95/Deed Poll_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Deed Poll_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Deed Poll_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99161, Requested 5491. Please try again in 1h6m59.328s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Singapore 822313, formerly known as ADAM BIN ABDULLAH ( w ), a Singapore Citizen holder of NRIC No.S8712166F,do hereby R...
+
+============================================================
+  SUMMARY: 2 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 2
+============================================================
+
+Results saved to: output/result_case95.csv
+===== CASE 96 =====
+[Instructions] Parsing rules from: directives/Instructions (Directive).docx
+  Universal checks  : ['date']
+  Domain categories : ['Rule 7 — new employment', 'Rule 8 — new business', 'Rule 9 — retrenchment/job seeker', 'Rule 11 — school bus driver', 'Rule 12 — overseas employment', 'Rule 22 — serious illness/bereavement', 'Rule 23 — marriage', 'Rule 24 — childbirth', 'Rule 25 — spouse overseas', 'Rule 21 — medical leave', 'Rule 14 — full-time studies', 'Rule 17 — examinations', 'Rule 18 — professional courses', 'Rule 19 — employer-sponsored training', 'Rule 20 — religious studies/ministry', 'Rule 26 — national representation', 'Rule 28 — rehabilitation']
+  Valid year range  : 2023 - 2031
+[Mode] AI-powered checks via Groq
+
+Found 12 file(s) in submissions/case96 (flat mode)
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 1 of 4.jpg
+
+============================================================
+  Case    : Compassionate 1 of 4  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 1 of 4.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99157, Requested 5710. Please try again in 1h10m5.087999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Curie Oncology 38IrrawaddyRd#08-21/29/30 MountElizabethNovenaSpecialistCentre329563 Tel:65928615|Fax:65928616|WhatsApp:8...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 2 of 4_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 2 of 4_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 2 of 4_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99155, Requested 5708. Please try again in 1h10m1.631999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Sengkang General Hospital Patient Results Requested By: Ngaserin Sabrina Ng Hui Na (Doctor) 16-Jul-2020 12:07PM Sex:F Ag...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 2 of 4_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 2 of 4_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 2 of 4_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99154, Requested 5487. Please try again in 1h6m49.824s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Patient Results Requested By: Ngaserin Sabrina Ng Hui Na (Doctor) 16-Jul-202012:07PM Sex:F Age:32y DOB:19-Jan-1988 Locn:...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 2 of 4_Page_3_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 2 of 4_Page_3_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 2 of 4_Page_3_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99152, Requested 5535. Please try again in 1h7m29.568s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Sengkang General Hospital Patient Results Requested By: Ngaserin Sabrina Ng Hui Na (Doctor) 16-Jul-202012:08PM Sex:F Age...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 3 of 4_Page_1_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 3 of 4_Page_1_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 3 of 4_Page_1_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99150, Requested 5799. Please try again in 1h11m15.935999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Parkway LaboratoryServicesLtd ParkwayHealth" Laboratory Medical Director DrThomasAnjulaneeKhandelwal MBss,LRCPMRcs.FRCPA...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 3 of 4_Page_2_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 3 of 4_Page_2_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 3 of 4_Page_2_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99147, Requested 5991. Please try again in 1h13m59.232s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ParkwayLaboratoryServicesLtd ParkwayHealth Laboratory Medical Director DrThomasAnjulaneeKhandelwal MBBs.LRCP.MRCsFRCPA w...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 3 of 4_Page_3_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 3 of 4_Page_3_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 3 of 4_Page_3_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99145, Requested 5874. Please try again in 1h12m16.416s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : ParkwayLaboratoryServicesLtd ParkwayHeaith Laboratory Medical Director DrThomasAnjulaneeKhandelwal MBBsLRCPMRC.FRCPA www...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 3 of 4_Page_4_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 3 of 4_Page_4_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 3 of 4_Page_4_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99117, Requested 5828. Please try again in 1h11m12.48s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Parkway LaboratoryServicesLtd ParkwayHealth Laboratory Medical Director DrThomasAnjula neeKhandelwal MBBs,RCPMRcs.FRCPA ...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 3 of 4_Page_5_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 3 of 4_Page_5_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 3 of 4_Page_5_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99115, Requested 5792. Please try again in 1h10m39.648s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Parkway LaboratoryServices Ltd ParkwayHealth Laboratory Medical Director DrThomas Anjula neeKhandelwal MBBs,LRCP.MRcs,FR...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 3 of 4_Page_6_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 3 of 4_Page_6_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 3 of 4_Page_6_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99113, Requested 5824. Please try again in 1h11m5.568s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Parkway LaboratoryServices Ltd ParkwayHealth Laboratory Medical Director DrThomasAnjulaneeKhandelwal MBBLRCPMRCsFRCA www...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 3 of 4_Page_7_Image_0001.jpg
+
+============================================================
+  Case    : Compassionate 3 of 4_Page_7_Image_0001  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 3 of 4_Page_7_Image_0001.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99111, Requested 5737. Please try again in 1h9m48.672s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Parkway LaboratoryServicesLtd ParkwayHealih" Laboratory Medical Director DrThomasAnjulaneeKhandelwal MBBsLRcr.MRcs,FRCPA...
+  [OCR Image] Running OCR on: submissions/case96/Compassionate 4 of 4.jpg
+
+============================================================
+  Case    : Compassionate 4 of 4  |  Verdict: [WARNING] could not fully process
+
+    --------------------------------------------------------
+      File    : Compassionate 4 of 4.jpg
+      Verdict : [WARNING] could not process
+      Reasons :
+        - AI API error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kjw32926f1zbzzxdhaw02ac9` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99110, Requested 5313. Please try again in 1h3m41.471999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+      Preview : Copy Enty No. 963402 THEREPUBLIC OFSINGAPORE TheWomen'sCharter(Chapter353) DerifeatefMariage (Section 31) The Marriage b...
+
+============================================================
+  SUMMARY: 12 document(s) checked
+  [APPROVE]  : 0
+  [REJECT]   : 0
+  [WARNING]  : 12
+============================================================
+
+Results saved to: output/result_case96.csv

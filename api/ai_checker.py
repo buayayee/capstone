@@ -21,11 +21,28 @@ import re
 import json
 import time
 from datetime import datetime
-import boto3
-from botocore.config import Config as BotocoreConfig
-from botocore.exceptions import ClientError
+from typing import Any
+
+try:
+    import boto3
+    from botocore.config import Config as BotocoreConfig
+    from botocore.exceptions import ClientError
+except ImportError:
+    boto3 = None
+    BotocoreConfig = None
+    ClientError = None
+
+try:
+    from groq import Groq
+except ImportError:
+    Groq = None
 from dateutil.relativedelta import relativedelta
-from acra_checker import check_acra
+from acra_checker import check_acra, _fix_ocr_spacing
+
+# Groq / Bedrock backend selection
+# Default to a higher-quota direct model to reduce daily token-limit failures.
+# You can override via GROQ_MODEL in .env/.shell.
+_GROQ_MODEL = os.environ.get("GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct")
 
 # Amazon Bedrock — Claude 3 Haiku via cross-region inference
 # Uses the "us.*" inference profile so calls are routed across US regions,
@@ -248,16 +265,21 @@ def _python_temporal_check(
         "[Python temporal check] No rule-relevant dates matched — LLM verdict kept."
     ]
 
-_client: boto3.client = None
+_client: Any = None
+_groq_client: Any = None
 
 # Disable botocore's own ThrottlingException retry so only our explicit loop
 # fires — prevents 4× quota drain per invocation attempt.
-_BOTO_CFG = BotocoreConfig(retries={"max_attempts": 1, "mode": "standard"})
+_BOTO_CFG = BotocoreConfig(retries={"max_attempts": 1, "mode": "standard"}) if BotocoreConfig else None
 
 
-def _get_client():
+def _get_bedrock_client():
     global _client
     if _client is None:
+        if boto3 is None:
+            raise EnvironmentError(
+                "boto3 is not installed for Bedrock fallback. Set GROQ_API_KEY or install boto3."
+            )
         key_id = os.environ.get("AWS_ACCESS_KEY_ID", "")
         secret  = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
         region  = os.environ.get("AWS_DEFAULT_REGION") or os.environ.get("AWS_REGION")
@@ -276,6 +298,67 @@ def _get_client():
             # region_name=None lets boto3 read region from ~/.aws/config
             _client = boto3.client("bedrock-runtime", region_name=region, config=_BOTO_CFG)
     return _client
+
+
+def _get_groq_client():
+    global _groq_client
+    if _groq_client is None:
+        api_key = os.environ.get("GROQ_API_KEY", "")
+        if not api_key:
+            raise EnvironmentError("GROQ_API_KEY is not set.")
+        if Groq is None:
+            raise EnvironmentError("groq package is not installed.")
+        _groq_client = Groq(api_key=api_key)
+    return _groq_client
+
+
+def _preferred_backend() -> str:
+    if os.environ.get("GROQ_API_KEY"):
+        return "groq"
+    return "bedrock"
+
+
+def _invoke_groq(prompt: str) -> str:
+    client = _get_groq_client()
+    response = client.chat.completions.create(
+        model=_GROQ_MODEL,
+        temperature=0.0,
+        max_tokens=1000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return (response.choices[0].message.content or "").strip()
+
+
+def _invoke_bedrock(prompt: str) -> str:
+    client = _get_bedrock_client()
+
+    for attempt in range(4):
+        try:
+            body = json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 1000,
+                "temperature": 0.0,
+                "messages": [{"role": "user", "content": prompt}],
+            })
+            response = client.invoke_model(
+                modelId=MODEL,
+                body=body,
+                contentType="application/json",
+                accept="application/json",
+            )
+            resp_body = json.loads(response["body"].read())
+            return resp_body["content"][0]["text"].strip()
+        except Exception as e:
+            if ClientError is not None and isinstance(e, ClientError):
+                code = e.response["Error"]["Code"]
+                if code == "ThrottlingException":
+                    wait = 20 * (attempt + 1)
+                    print(f"  [Bedrock throttle] waiting {wait}s before retry {attempt + 1}/4...")
+                    time.sleep(wait)
+                    continue
+            raise
+
+    raise RuntimeError("Bedrock ThrottlingException after 4 retries")
 
 
 def check_with_groq(
@@ -303,7 +386,7 @@ def check_with_groq(
           "REJECT"   — genuine but does not meet eligibility requirements
           "WARNING"  — flagged suspicious but not conclusively fraudulent
     """
-    client = _get_client()
+    backend = _preferred_backend()
 
     # =========================================================================
     # LEVEL 1 — ACRA COMPANY REGISTRY CHECK (runs before everything else)
@@ -321,6 +404,9 @@ def check_with_groq(
         )
 
     directive_snippet = directive_text[:6000]
+    # Fix OCR spacing artefacts (e.g. "SKhynixAsiaPte Ltd" → "SK Hynix Asia Pte Ltd")
+    # before feeding text to the LLM and the definitive ACRA lookup.
+    document_text = _fix_ocr_spacing(document_text)
     doc_snippet = document_text[:4000]
 
     # exposed to the Python temporal override after the LLM call
@@ -695,53 +781,34 @@ Use APPROVE if the SD is genuine and contains all required elements for its cate
         print(f"  [Rate-limit pacing] sleeping {_gap:.1f}s ...")
         time.sleep(_gap)
 
-    for attempt in range(4):
-        try:
-            body = json.dumps({
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 1000,
-                "temperature": 0.0,
-                "messages": [{"role": "user", "content": prompt}],
-            })
-            response = client.invoke_model(
-                modelId=MODEL,
-                body=body,
-                contentType="application/json",
-                accept="application/json",
-            )
-            break
-        except ClientError as e:
-            code = e.response["Error"]["Code"]
-            if code == "ThrottlingException":
-                wait = 20 * (attempt + 1)
-                print(f"  [Bedrock throttle] waiting {wait}s before retry {attempt + 1}/4...")
-                time.sleep(wait)
-            else:
-                raise
+    if backend == "groq":
+        response_text = _invoke_groq(prompt)
     else:
-        raise RuntimeError("Bedrock ThrottlingException after 4 retries")
+        response_text = _invoke_bedrock(prompt)
 
     _last_llm_call = time.monotonic()
-    resp_body = json.loads(response["body"].read())
-    response_text = resp_body["content"][0]["text"].strip()
     verdict, reasons, notes, _llm_category, _llm_issuer = _parse_response(response_text)
 
-    # --- Level 2 ACRA check: use LLM-extracted issuer if regex missed it -----------
-    # If the initial regex-based extraction found nothing (SKIP), the LLM may have
-    # identified the issuing company name. Run a second ACRA pass with that hint.
-    if _acra_early["verdict"] == "SKIP" and _llm_issuer:
-        _acra_late = check_acra(document_text, rule_category=None, llm_company_hint=_llm_issuer)
-        # Always promote Level 2 result if it produced useful notes (even if still SKIP —
-        # e.g. a ministry-skip note is more informative than "no name detected")
-        if _acra_late["notes"]:
-            _acra_early = _acra_late
+    # --- Definitive ACRA check: always use LLM-extracted issuer as primary name ----
+    # The LLM reads the clean document and extracts the ISSUER name reliably even
+    # when raw OCR merges words (e.g. "SKhynixAsiaPte Ltd" → "SK Hynix Asia Pte Ltd").
+    # We always run an authoritative ACRA lookup using the AI name when available,
+    # falling back to the regex-based result only when the LLM found no issuer.
+    if _llm_issuer:
+        _acra_definitive = check_acra(
+            document_text, rule_category=None, llm_company_hint=_llm_issuer
+        )
+        # Promote the AI-powered result unconditionally — it's always more reliable
+        # than the raw-OCR regex pass.
+        _acra_early = _acra_definitive
         # FRAUD escalation: override verdict immediately
-        if _acra_late["verdict"] == "FRAUD":
-            fraud_note = _acra_late["notes"][0]
+        if _acra_definitive["verdict"] == "FRAUD":
+            fraud_note = _acra_definitive["notes"][0]
             return (
                 "REJECT",
                 [fraud_note],
-                ["[ACRA] Document rejected at registry check (LLM-identified issuer)."] + _acra_late["notes"],
+                ["[ACRA] Document rejected at registry check (AI-identified issuer)."]
+                + _acra_definitive["notes"],
             )
     # -------------------------------------------------------------------------------
 

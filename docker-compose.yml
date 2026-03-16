@@ -11,6 +11,12 @@ services:
   #     --document submissions/my_doc.pdf
   checker:
     build: .
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-}
+      - DATAGOV_API_KEY=${DATAGOV_API_KEY:-}
     volumes:
       - ./directives:/app/directives    # your instructions file lives here
       - ./submissions:/app/submissions  # drop submission PDFs here
@@ -30,6 +36,12 @@ services:
   # Interactive docs at:   http://localhost:8000/docs
   api:
     build: .
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-}
+      - DATAGOV_API_KEY=${DATAGOV_API_KEY:-}
     volumes:
       - ./directives:/app/directives
       - ./models:/app/models

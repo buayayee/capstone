@@ -60,7 +60,14 @@ ACRA_APPLICABLE_RULES = {"Rule 7", "Rule 8", "Rule 9", "Rule 11", "Rule 12", "Ru
 #   Standard  : 8-10 digits + 1 uppercase letter  (e.g. 199600940G, 53250767C)
 #   T/S/R-type: T|S|R + 2 digits + 2 letters + 4 digits + 1 letter (statutory boards, etc.)
 _UEN_RE = re.compile(
-    r'\b([0-9]{8,10}[A-Z]|[TRS][0-9]{2}[A-Z]{2}[0-9]{4}[A-Z])\b'
+    # Standard numeric UEN: 8-10 digits then one uppercase letter,
+    # not preceded by a digit (avoids matching inside longer numbers),
+    # not followed by a digit (avoids partial UEN from longer digit strings).
+    # The trailing letter CAN be followed by more letters (e.g. 'KGSTReg').
+    r'(?<![0-9])([0-9]{8,10}\s?[A-Z])(?![0-9])'
+    r'|'
+    # Entity-type prefixes: T/R/S + 2 digits + 2 letters + 4 digits + 1 letter
+    r'(?<![A-Z0-9])([TRS][0-9]{2}[A-Z]{2}[0-9]{4}[A-Z])(?![A-Z0-9])'
 )
 
 # Government / public institutions that will NOT appear in ACRA as private entities.
@@ -118,10 +125,39 @@ _COMPANY_RE = re.compile(
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
+# Regex that inserts a space before an uppercase letter that immediately follows
+# a lowercase letter or a digit — the most common OCR merging pattern.
+# Examples:
+#   'SKhynixAsiaPte Ltd'  → 'SKhynix Asia Pte Ltd'
+#   'BritoilOffshoreServices'  → 'Britoil Offshore Services'
+#   'StraitsView#12-07Marina'  → 'Straits View#12-07 Marina'
+_OCR_MERGE_RE = re.compile(r'(?<=[a-z0-9])(?=[A-Z])')
+
+# Split tokens where OCR fuses an acronym prefix with a lowercase word.
+# Example: 'SKhynix' -> 'SK hynix'
+_OCR_ACRONYM_WORD_RE = re.compile(r'\b([A-Z]{2,4})([a-z][A-Za-z0-9]*)\b')
+
+
+def _fix_ocr_spacing(text: str) -> str:
+    """
+    Insert missing spaces in OCR-merged text.
+    Only inserts a space at lowercase→UPPERCASE or digit→UPPERCASE boundaries
+    so that legitimate all-caps acronyms (e.g. 'SK', 'BRITOIL') are preserved.
+    Also collapses multiple spaces introduced by the split.
+    """
+    fixed = _OCR_ACRONYM_WORD_RE.sub(r'\1 \2', text)
+    fixed = _OCR_MERGE_RE.sub(' ', fixed)
+    return re.sub(r'  +', ' ', fixed)
+
+
 def extract_uen(text: str) -> Optional[str]:
     """Return the first UEN found in OCR text, or None."""
     m = _UEN_RE.search(text)
-    return m.group(1).strip() if m else None
+    if not m:
+        return None
+    raw = m.group(1) or m.group(2)
+    return re.sub(r'\s+', '', raw).strip()
 
 
 def extract_company_name(text: str) -> Optional[str]:
@@ -129,7 +165,13 @@ def extract_company_name(text: str) -> Optional[str]:
     Return the first likely private-sector company name found in OCR text, or None.
     Returns None for government / public institution names (hospitals, ministries,
     universities etc.) that will not appear in ACRA as private entities.
+
+    Applies OCR spacing normalisation first so that merged letterhead text like
+    'SKhynixAsiaPte Ltd' is split into 'SK hynix Asia Pte Ltd' before matching.
     """
+    # Fix OCR-merged text before running any regex
+    text = _fix_ocr_spacing(text)
+
     # Legal entity suffixes that do NOT count as substantive words
     _SUFFIX_WORDS = frozenset([
         "PTE", "PTE.", "LTD", "LTD.", "LIMITED", "LLP", "LLC", "SDN", "BHD",
@@ -265,6 +307,10 @@ def extract_postal_code(text: str) -> Optional[str]:
 # Minimum confidence to accept a name-only match
 _NAME_MATCH_THRESHOLD = 0.70
 
+# Minimum confidence when using postal-code fallback.
+# Postal code alone is not definitive in shared addresses; require some name overlap.
+_POSTAL_FALLBACK_THRESHOLD = 0.60
+
 
 def _search_by_name(name: str, postal_code: Optional[str] = None,
                     url: str | None = None) -> Optional[dict]:
@@ -347,7 +393,8 @@ def _search_by_name(name: str, postal_code: Optional[str] = None,
             broad_rows = _query({"q": short_query, "limit": 50}, url=_url)
             for row in broad_rows:
                 if row.get("reg_postal_code", "").strip() == postal_code.strip():
-                    return row   # postal code is definitive
+                    if _name_score(name, row.get("entity_name", "")) >= _POSTAL_FALLBACK_THRESHOLD:
+                        return row
 
         # Pass 2b: direct postal code filter — returns all entities at this address
         postal_rows = _query({"filters": json.dumps({"reg_postal_code": postal_code}), "limit": 10}, url=_url)
@@ -355,7 +402,7 @@ def _search_by_name(name: str, postal_code: Optional[str] = None,
             # Only accept if name similarity is reasonable — same address confirms same entity,
             # but we need at least partial name overlap to avoid false matches in shared buildings
             best_postal = max(postal_rows, key=lambda r: _name_score(name, r.get("entity_name", "")))
-            if _name_score(name, best_postal.get("entity_name", "")) >= 0.50:
+            if _name_score(name, best_postal.get("entity_name", "")) >= _POSTAL_FALLBACK_THRESHOLD:
                 return best_postal
 
     return None
@@ -393,15 +440,19 @@ def check_acra(document_text: str, rule_category: str | None = None,
     name   = extract_company_name(document_text)
     postal = extract_postal_code(document_text)
 
-    # --- LLM-hint fallback: if regex extraction found nothing, use the LLM-identified name ---
+    # --- LLM-hint preferred path: use AI-identified issuer name when provided ---
     _using_hint = False
-    if not uen and not name and llm_company_hint:
+    if not uen and llm_company_hint:
+        # Fix OCR-merged spacing in the LLM hint (LLM may echo back the raw OCR string)
+        hint_fixed = _fix_ocr_spacing(llm_company_hint)
         # Strip trailing parenthetical acronyms/short-forms e.g. "(CAAS)", "(ROM)", "(S)"
         # before querying ACRA — the registry stores full names only
-        name = re.sub(r'\s*\([^)]{1,10}\)\s*$', '', llm_company_hint).strip()
+        hint_name = re.sub(r'\s*\([^)]{1,10}\)\s*$', '', hint_fixed).strip()
         # Also strip trailing country qualifiers like ", SINGAPORE" or "(SINGAPORE)"
-        name = re.sub(r',?\s*SINGAPORE\s*$', '', name, flags=re.IGNORECASE).strip()
-        _using_hint = True
+        hint_name = re.sub(r',?\s*SINGAPORE\s*$', '', hint_name, flags=re.IGNORECASE).strip()
+        if hint_name:
+            name = hint_name
+            _using_hint = True
 
     if not uen and not name:
         result["notes"].append(

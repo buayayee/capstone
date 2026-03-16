@@ -13,6 +13,9 @@ build/
 venv/
 .venv/
 env/
+
+# Local secrets
+.env
 # Model weights (large files – store externally or use Git LFS)
 models/distilbert-fraud-classifier/
 
