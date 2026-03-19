@@ -320,6 +320,116 @@ def _preferred_backend() -> str:
     return "bedrock"
 
 
+# ---------------------------------------------------------------------------
+# Document pre-processing helpers
+# ---------------------------------------------------------------------------
+
+# Hard cap on characters sent to the LLM.
+# 12,000 chars covers the largest doc in the dataset (5,708 chars) with ample
+# headroom. The Llama-4-Scout model has a 131K token context window so this
+# costs virtually no extra quota vs the old 4,000 limit.
+_DOC_CHAR_LIMIT = 12_000
+
+# Key-field patterns for structured pre-extraction (Step 1)
+_DATE_RE   = re.compile(
+    r'\b(\d{1,2}[\s/\-\.]\w{3,9}[\s/\-\.]\d{2,4}|\w{3,9}[\s/\-\.]\d{1,2}[\s,]\d{4}|\d{4}[\-/]\d{2}[\-/]\d{2})\b',
+    re.IGNORECASE,
+)
+_UEN_QUICK = re.compile(r'(?<![0-9])([0-9]{8,10}\s?[A-Z])(?![0-9])', re.IGNORECASE)
+_ISSUER_TRIGGER = re.compile(
+    r'(?:letterhead|issued by|from\s*:|issuer|hospital|clinic|company|employer|school|university'
+    r'|college|institute|pte\.?\s*ltd|sdn\.?\s*bhd|ministry|authority|board|department)',
+    re.IGNORECASE,
+)
+
+# Page-relevance scoring: lines that contain these boost a page's priority score
+_KEY_FIELD_PATTERNS = [
+    re.compile(r'\b(commencement|start\s*date|joining\s*date|employed\s*since|registration\s*date)\b', re.IGNORECASE),
+    re.compile(r'\b(medical\s*certificate|discharge|admitted|diagnosis|condition)\b', re.IGNORECASE),
+    re.compile(r'\b(solemnisation|marriage|wedding|certificate\s*of\s*marriage)\b', re.IGNORECASE),
+    re.compile(r'\b(exam|examination|assessment|test\s*date)\b', re.IGNORECASE),
+    re.compile(r'\b(signature|signed|authorised|authorized|director|manager|doctor|dr\.)\b', re.IGNORECASE),
+    re.compile(r'\b(letterhead|dear\s+sir|to\s+whom\s+it\s+may\s+concern|ministry\s+of\s+defence|mindef)\b', re.IGNORECASE),
+    _DATE_RE,
+    _UEN_QUICK,
+]
+
+
+def _extract_key_fields(text: str) -> dict:
+    """
+    Step 1 — Lightweight structured extraction from the full document text.
+    Pulls out dates, UEN, likely issuer hint, and doc type signals BEFORE
+    truncation, so even a 10-page contract's key fields are captured.
+    Returns a dict with: dates, uen, issuer_hint, doc_type_signals.
+    """
+    dates      = list(dict.fromkeys(_DATE_RE.findall(text)))[:8]   # deduplicated, max 8
+    uen_match  = _UEN_QUICK.search(text)
+    uen        = re.sub(r'\s+', '', uen_match.group(1)).upper() if uen_match else None
+
+    # Issuer hint: first non-empty line that mentions an entity keyword
+    issuer_hint = ""
+    for line in text.splitlines():
+        line = line.strip()
+        if len(line) > 5 and _ISSUER_TRIGGER.search(line):
+            issuer_hint = line[:120]
+            break
+
+    # Doc type signals: collect matching keyword hits (deduplicated)
+    signals = []
+    for pat in _KEY_FIELD_PATTERNS:
+        for m in pat.finditer(text):
+            w = m.group(0).strip()
+            if w and w not in signals:
+                signals.append(w)
+                if len(signals) >= 15:
+                    break
+
+    return {
+        "dates":         dates,
+        "uen":           uen,
+        "issuer_hint":   issuer_hint,
+        "doc_signals":   signals,
+    }
+
+
+def _select_best_pages(text: str, page_sep: str = "\f", char_limit: int = _DOC_CHAR_LIMIT) -> str:
+    """
+    Step 2 — Smart page selector for multi-page documents.
+    Scores each page by how many key-field patterns it matches, then picks
+    the highest-scoring pages in order until the char_limit is reached.
+    For single-page docs (no form-feed separator), returns the text unchanged
+    (Step 3 hard cap will apply).
+
+    Priority: page 0 (usually letterhead/header) always gets a baseline boost.
+    """
+    pages = text.split(page_sep)
+    if len(pages) <= 1:
+        # No page breaks — return as-is; hard cap applied by caller
+        return text
+
+    def _score(i: int, page: str) -> int:
+        score = 10 if i == 0 else 0          # page 1 letterhead boost
+        score += 5 if i == len(pages) - 1 else 0  # last page (signature) boost
+        for pat in _KEY_FIELD_PATTERNS:
+            if pat.search(page):
+                score += 3
+        return score
+
+    scored = sorted(enumerate(pages), key=lambda x: _score(x[0], x[1]), reverse=True)
+
+    selected_text = ""
+    for _, page in scored:
+        if len(selected_text) + len(page) <= char_limit:
+            selected_text += page + "\n"
+        else:
+            break
+
+    # Re-sort selected pages back into their original order for coherent reading
+    selected_indices = {i for i, _ in scored[:len(selected_text)]}
+    ordered = [p for i, p in enumerate(pages) if i in selected_indices]
+    return "\n--- [page break] ---\n".join(ordered).strip()
+
+
 def _invoke_groq(prompt: str) -> str:
     client = _get_groq_client()
     response = client.chat.completions.create(
@@ -409,7 +519,39 @@ def check_with_groq(
     # Fix OCR spacing artefacts (e.g. "SKhynixAsiaPte Ltd" → "SK Hynix Asia Pte Ltd")
     # before feeding text to the LLM and the definitive ACRA lookup.
     document_text = _fix_ocr_spacing(document_text)
-    doc_snippet = document_text[:4000]
+
+    # ------------------------------------------------------------------
+    # Step 1 — Structured key-field extraction from the FULL text.
+    # Runs before any truncation so dates/UEN/issuer are never lost even
+    # in long contracts.
+    # ------------------------------------------------------------------
+    _key_fields = _extract_key_fields(document_text)
+    _key_fields_summary = ""
+    if any(_key_fields[k] for k in ("dates", "uen", "issuer_hint", "doc_signals")):
+        _key_fields_summary = (
+            "\n== PRE-EXTRACTED KEY FIELDS (from full document, before truncation) ==\n"
+            + (f"  Dates found   : {', '.join(_key_fields['dates'])}\n" if _key_fields["dates"] else "")
+            + (f"  UEN found     : {_key_fields['uen']}\n" if _key_fields["uen"] else "")
+            + (f"  Issuer hint   : {_key_fields['issuer_hint']}\n" if _key_fields["issuer_hint"] else "")
+            + (f"  Key signals   : {', '.join(_key_fields['doc_signals'])}\n" if _key_fields["doc_signals"] else "")
+        )
+
+    # ------------------------------------------------------------------
+    # Step 2 — Smart page selection for multi-page documents.
+    # Scores pages by key-field density and picks the best ones within
+    # the char limit rather than blindly taking the first N chars.
+    # ------------------------------------------------------------------
+    doc_working = _select_best_pages(document_text, char_limit=_DOC_CHAR_LIMIT)
+
+    # ------------------------------------------------------------------
+    # Step 3 — Hard cap with warning log.
+    # 12,000 chars covers every doc in the dataset (max observed: 5,708).
+    # Log a warning if something larger comes through so we notice it.
+    # ------------------------------------------------------------------
+    if len(doc_working) > _DOC_CHAR_LIMIT:
+        print(f"  [WARN] Document text ({len(doc_working)} chars) exceeds cap "
+              f"of {_DOC_CHAR_LIMIT} — truncating. Manual review recommended.")
+    doc_snippet = doc_working[:_DOC_CHAR_LIMIT]
 
     # exposed to the Python temporal override after the LLM call
     _py_windows: dict | None = None
@@ -753,7 +895,7 @@ Step 3 — List any missing required elements as reasons for REJECT.
 
 == SUBMITTED DOCUMENT ==
 Filename: {filename}
-{doc_snippet}
+{_key_fields_summary}{doc_snippet}
 
 == TEMPORAL / DATE CHECK ==
 {temporal_note}
@@ -763,7 +905,7 @@ Respond in EXACTLY this format (no extra text before or after):
 
 FRAUD_ASSESSMENT: GENUINE or SUSPICIOUS
 FRAUD_REASONS: <specific fraud signals, or "None">
-ISSUER: <full name of the company, institution, or government authority that issued this document — exactly as it appears on the letterhead>
+ISSUER: The name of the ONE company, institution, or government body that wrote/signed this document. For contracts, use only the engaging/commissioning party — NOT both parties combined. Exactly as on the letterhead.
 CATEGORY: <which deferment rule/category this SD belongs to>
 VERDICT: APPROVE or REJECT or FRAUD
 REASONS: <missing required SD elements if REJECT, fraud details if FRAUD, else "None">
@@ -882,7 +1024,12 @@ def _parse_response(response: str) -> tuple[str, list[str], list[str], str]:
             if raw and raw.lower() != "none":
                 fraud_reasons = [r.strip() for r in raw.split(",") if r.strip()]
         elif line.startswith("ISSUER:"):
-            issuer = line.split(":", 1)[1].strip()
+            raw_issuer = line.split(":", 1)[1].strip()
+            # Strip leaked prompt boilerplate — e.g. if the model echoes back the
+            # field description in angle brackets instead of a real value.
+            if raw_issuer.startswith("<") or len(raw_issuer) > 200:
+                raw_issuer = ""
+            issuer = raw_issuer
         elif line.startswith("CATEGORY:"):
             category = line.split(":", 1)[1].strip()
         elif line.startswith("VERDICT:"):

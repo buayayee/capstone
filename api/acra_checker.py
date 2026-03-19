@@ -450,6 +450,47 @@ def check_acra(document_text: str, rule_category: str | None = None,
         hint_name = re.sub(r'\s*\([^)]{1,10}\)\s*$', '', hint_fixed).strip()
         # Also strip trailing country qualifiers like ", SINGAPORE" or "(SINGAPORE)"
         hint_name = re.sub(r',?\s*SINGAPORE\s*$', '', hint_name, flags=re.IGNORECASE).strip()
+
+        # --- Compound issuer split ---
+        # Contracts name two parties: "Caterpillar S.A.R.L. Singapore Branch and P&A Link Pte Ltd".
+        # The LLM may echo the full "between X and Y" string as the ISSUER.
+        # Guard: split only when the SECOND (or later) candidate itself contains an
+        # entity-suffix keyword AND is >= 2 words — that signals it is a real standalone
+        # company name, not a mid-name conjunction like "Research and Development Pte Ltd".
+        _entity_suffix_re = re.compile(
+            r'\b(pte\.?\s*ltd\.?|sdn\.?\s*bhd\.?|s\.?a\.?r\.?l\.?|llp|llc|corp|inc'
+            r'|holdings|group|services|consultancy|authority|ministry|board'
+            r'|hospital|clinic|school|university|college|branch)\b',
+            re.IGNORECASE,
+        )
+        _compound_sep = re.compile(r'(?i)\s+(?:and|&)\s+(?=[A-Z])')
+        _hint_candidates = [c.strip() for c in _compound_sep.split(hint_name) if c.strip()]
+        if len(_hint_candidates) > 1 and (
+            # First candidate must be >= 2 words (a 1-word prefix is just part of a name)
+            len(_hint_candidates[0].split()) >= 2
+            and all(
+                # Each non-first candidate must have an entity suffix AND be >= 2 words
+                _entity_suffix_re.search(c) and len(c.split()) >= 2
+                for c in _hint_candidates[1:]
+            )
+        ):
+            # Try each candidate in ACRA; use the first that resolves.
+            _resolved_name = None
+            for _cand in _hint_candidates:
+                _test_main  = _search_by_name(_cand, postal)
+                _test_other = _search_by_name(_cand, postal, _OTHER_ACRA_URL)
+                if _test_main or _test_other:
+                    _resolved_name = _cand
+                    break
+            # Heuristic fallback (ACRA resolution above found nothing):
+            # prefer the candidate with an entity suffix that is NOT the first one —
+            # in "Company A engages Company B Pte Ltd", the local registrable entity
+            # is usually B. If all/none have suffixes, fall back to the first.
+            if not _resolved_name:
+                _suffixed = [c for c in _hint_candidates if _entity_suffix_re.search(c)]
+                _resolved_name = _suffixed[-1] if _suffixed else _hint_candidates[0]
+            hint_name = _resolved_name
+
         if hint_name:
             name = hint_name
             _using_hint = True
