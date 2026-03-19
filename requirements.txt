@@ -27,3 +27,5 @@ pandas>=2.2.3
 # ── Evaluation / Visualisation (for later) ────────────────────────────────────
 matplotlib==3.9.2
 seaborn==0.13.2
+
+boto3>=1.28.0              # AWS SDK for Python (for Bedrock API calls)

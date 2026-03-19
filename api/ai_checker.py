@@ -43,6 +43,8 @@ from acra_checker import check_acra, _fix_ocr_spacing
 # Default to a higher-quota direct model to reduce daily token-limit failures.
 # You can override via GROQ_MODEL in .env/.shell.
 _GROQ_MODEL = os.environ.get("GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct")
+#bedrock 
+
 
 # Amazon Bedrock — Claude 3 Haiku via cross-region inference
 # Uses the "us.*" inference profile so calls are routed across US regions,
